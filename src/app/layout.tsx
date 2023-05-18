@@ -11,7 +11,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html>
       <body>
-        <h1 className="text-center text-4xl mt-6">로또 번호 뽑기</h1>
+        <h1 className="text-center text-4xl mt-6 mb-12">로또 번호 뽑기</h1>
         <Recoil>
           <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
         </Recoil>
