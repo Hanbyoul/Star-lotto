@@ -4,25 +4,52 @@ import React from "react";
 import styled, { css } from "styled-components";
 import SlotLine from "./Slot";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { allSpinning, lineStopState, numberState } from "@/store/atom";
+import {
+  allSpinState,
+  lineStopState,
+  numberState,
+  listResetState,
+  saveBallState,
+} from "@/store/atom";
 import shuffleArray from "../hooks/ShuffleArray";
 
 const SlotLineList = () => {
   const [numbers, setNumbers] = useRecoilState(numberState);
   const [lineStopCount, setLineStopCount] = useRecoilState(lineStopState);
-  const setAllSpin = useSetRecoilState(allSpinning);
+  const setAllSpin = useSetRecoilState(allSpinState);
+  const [saveBall, setSaveBall] = useRecoilState(saveBallState);
+  const setListReset = useSetRecoilState(listResetState);
 
   const reShuffle = () => {
+    if (saveBall.length >= 66) {
+      return alert("리스트가 가득찼습니다.");
+    }
+
     if (lineStopCount === numbers.length) {
       setLineStopCount(0);
       const numberArray = Array.from({ length: 45 }, (_, idx) => idx + 1);
       setAllSpin(true);
+      setListReset(false);
       setNumbers(() => {
         const shuffleNum = shuffleArray(numberArray);
         return shuffleNum;
       });
     }
   };
+
+  const listReset = () => {
+    if (lineStopCount === numbers.length && saveBall.length >= 30) {
+      setListReset(true);
+      setSaveBall([]);
+    }
+  };
+
+  /*
+  ! 리스트 비우기 버튼 조건부 활성화
+   - display에는 5줄부터 보이게.
+   - stopCount = 6일때만 disable === false
+   - saveBall length
+  */
 
   return (
     <Wrapper>
@@ -38,6 +65,13 @@ const SlotLineList = () => {
         >
           다시 뽑기
         </RestartBtn>
+        <RemoveBtn
+          $saveBall={saveBall}
+          onClick={listReset}
+          disabled={lineStopCount === numbers.length ? false : true}
+        >
+          LIST비우기
+        </RemoveBtn>
       </Footer>
     </Wrapper>
   );
@@ -87,5 +121,29 @@ const RestartBtn = styled.button`
     props.disabled === true &&
     css`
       display: none;
+    `}
+`;
+
+const RemoveBtn = styled.button<{ $saveBall: number[] }>`
+  align-self: center;
+  width: 100px;
+  height: 50px;
+  background-color: rgb(234, 59, 61);
+  color: white;
+  font-size: large;
+  border-radius: 12px;
+  ${(props) =>
+    props.$saveBall.length >= 30
+      ? css`
+          display: block;
+        `
+      : css`
+          display: none;
+        `}
+
+  ${(props) =>
+    props.disabled &&
+    css`
+      background-color: gray;
     `}
 `;

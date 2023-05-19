@@ -12,26 +12,12 @@ export const numberState = atom<numberKey[][]>({
   default: numbers,
 });
 
-export const saveList = atom<numberKey[]>({
+export const saveBallState = atom<numberKey[]>({
   key: "BallList",
   default: [],
 });
 
-// export const saveSelector = selector({
-//   key: "saveSelector",
-//   get: ({ get }) => {
-//     const lineBall = get(saveList);
-
-//     console.log("line", lineBall);
-//     const BallList: number[][] = [];
-//     console.log("ball", BallList);
-
-//     BallList.push(lineBall);
-//     return BallList;
-//   },
-// });
-
-export const allSpinning = atom({
+export const allSpinState = atom({
   key: "spinning",
   default: false,
 });
@@ -39,4 +25,9 @@ export const allSpinning = atom({
 export const lineStopState = atom<numberKey>({
   key: "stopCount",
   default: 0,
+});
+
+export const listResetState = atom({
+  key: "resetSwitch",
+  default: false,
 });

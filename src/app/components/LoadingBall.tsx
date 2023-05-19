@@ -41,5 +41,5 @@ const Loading = styled.div<{ $lineIndex: number }>`
       ? "rgb(16,196,102)"
       : "rgb(255,156,0)"};
 
-  animation: ${rotate} 0.5s 2 linear;
+  animation: ${rotate} 0.4s 2 linear;
 `;

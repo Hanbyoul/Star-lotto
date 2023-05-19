@@ -1,6 +1,6 @@
 "use client";
 
-import { allSpinning, lineStopState, saveList } from "@/store/atom";
+import { allSpinState, lineStopState, saveBallState } from "@/store/atom";
 import React, { useState, useEffect } from "react";
 import styled, { keyframes, css } from "styled-components";
 import { useRecoilState, useSetRecoilState } from "recoil";
@@ -14,6 +14,7 @@ interface ISlotLineProps {
 interface ILineProps {
   line_px: number;
   $spin_stop: boolean;
+  $hydrated: boolean;
 }
 interface IBallProps {
   num: number;
@@ -21,18 +22,25 @@ interface IBallProps {
 
 const SlotLine = ({ line, lineIndex }: ISlotLineProps) => {
   const [hydrated, setHydrated] = useState(false);
-  const setSaveBall = useSetRecoilState(saveList);
-  const setLineStopCount = useSetRecoilState(lineStopState);
+  const setSaveBall = useSetRecoilState(saveBallState);
+  const [LineStopCount, setLineStopCount] = useRecoilState(lineStopState);
   const [isSpinning, setSpinning] = useState(false); //recoil로변경
-  const [AllSpin, setAllSpin] = useRecoilState(allSpinning);
+  const [AllSpin, setAllSpin] = useRecoilState(allSpinState);
   const line_px = line.length * 84;
-
-  console.log(AllSpin);
 
   const spinHandler = () => {
     setSpinning(true);
     setAllSpin(false);
-    setLineStopCount((prev) => prev + 1);
+    if (LineStopCount === 5) {
+      setTimeout(() => {
+        setLineStopCount((prev) => prev + 1);
+      }, 1000);
+    } else {
+      setLineStopCount((prev) => prev + 1);
+    }
+    /*
+    //TODO:setTimeout으로 count + 되는 시간 지연 시켜서 다시 돌리기 버튼 시간에 맞게 맞추기!
+    */
   };
 
   useEffect(() => {
@@ -50,23 +58,30 @@ const SlotLine = ({ line, lineIndex }: ISlotLineProps) => {
       return setSpinning(false);
     }
   }, [line]);
-  // console.log("라인 스피닝", isSpinning);
-  // console.log("다시 전체 돌리기", AllSpin);
 
+  /*
+TODO: SLOT 컴포넌트의 Ball 컴포넌트에 layoutID 적용시키기. line[ball[0]]의 0번지만 layoutID 적용시키는법 생각해보기
+TODO: 마찬가지로 SaveBll컴포넌트에 위에서 햇듯이 동일 layoutID 적용 시키기
+
+
+*/
+
+  console.log(line);
+  console.log(line[0]);
   return (
     <Container>
       <ViewZone>
-        <Line line_px={line_px} $spin_stop={isSpinning}>
-          {hydrated ? (
-            line.map((num) => (
+        {hydrated ? (
+          <Line line_px={line_px} $spin_stop={isSpinning} $hydrated={hydrated}>
+            {line.map((num) => (
               <Ball key={num + ""} num={num}>
                 {num}
               </Ball>
-            ))
-          ) : (
-            <LoadingBall $lineIndex={lineIndex} />
-          )}
-        </Line>
+            ))}
+          </Line>
+        ) : (
+          <LoadingBall $lineIndex={lineIndex} />
+        )}
       </ViewZone>
 
       <StopBtn onClick={() => spinHandler()} disabled={isSpinning}>
@@ -79,6 +94,11 @@ const SlotLine = ({ line, lineIndex }: ISlotLineProps) => {
 export default React.memo(SlotLine);
 const createSpin = (line_px: number) => keyframes`
   0% { transform: translateY(${-line_px}px); } 
+  100% { transform: translateY(0px); }
+`;
+
+const endingSpin = (line_px: number) => keyframes`
+    0% { transform: translateY(${-line_px}px); } 
   100% { transform: translateY(0px); }
 `;
 const Container = styled.div`
@@ -98,10 +118,10 @@ const Line = styled.div<ILineProps>`
   ${(props) =>
     props.$spin_stop
       ? css`
-          animation: ${createSpin(props.line_px)} 0s infinite linear;
+          animation: ${endingSpin(props.line_px)} 1s 1;
         `
       : css`
-          animation: ${createSpin(props.line_px)} 0.5s infinite linear 0.5s;
+          animation: ${createSpin(props.line_px)} 0.5s infinite linear;
         `}
 
   display: flex;

@@ -14,8 +14,8 @@ export default function Page() {
 }
 
 const Container = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+
   justify-content: center;
 
   width: 100%;
