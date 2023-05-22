@@ -12,17 +12,17 @@ export const numberState = atom<numberKey[][]>({
   default: numbers,
 });
 
-export const saveBallState = atom<numberKey[]>({
+export const saveListState = atom<numberKey[]>({
   key: "BallList",
   default: [],
 });
 
 export const allSpinState = atom({
   key: "spinning",
-  default: false,
+  default: true,
 });
 
-export const lineStopState = atom<numberKey>({
+export const spinStopState = atom<numberKey>({
   key: "stopCount",
   default: 0,
 });

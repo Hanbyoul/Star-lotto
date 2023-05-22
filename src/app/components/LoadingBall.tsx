@@ -20,11 +20,20 @@ const rotate = keyframes`
 `;
 
 const Loading = styled.div<{ $lineIndex: number }>`
+  @media screen and (max-width: 705px) {
+    height: 50px;
+    width: 50px;
+    font-size: x-large;
+    margin: auto;
+    border-radius: 26px;
+  }
   display: flex;
   justify-content: center;
   align-items: center;
   height: 84px;
   width: 84px;
+  margin: auto;
+  margin-top: 5px;
   font-size: 4em;
   color: white;
   border-radius: 42px;
@@ -41,5 +50,5 @@ const Loading = styled.div<{ $lineIndex: number }>`
       ? "rgb(16,196,102)"
       : "rgb(255,156,0)"};
 
-  animation: ${rotate} 0.4s 2 linear;
+  animation: ${rotate} 0.4s infinite linear;
 `;

@@ -1,6 +1,6 @@
 "use client";
 
-import { allSpinState, lineStopState, saveBallState } from "@/store/atom";
+import { allSpinState, spinStopState, saveListState } from "@/store/atom";
 import React, { useState, useEffect } from "react";
 import styled, { keyframes, css } from "styled-components";
 import { useRecoilState, useSetRecoilState } from "recoil";
@@ -20,27 +20,28 @@ interface IBallProps {
   num: number;
 }
 
-const SlotLine = ({ line, lineIndex }: ISlotLineProps) => {
+const Slot = ({ line, lineIndex }: ISlotLineProps) => {
   const [hydrated, setHydrated] = useState(false);
-  const setSaveBall = useSetRecoilState(saveBallState);
-  const [LineStopCount, setLineStopCount] = useRecoilState(lineStopState);
-  const [isSpinning, setSpinning] = useState(false); //recoil로변경
+  const [windowWidth, setWindowWidth] = useState(0);
+  const [slotSize, setSlotSize] = useState(94);
+  const setSaveBall = useSetRecoilState(saveListState);
+  const [spinStopCount, setSpinStopCount] = useRecoilState(spinStopState);
+  const [isSpin, setSpin] = useState(false);
   const [AllSpin, setAllSpin] = useRecoilState(allSpinState);
-  const line_px = line.length * 84;
+
+  const line_px = line.length * slotSize;
 
   const spinHandler = () => {
-    setSpinning(true);
-    setAllSpin(false);
-    if (LineStopCount === 5) {
+    setSpin(true);
+
+    if (spinStopCount === 5) {
       setTimeout(() => {
-        setLineStopCount((prev) => prev + 1);
-      }, 1000);
+        setSpinStopCount((prev) => prev + 1);
+        setAllSpin((prev) => !prev);
+      }, 1100);
     } else {
-      setLineStopCount((prev) => prev + 1);
+      setSpinStopCount((prev) => prev + 1);
     }
-    /*
-    //TODO:setTimeout으로 count + 되는 시간 지연 시켜서 다시 돌리기 버튼 시간에 맞게 맞추기!
-    */
   };
 
   useEffect(() => {
@@ -48,31 +49,45 @@ const SlotLine = ({ line, lineIndex }: ISlotLineProps) => {
   }, []);
 
   useEffect(() => {
-    setSaveBall((prev) => {
-      const choiceBall = [...prev];
-      choiceBall.push(line[0]);
-      return choiceBall;
-    });
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
 
-    if (AllSpin) {
-      return setSpinning(false);
+    window.addEventListener("resize", handleResize);
+
+    // Clean up function
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (windowWidth <= 705) {
+      setSlotSize(52);
+    } else {
+      setSlotSize(94);
     }
-  }, [line]);
+  }, [windowWidth]);
 
-  /*
-TODO: SLOT 컴포넌트의 Ball 컴포넌트에 layoutID 적용시키기. line[ball[0]]의 0번지만 layoutID 적용시키는법 생각해보기
-TODO: 마찬가지로 SaveBll컴포넌트에 위에서 햇듯이 동일 layoutID 적용 시키기
+  useEffect(() => {
+    setSaveBall((prev) => {
+      const addNumber = [...prev];
+      addNumber.push(line[0]);
+      return addNumber;
+    });
+  }, [setSaveBall, line]);
 
+  useEffect(() => {
+    if (AllSpin) {
+      return setSpin(false);
+    }
+  }, [AllSpin]);
 
-*/
-
-  console.log(line);
-  console.log(line[0]);
   return (
     <Container>
       <ViewZone>
         {hydrated ? (
-          <Line line_px={line_px} $spin_stop={isSpinning} $hydrated={hydrated}>
+          <Line line_px={line_px} $spin_stop={isSpin} $hydrated={hydrated}>
             {line.map((num) => (
               <Ball key={num + ""} num={num}>
                 {num}
@@ -84,14 +99,14 @@ TODO: 마찬가지로 SaveBll컴포넌트에 위에서 햇듯이 동일 layoutID
         )}
       </ViewZone>
 
-      <StopBtn onClick={() => spinHandler()} disabled={isSpinning}>
+      <StopBtn onClick={() => spinHandler()} disabled={isSpin}>
         STOP
       </StopBtn>
     </Container>
   );
 };
 
-export default React.memo(SlotLine);
+export default React.memo(Slot);
 const createSpin = (line_px: number) => keyframes`
   0% { transform: translateY(${-line_px}px); } 
   100% { transform: translateY(0px); }
@@ -107,11 +122,20 @@ const Container = styled.div`
 `;
 
 const ViewZone = styled.div`
-  border-left: 2px solid brown;
-  border-right: 2px solid brown;
-  height: 84px;
-  width: 91px;
+  height: 94px;
+  width: 94px;
+
+  @media screen and (max-width: 705px) {
+    height: 52px;
+    width: 52px;
+    font-size: large;
+    margin: 5px auto;
+    border-radius: 5px;
+  }
+
   overflow: hidden;
+  background-color: white;
+  border-radius: 5px;
 `;
 
 const Line = styled.div<ILineProps>`
@@ -121,10 +145,11 @@ const Line = styled.div<ILineProps>`
           animation: ${endingSpin(props.line_px)} 1s 1;
         `
       : css`
-          animation: ${createSpin(props.line_px)} 0.5s infinite linear;
+          animation: ${createSpin(props.line_px)} 0.4s infinite linear;
         `}
 
   display: flex;
+
   flex-direction: column;
   background-color: white;
 `;
@@ -133,7 +158,22 @@ const Ball = styled.div<IBallProps>`
   height: 84px;
   width: 84px;
   font-size: xx-large;
+  margin: 5px auto;
+  border-radius: 42px;
+
+  @media screen and (max-width: 705px) {
+    height: 42px;
+    width: 42px;
+    font-size: large;
+    margin: 5px auto;
+    border-radius: 21px;
+  }
+
   color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background-color: ${(props) =>
     props.num <= 10
       ? "rgb(246,206,7)"
@@ -144,25 +184,30 @@ const Ball = styled.div<IBallProps>`
       : props.num <= 40
       ? "rgb(191,191,191)"
       : "rgb(16,196,102)"};
-  border-radius: 42px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 `;
 
 const StopBtn = styled.button`
   width: 80px;
   height: 40px;
   border-radius: 25px;
+  font-size: x-large;
+  top: 13px;
+
+  @media screen and (max-width: 705px) {
+    width: 40px;
+    height: 20px;
+    font-size: small;
+    border-radius: 10px;
+    top: 5px;
+  }
+
   background-color: rgb(234, 59, 61);
   color: white;
-  font-size: x-large;
   position: relative;
-  top: 100px;
+  margin-left: 5px;
   ${(props) =>
     props.disabled &&
     css`
       background-color: gray;
-    `}
+    `};
 `;
