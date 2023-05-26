@@ -19,7 +19,7 @@ export const saveListState = atom<numberKey[]>({
 
 export const allSpinState = atom({
   key: "spinning",
-  default: true,
+  default: false,
 });
 
 export const spinStopState = atom<numberKey>({
@@ -30,4 +30,9 @@ export const spinStopState = atom<numberKey>({
 export const listResetState = atom({
   key: "resetSwitch",
   default: false,
+});
+
+export const currentDrawCountState = atom({
+  key: "drawDate",
+  default: 0,
 });

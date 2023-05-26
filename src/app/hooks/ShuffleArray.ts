@@ -1,6 +1,6 @@
-export default function shuffleArray(array: number[]) {
-  const lineSize = [7, 8, 7, 8, 7, 8];
+import { LINE_LIMITED_COUNT } from "../constant/lineCount";
 
+export default function shuffleArray(array: number[]) {
   const numbers: number[][] = [];
 
   for (let i = array.length - 1; i > 0; i--) {
@@ -9,10 +9,11 @@ export default function shuffleArray(array: number[]) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 
-  lineSize.forEach((size) => {
-    let line: number[] = array.splice(0, size);
-    numbers.push(line);
-  });
+  for (let i = 0; i < LINE_LIMITED_COUNT; i++) {
+    let mix = array.shift();
+    array.splice(-1, 0, mix!);
+    numbers.push([...array]);
+  }
 
   return numbers;
 }

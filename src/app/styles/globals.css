@@ -2,16 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-.bg-color {
-  background-color: rgb(90, 196, 246);
-}
-
 body {
-  background-color: white;
-
-  @media screen and (max-width: 1400px) {
-    background-color: powderblue;
-  }
+  background-image: url("/bg.jpg");
+  background-position: center;
+  background-size: cover;
 }
 
 .container {
@@ -21,5 +15,4 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: powderblue;
 }

@@ -37,8 +37,7 @@ const Slot = ({ line, lineIndex }: ISlotLineProps) => {
     if (spinStopCount === 5) {
       setTimeout(() => {
         setSpinStopCount((prev) => prev + 1);
-        setAllSpin((prev) => !prev);
-      }, 1100);
+      }, 1500);
     } else {
       setSpinStopCount((prev) => prev + 1);
     }
@@ -78,8 +77,23 @@ const Slot = ({ line, lineIndex }: ISlotLineProps) => {
   }, [setSaveBall, line]);
 
   useEffect(() => {
-    if (AllSpin) {
+    if (spinStopCount === 0) {
       return setSpin(false);
+    }
+  }, [spinStopCount]);
+
+  useEffect(() => {
+    if (AllSpin) {
+      setTimeout(() => {
+        setSpin(true);
+        if (lineIndex === 5) {
+          setTimeout(() => {
+            setSpinStopCount((prev) => prev + 1);
+          }, 1500);
+        } else {
+          setSpinStopCount((prev) => prev + 1);
+        }
+      }, lineIndex * 1000);
     }
   }, [AllSpin]);
 
@@ -99,7 +113,7 @@ const Slot = ({ line, lineIndex }: ISlotLineProps) => {
         )}
       </ViewZone>
 
-      <StopBtn onClick={() => spinHandler()} disabled={isSpin}>
+      <StopBtn onClick={() => spinHandler()} disabled={isSpin || AllSpin}>
         STOP
       </StopBtn>
     </Container>
@@ -129,7 +143,7 @@ const ViewZone = styled.div`
     height: 52px;
     width: 52px;
     font-size: large;
-    margin: 5px auto;
+    margin: -38px auto;
     border-radius: 5px;
   }
 
@@ -142,10 +156,10 @@ const Line = styled.div<ILineProps>`
   ${(props) =>
     props.$spin_stop
       ? css`
-          animation: ${endingSpin(props.line_px)} 1s 1;
+          animation: ${endingSpin(props.line_px)} 1.5s 1 ease-out;
         `
       : css`
-          animation: ${createSpin(props.line_px)} 0.4s infinite linear;
+          animation: ${createSpin(props.line_px)} 1s infinite linear;
         `}
 
   display: flex;
@@ -196,9 +210,9 @@ const StopBtn = styled.button`
   @media screen and (max-width: 705px) {
     width: 40px;
     height: 20px;
-    font-size: small;
+    font-size: 10px;
     border-radius: 10px;
-    top: 5px;
+    top: 47px;
   }
 
   background-color: rgb(234, 59, 61);

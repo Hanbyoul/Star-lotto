@@ -20,8 +20,12 @@ const shareSpin = keyframes`
 `;
 
 const Wrapper = styled.div`
+  @media screen and (max-width: 705px) {
+    margin: 30px 0;
+  }
   display: flex;
   flex-direction: column;
+  margin-bottom: 20px;
 `;
 
 const DateBox = styled.div`
@@ -32,6 +36,9 @@ const DateBox = styled.div`
 `;
 
 const BallBox = styled.div`
+  @media screen and (max-width: 705px) {
+    width: 350px;
+  }
   display: flex;
   justify-content: center;
   align-items: center;

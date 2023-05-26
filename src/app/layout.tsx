@@ -12,8 +12,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <html>
       <body>
         <div className="container">
-          <div className="flex justify-center" style={{ margin: "auto" }}>
-            <img src="/logo.png" alt="logo" width={"300px"} />
+          <div className="flex justify-center" style={{ margin: "10px auto" }}>
+            <img src="/logo.png" alt="logo" width={"270px"} />
           </div>
           <Recoil>
             <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
