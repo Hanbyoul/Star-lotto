@@ -1,4 +1,4 @@
-import shuffleArray from "@/app/hooks/ShuffleArray";
+import shuffleArray from "@/app/utils/ShuffleArray";
 import { atom, selector } from "recoil";
 
 export type numberKey = number;

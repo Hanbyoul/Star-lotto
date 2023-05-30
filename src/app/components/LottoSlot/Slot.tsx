@@ -4,7 +4,7 @@ import { allSpinState, spinStopState, saveListState } from "@/store/atom";
 import React, { useState, useEffect } from "react";
 import styled, { keyframes, css } from "styled-components";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import LoadingBall from "./LoadingBall";
+import LoadingBall from "../Loading/LoadingBall";
 
 interface ISlotLineProps {
   line: number[];

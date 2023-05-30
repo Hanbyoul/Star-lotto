@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
-import { getLottoCount } from "../hooks/latestCount";
-import LoadingLottery from "./LoadingLottery";
+import { getLottoCount } from "../utils/latestCount";
+import LoadingLottery from "./Loading/LoadingLottery";
 import { useSetRecoilState } from "recoil";
 import { currentDrawCountState } from "@/store/atom";
 
@@ -28,7 +28,7 @@ const WinningNumber = () => {
 
   const getLottery = async (count: number) => {
     const { data } = await (
-      await fetch(`http://localhost:3000/api/lottery?id=${count}`)
+      await fetch(`http://localhost:3000/api/winningNum?id=${count}`)
     ).json();
 
     /**

@@ -11,8 +11,8 @@ import {
   listResetState,
   saveListState,
 } from "@/store/atom";
-import shuffleArray from "../hooks/ShuffleArray";
-import { LINE_LIMITED_COUNT } from "../constant/lineCount";
+import shuffleArray from "../../utils/ShuffleArray";
+import { LINE_LIMITED_COUNT } from "../../constant/lineCount";
 
 const SlotList = () => {
   const [numbers, setNumbers] = useRecoilState(numberState);

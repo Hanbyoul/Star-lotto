@@ -8,10 +8,10 @@ import {
 import React, { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { css, styled } from "styled-components";
-import sortingArray from "../hooks/sortingArray";
-import { nextDrawing } from "../hooks/nextDrawing";
-import { dateFormat } from "../hooks/dateFormat";
-import { arrChar } from "../constant/lineCount";
+import sortingArray from "../../utils/sortingArray";
+import { nextDrawing } from "../../utils/nextDrawing";
+import { dateFormat } from "../../utils/dateFormat";
+import { arrChar } from "../../constant/lineCount";
 
 const SaveList = () => {
   const [ballList, setBallList] = useState<numberKey[][]>([]);
@@ -42,7 +42,17 @@ const SaveList = () => {
 
   const listChar = arrChar.slice(0, ballList.length);
 
-  console.log("현재 회차는?", currentDrawCount);
+  // console.log("현재 회차는?", currentDrawCount);
+  /**
+   * ! page 이동시 saveList에서 이전 값을 중복하여 넣는다.
+   * ! page 이동시 로딩 애니메이션이 게속하여 실행된다.
+   * ! page 이동시 ballList의 state가 초기화된다.
+   */
+
+  console.log("save", saveList);
+  console.log("ball", ballList);
+  console.log("save", saveList);
+  console.log("ball", ballList);
 
   return (
     <Container>
