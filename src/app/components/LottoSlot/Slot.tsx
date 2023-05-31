@@ -15,6 +15,7 @@ interface ILineProps {
   line_px: number;
   $spin_stop: boolean;
   $hydrated: boolean;
+  $spinStopCount: number;
 }
 interface IBallProps {
   num: number;
@@ -31,6 +32,7 @@ const Slot = ({ line, lineIndex }: ISlotLineProps) => {
 
   const line_px = line.length * slotSize;
 
+  // 슬롯 하나씩 멈추기
   const spinHandler = () => {
     setSpin(true);
 
@@ -43,10 +45,12 @@ const Slot = ({ line, lineIndex }: ISlotLineProps) => {
     }
   };
 
+  //서버랑 클라 통일 시키기위한 로직
   useEffect(() => {
     setHydrated(true);
   }, []);
 
+  //윈도우 사이즈에 따른 css 애니메이션 적용 1
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -60,6 +64,7 @@ const Slot = ({ line, lineIndex }: ISlotLineProps) => {
     };
   }, []);
 
+  //윈도우 사이즈에 따른 css 애니메이션 적용 2
   useEffect(() => {
     if (windowWidth <= 705) {
       setSlotSize(52);
@@ -68,12 +73,15 @@ const Slot = ({ line, lineIndex }: ISlotLineProps) => {
     }
   }, [windowWidth]);
 
+  //각 슬롯의 0번지 세이브
   useEffect(() => {
-    setSaveBall((prev) => {
-      const addNumber = [...prev];
-      addNumber.push(line[0]);
-      return addNumber;
-    });
+    if (spinStopCount < 6) {
+      setSaveBall((prev) => {
+        const addNumber = [...prev];
+        addNumber.push(line[0]);
+        return addNumber;
+      });
+    }
   }, [setSaveBall, line]);
 
   useEffect(() => {
@@ -82,8 +90,9 @@ const Slot = ({ line, lineIndex }: ISlotLineProps) => {
     }
   }, [spinStopCount]);
 
+  // 카운트가 0 이고 , AllSpin이 true 이면 실행.
   useEffect(() => {
-    if (AllSpin) {
+    if (AllSpin && spinStopCount === 0) {
       setTimeout(() => {
         setSpin(true);
         if (lineIndex === 5) {
@@ -97,11 +106,20 @@ const Slot = ({ line, lineIndex }: ISlotLineProps) => {
     }
   }, [AllSpin]);
 
+  // console.log("isSpin", isSpin);
+  // console.log("spinStopCount", spinStopCount);
+  // console.log("AllSpin", AllSpin);
+
   return (
     <Container>
       <ViewZone>
         {hydrated ? (
-          <Line line_px={line_px} $spin_stop={isSpin} $hydrated={hydrated}>
+          <Line
+            line_px={line_px}
+            $spin_stop={isSpin}
+            $hydrated={hydrated}
+            $spinStopCount={spinStopCount}
+          >
             {line.map((num) => (
               <Ball key={num + ""} num={num}>
                 {num}
@@ -158,8 +176,12 @@ const Line = styled.div<ILineProps>`
       ? css`
           animation: ${endingSpin(props.line_px)} 1.5s 1 ease-out;
         `
-      : css`
+      : !props.$spin_stop && props.$spinStopCount < 6
+      ? css`
           animation: ${createSpin(props.line_px)} 1s infinite linear;
+        `
+      : css`
+          animation: none;
         `}
 
   display: flex;

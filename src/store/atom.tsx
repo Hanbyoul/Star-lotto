@@ -18,7 +18,7 @@ export const saveListState = atom<numberKey[]>({
 });
 
 export const allSpinState = atom({
-  key: "spinning",
+  key: "AllSpin",
   default: false,
 });
 
