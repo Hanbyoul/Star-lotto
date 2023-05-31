@@ -1,6 +1,11 @@
 "use client";
 
-import { allSpinState, spinStopState, saveListState } from "@/store/atom";
+import {
+  allSpinState,
+  spinStopState,
+  saveListState,
+  spinBtnState,
+} from "@/store/atom";
 import React, { useState, useEffect } from "react";
 import styled, { keyframes, css } from "styled-components";
 import { useRecoilState, useSetRecoilState } from "recoil";
@@ -25,15 +30,18 @@ const Slot = ({ line, lineIndex }: ISlotLineProps) => {
   const [hydrated, setHydrated] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
   const [slotSize, setSlotSize] = useState(94);
-  const setSaveBall = useSetRecoilState(saveListState);
   const [spinStopCount, setSpinStopCount] = useRecoilState(spinStopState);
-  const [isSpin, setSpin] = useState(false);
+  const [spinState, setSpinState] = useRecoilState(spinBtnState);
+  const [isSpin, setSpin] = useState(spinState[lineIndex]);
   const [AllSpin, setAllSpin] = useRecoilState(allSpinState);
-
   const line_px = line.length * slotSize;
 
   // 슬롯 하나씩 멈추기
   const spinHandler = () => {
+    setSpinState((prev) => {
+      return { ...prev, [lineIndex]: true };
+    });
+
     setSpin(true);
 
     if (spinStopCount === 5) {
@@ -73,28 +81,23 @@ const Slot = ({ line, lineIndex }: ISlotLineProps) => {
     }
   }, [windowWidth]);
 
-  //각 슬롯의 0번지 세이브
-  useEffect(() => {
-    if (spinStopCount < 6) {
-      setSaveBall((prev) => {
-        const addNumber = [...prev];
-        addNumber.push(line[0]);
-        return addNumber;
-      });
-    }
-  }, [setSaveBall, line]);
-
   useEffect(() => {
     if (spinStopCount === 0) {
-      return setSpin(false);
+      setSpin(false);
+      setSpinState((prev) => {
+        return { ...prev, [lineIndex]: false };
+      });
     }
-  }, [spinStopCount]);
+  }, [spinStopCount, lineIndex, setSpinState]);
 
   // 카운트가 0 이고 , AllSpin이 true 이면 실행.
   useEffect(() => {
     if (AllSpin && spinStopCount === 0) {
       setTimeout(() => {
         setSpin(true);
+        setSpinState((prev) => {
+          return { ...prev, [lineIndex]: true };
+        });
         if (lineIndex === 5) {
           setTimeout(() => {
             setSpinStopCount((prev) => prev + 1);
@@ -104,11 +107,7 @@ const Slot = ({ line, lineIndex }: ISlotLineProps) => {
         }
       }, lineIndex * 1000);
     }
-  }, [AllSpin]);
-
-  // console.log("isSpin", isSpin);
-  // console.log("spinStopCount", spinStopCount);
-  // console.log("AllSpin", AllSpin);
+  }, [AllSpin, lineIndex, setSpinState, setSpinStopCount, spinStopCount]);
 
   return (
     <Container>
@@ -131,13 +130,18 @@ const Slot = ({ line, lineIndex }: ISlotLineProps) => {
         )}
       </ViewZone>
 
-      <StopBtn onClick={() => spinHandler()} disabled={isSpin || AllSpin}>
+      <StopBtn
+        onClick={() => spinHandler()}
+        disabled={isSpin || AllSpin}
+        $line={lineIndex}
+      >
         STOP
       </StopBtn>
     </Container>
   );
 };
-
+// 라인 인덱스와 같을 경우
+// stop 버튼을 누른 라인인덱스
 export default React.memo(Slot);
 const createSpin = (line_px: number) => keyframes`
   0% { transform: translateY(${-line_px}px); } 
@@ -222,12 +226,13 @@ const Ball = styled.div<IBallProps>`
       : "rgb(16,196,102)"};
 `;
 
-const StopBtn = styled.button`
+const StopBtn = styled.button<{ $line: number }>`
   width: 80px;
   height: 40px;
   border-radius: 25px;
   font-size: x-large;
   top: 13px;
+  ${(props) => (props.disabled ? "dd" : "dd")}
 
   @media screen and (max-width: 705px) {
     width: 40px;

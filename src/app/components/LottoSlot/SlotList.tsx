@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import styled, { css } from "styled-components";
 import Slot from "./Slot";
 import { useRecoilState, useSetRecoilState } from "recoil";
@@ -8,7 +8,6 @@ import {
   allSpinState,
   spinStopState,
   numberState,
-  listResetState,
   saveListState,
 } from "@/store/atom";
 import shuffleArray from "../../utils/ShuffleArray";
@@ -19,12 +18,10 @@ const SlotList = () => {
   const [spinStopCount, setSpinStopCount] = useRecoilState(spinStopState);
   const [AllSpin, setAllSpin] = useRecoilState(allSpinState);
   const [saveList, setSaveList] = useRecoilState(saveListState);
-  const setListReset = useSetRecoilState(listResetState);
 
   const shuffle = () => {
     if (saveList.length >= 30) {
       if (confirm("리스트가 가득 찼습니다. 비우시겠습니까?")) {
-        setListReset(true);
         return setSaveList([]);
       } else {
         return;
@@ -34,7 +31,7 @@ const SlotList = () => {
       setSpinStopCount(0);
       setAllSpin(false);
       const numberArray = Array.from({ length: 45 }, (_, idx) => idx + 1);
-      setListReset(false);
+
       setNumbers(() => {
         const shuffleNum = shuffleArray(numberArray);
         return shuffleNum;
@@ -47,6 +44,30 @@ const SlotList = () => {
       return setAllSpin(true);
     }
   };
+
+  useEffect(() => {
+    setSaveList((prev) => {
+      const CopyNum = [...numbers];
+      const AddNum: number[] = [];
+      let isEqual = false;
+
+      for (let i = 0; i < numbers.length; i++) {
+        AddNum.push(CopyNum[i][0]);
+      }
+
+      if (prev.length >= 6) {
+        let prevNum = prev.slice(-6);
+        isEqual = prevNum.every((value, index) => value === AddNum[index]);
+      }
+      if (isEqual) {
+        return prev;
+      }
+
+      const newList = [...prev, ...AddNum];
+
+      return newList;
+    });
+  }, [numbers]);
 
   return (
     <Wrapper>
@@ -68,7 +89,6 @@ const SlotList = () => {
         >
           ALL STOP
         </AllStopBtn>
-        {/* <SkipBtn>저장하기</SkipBtn> */}
       </Footer>
     </Wrapper>
   );
@@ -143,12 +163,3 @@ const AllStopBtn = styled.button`
   color: white;
   font-size: large;
 `;
-
-// const SkipBtn = styled.button`
-//   color: white;
-//   font-size: x-large;
-//   width: 100px;
-//   height: 50px;
-//   border-radius: 12px;
-//   background-color: rgb(234, 59, 61);
-// `;
