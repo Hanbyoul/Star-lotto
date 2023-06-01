@@ -1,7 +1,16 @@
+"use client";
+
+import { styled } from "styled-components";
+import LoginFrom from "../components/LoginFrom";
+
 export default function Join() {
   return (
-    <div>
-      <h1>회원가입</h1>
-    </div>
+    <Container>
+      <LoginFrom />
+    </Container>
   );
 }
+
+const Container = styled.div`
+  /* border: 1px solid red; */
+`;

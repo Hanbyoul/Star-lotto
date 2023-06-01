@@ -20,7 +20,7 @@ export const allSpinState = atom({
   default: false,
 });
 
-export const spinStopState = atom<numberKey>({
+export const spinCountState = atom<numberKey>({
   key: "stopCount",
   default: 0,
 });
@@ -30,12 +30,24 @@ export const saveListState = atom<numberKey[]>({
   default: [],
 });
 
+export const spinStopState = atom<{ [key: number]: boolean }>({
+  key: "spinBtnState",
+  default: {
+    0: false,
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+    5: false,
+  },
+});
+
 export const loadListSelector = selector({
   key: "loadListSelector",
   get: ({ get }) => {
     const loadList: number[][] = [];
     const saveList = get(saveListState);
-    const spinStopCount = get(spinStopState);
+    const spinStopCount = get(spinCountState);
 
     if (!(saveList.length % 6) && spinStopCount === 6) {
       const CopyList = [...saveList];
@@ -51,18 +63,6 @@ export const loadListSelector = selector({
     } else {
       return prevList;
     }
-  },
-});
-
-export const spinBtnState = atom<{ [key: number]: boolean }>({
-  key: "spinBtnState",
-  default: {
-    0: false,
-    1: false,
-    2: false,
-    3: false,
-    4: false,
-    5: false,
   },
 });
 

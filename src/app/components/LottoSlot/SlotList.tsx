@@ -6,7 +6,7 @@ import Slot from "./Slot";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   allSpinState,
-  spinStopState,
+  spinCountState,
   numberState,
   saveListState,
 } from "@/store/atom";
@@ -15,7 +15,7 @@ import { LINE_LIMITED_COUNT } from "../../constant/lineCount";
 
 const SlotList = () => {
   const [numbers, setNumbers] = useRecoilState(numberState);
-  const [spinStopCount, setSpinStopCount] = useRecoilState(spinStopState);
+  const [spinStopCount, setSpinStopCount] = useRecoilState(spinCountState);
   const [AllSpin, setAllSpin] = useRecoilState(allSpinState);
   const [saveList, setSaveList] = useRecoilState(saveListState);
 
