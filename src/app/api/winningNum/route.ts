@@ -10,8 +10,8 @@ import next from "next/types";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  // const id = searchParams.get("id");
-  const id = 1069;
+  const id = searchParams.get("id");
+  // const id = 1069;
 
   const res = await fetch(
     `https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=${id}`,
@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
   );
 
   const data = await res.json();
-  console.log(data);
+  // console.log(data);
   return NextResponse.json({ data });
 }
 

@@ -25,7 +25,7 @@ const SaveList = () => {
    *  TODO (6) 기타 DB 통계 구현
    *
    */
-
+  // console.log(loadList);
   return (
     <Container>
       <Title>

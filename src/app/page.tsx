@@ -4,6 +4,8 @@ import styled from "styled-components";
 import SlotList from "./components/LottoSlot/SlotList";
 import SaveList from "./components/LotteryPaper/SaveList";
 import WinningNumber from "./components/WinningNumber";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 /**
  * TODO : 로그인 상태

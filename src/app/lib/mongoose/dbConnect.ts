@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const DB_URI = process.env.MONGODB_URI || "";
 
+console.log("DB Connect🚀");
 let cached = global.mongoose;
 
 if (!cached) {

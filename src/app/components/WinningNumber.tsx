@@ -43,6 +43,10 @@ const WinningNumber = () => {
      * TODO: 프론트에선 DB에있는 DATA를 백을 통해서 받아야 한다
      */
 
+    if (data?.returnValue === "fail") {
+      setCount((prev) => prev - 1);
+    }
+
     setData(data);
   };
 

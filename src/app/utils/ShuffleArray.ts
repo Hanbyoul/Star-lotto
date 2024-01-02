@@ -10,10 +10,10 @@ export default function shuffleArray(array: number[]) {
   }
 
   for (let i = 0; i < LINE_LIMITED_COUNT; i++) {
-    let mix = array.shift();
-    array.splice(-1, 0, mix!);
+    let mix = array.splice(0, 10);
+    array.splice(44, 0, ...mix);
     numbers.push([...array]);
   }
-
+  console.log(numbers);
   return numbers;
 }
