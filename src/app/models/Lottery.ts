@@ -3,7 +3,7 @@ import mongoose, { ObjectId, Schema, models } from "mongoose";
 interface Lottery {
   createAt: Date;
   owner: ObjectId;
-  round: Number;
+  round: number;
   numbers: number[];
   status: "Pending" | "Succeed";
   rank: number | null;

@@ -27,28 +27,6 @@ export default function Login() {
     } else {
       router.replace("/");
     }
-
-    console.log(result);
-    // try {
-    //   const res = await fetch("http://localhost:3000/api/login", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(data),
-    //   });
-    //   const ok: UserResponse = await res.json();
-
-    //   if (!ok.success) {
-    //     alert("아이디 또는 비밀번호가 일치하지 않습니다.");
-    //   } else {
-    //     router.replace("/");
-    //   }
-
-    //   // 리액트 핫도그? 메세지 알려주는 라이브러리 확인해보기.
-    // } catch (error) {
-    //   console.error("로그인 오류!!!");
-    // }
   };
 
   const SignPage = () => {

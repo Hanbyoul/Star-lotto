@@ -5,27 +5,43 @@ import { css, styled } from "styled-components";
 import { nextDrawing } from "../../utils/nextDrawing";
 import { dateFormat } from "../../utils/dateFormat";
 import { arrChar } from "../../constant/lineCount";
+import { useSession } from "next-auth/react";
+import { Session } from "../Navigation";
 
 const SaveList = () => {
   const loadList = useRecoilValue(loadListSelector);
   const currentDrawCount = useRecoilValue(currentDrawCountState);
   const nextDrawDate = nextDrawing(currentDrawCount);
   const listChar = arrChar.slice(0, loadList ? loadList.length : 0);
+  const { data } = useSession();
+  const session = data as Session;
+
+  console.log("로또 용지 컴포넌트", session);
 
   /**
-   * // page 이동시 로딩 애니메이션이 게속하여 실행된다. >> stop,running 로직 구현하기
-   * // page 이동시 saveList에서 이전 값을 중복하여 넣는다. >> 값을 넣는 로직 수정
-   * // page 이동시 ballList의 state가 초기화된다. >> 상태를 Atom으로 변경하여 관리
-   * // TODO (0) 페이지 이동 버그
-   *  TODO (1)해결후 회원가입 기능 구현 (useHookForm 모듈 사용하기) 회원가입 기능 구현하기.
-   *  TODO (2) Next Auth 구현
+
    *  TODO (3) Lotto DB 구현
    *  TODO (4) API 업데이트 로직 + cron-job-org 스케쥴 셋팅
    *  TODO (5) MyPage 통계 구현
    *  TODO (6) 기타 DB 통계 구현
    *
    */
-  // console.log(loadList);
+  console.log("저장된 번호", loadList);
+
+  const getLotteryNumber = async (userId: any) => {
+    // 세션에서 유저 아이디를 뽑아서 API POST요청을 한다.
+    // API에서 DB 유저 아이디를 검색하고, 해당 유저의 DB ObjectId를 획득한 다음
+    // 로또 번호를 Create 한다.
+    // 정상적으로 생성완료시 메세지 창.
+    // 비정상적으로 생성될 시 메세지 창.
+  };
+
+  useEffect(() => {
+    if (session?.user && loadList.length >= 1) {
+      console.log(" 한 세트만 볼꺼야", loadList.slice(-1));
+    }
+  }, [session, loadList]);
+
   return (
     <Container>
       <Title>

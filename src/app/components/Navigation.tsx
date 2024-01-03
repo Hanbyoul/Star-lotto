@@ -1,10 +1,8 @@
 "use client";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { DefaultSession } from "next-auth";
-import { useEffect } from "react";
 
-interface Session {
+export interface Session {
   user?: {
     userId: string;
   };
@@ -13,6 +11,8 @@ interface Session {
 export default function Navigation() {
   const { data } = useSession();
   const session = data as Session;
+
+  console.log("유저세션", session);
 
   return (
     <div className="flex justify-center relative">
@@ -23,39 +23,22 @@ export default function Navigation() {
         <ul className="flex">
           {session?.user ? (
             <>
-              <li className="mx-3">당첨자</li>
-              <li className="mx-3" onClick={() => signOut()}>
+              <li className="mx-3 cursor-pointer">당첨자</li>
+              <li className="mx-3 cursor-pointer" onClick={() => signOut()}>
                 로그아웃
               </li>
-              <li className="mx-3">{session.user.userId}</li>
+              <li className="mx-3 cursor-pointer">{session.user.userId}</li>
             </>
           ) : (
-            <li className="mx-3" onClick={() => signIn()}>
+            <li className="mx-3 cursor-pointer" onClick={() => signIn()}>
               로그인
             </li>
           )}
         </ul>
-        {/* <Link href={"/"} className="mx-5">
-          당첨자
-        </Link>
-        <Link href={"/login"} className="mx-5">
-          로그인
-        </Link>
-        <Link href={"/info"} className="mx-5">
-          내정보
-        </Link> */}
       </div>
     </div>
   );
 }
 
-/**
- * 로그인 버튼을 누르면
- * 내가 만든 로그인 폼으로 NextAuth pages 설정.
- * 아이디 또는 비밀번호가 틀렸을 경우 alter 메세지 출력.
- * 로그인시 로그인 내비 제거, userId 표기 및 로그아웃 내비 생성
- *
- * 이후.... 유저 기능 추가하기......
- *
- *
- */
+// 당첨자 page
+// My Page 만들기

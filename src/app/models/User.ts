@@ -1,18 +1,6 @@
 import bcrypt from "bcrypt";
 import mongoose, { Schema, models } from "mongoose";
-
-export interface UserAuth {
-  userId: string;
-  password: string;
-}
-
-export type SignUser = Partial<UserAuth>;
-
-export interface UserSchema {
-  _id: mongoose.Schema.Types.ObjectId;
-  userId: string;
-  password: string;
-}
+import { UserAuth } from "../@types/mongodb";
 
 export const UserSchema = new Schema<UserAuth>({
   userId: {
