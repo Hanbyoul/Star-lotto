@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/app/lib/mongoose/dbConnect";
-import User from "@/app/models/User";
-import { SignUser, UserSchema } from "@/app/@types/mongodb";
+import User, { SignUser, UserSchema } from "@/app/models/User";
 
 export async function POST(req: NextRequest) {
   await dbConnect();

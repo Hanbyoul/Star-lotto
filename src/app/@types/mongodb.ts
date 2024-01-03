@@ -6,16 +6,3 @@ declare global {
     conn: Mongoose | null;
   };
 }
-
-export interface UserAuth {
-  userId: string;
-  password: string;
-}
-
-export type SignUser = Partial<UserAuth>;
-
-export interface UserSchema {
-  _id: mongoose.Schema.Types.ObjectId;
-  userId: string;
-  password: string;
-}
