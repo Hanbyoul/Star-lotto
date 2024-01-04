@@ -12,6 +12,7 @@ import { resultDateFormat } from "../../utils/resultDateFormat";
 import { arrChar } from "../../constant/lineCount";
 import { useSession } from "next-auth/react";
 import { Session } from "../Navigation";
+import banPeriod from "@/app/utils/banPeriod";
 
 const SaveList = () => {
   const [duplicate, setDuplicate] = useRecoilState(isDuplicateState);
@@ -25,8 +26,12 @@ const SaveList = () => {
   console.log("테스트2");
   /**
 
-   *  TODO (3) Lotto DB 구현
+   // *  TODO (3-1) Lotto DB 구현 
+   *  TODO (3-2) Lotto 당첨 번호 DB 구현
    *  TODO (4) API 업데이트 로직 + cron-job-org 스케쥴 셋팅
+   *  4-1 : 스케쥴 시간에 당첨번호 DB를 업데이트
+   *  4-2 : 당첨번호 DB 업데이트 후 pending 된 lotto 번호의 당첨 유,무 업데이트 시킨다
+   *  4-3 : 당첨된 유무를 1~5등,낙첨 구분 업데이트
    *  TODO (5) MyPage 통계 구현
    *  TODO (6) 기타 DB 통계 구현
    *
@@ -54,7 +59,10 @@ const SaveList = () => {
         loadList.slice(-1)[0].includes(num)
       );
 
-      if (!result) {
+      const now = new Date();
+      const pending = banPeriod(now);
+
+      if (!result && pending) {
         const res = await fetch("http://localhost:3000/api/lottery", {
           method: "POST",
           headers: {
@@ -67,7 +75,7 @@ const SaveList = () => {
         if (ok.success) {
           alert("로또 번호가 저장되었습니다.");
         } else {
-          alert("로또 번호 저장에 실패하였습니다.");
+          alert("매주 토요일 20시 ~ 일요일 00시 까지는 저장할 수 없습니다.");
         }
         setDuplicate(numbers);
       }

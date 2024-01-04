@@ -26,7 +26,9 @@ export const UserSchema = new Schema<UserSchema>({
     type: String,
     required: true,
   },
-  lotto: [{ type: mongoose.Schema.Types.ObjectId, ref: "Lottery" }],
+  lotto: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "Lottery", required: true },
+  ],
 });
 
 /**

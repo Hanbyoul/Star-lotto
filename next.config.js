@@ -7,6 +7,9 @@ const nextConfig = {
   env: {
     NEXTAUTH_SECRET: "asd!@#ASD!@3123",
   },
+  compiler: {
+    styledComponents: true,
+  },
 };
 
 module.exports = nextConfig;
