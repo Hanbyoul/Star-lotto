@@ -2,15 +2,13 @@ import shuffleArray from "@/app/utils/ShuffleArray";
 import sortingArray from "@/app/utils/sortingArray";
 import { atom, selector } from "recoil";
 
-export type numberKey = number;
-
 const numberArray = Array.from({ length: 45 }, (_, idx) => idx + 1);
 
 const numbers = shuffleArray(numberArray);
 
 let prevList: number[][] = [];
 
-export const numberState = atom<numberKey[][]>({
+export const numberState = atom<number[][]>({
   key: "numberList",
   default: numbers,
 });
@@ -20,14 +18,19 @@ export const allSpinState = atom({
   default: false,
 });
 
-export const spinCountState = atom<numberKey>({
+export const spinCountState = atom<number>({
   key: "stopCount",
   default: 0,
 });
 
-export const saveListState = atom<numberKey[]>({
+export const saveListState = atom<number[]>({
   key: "BallList",
   default: [],
+});
+
+export const isDuplicateState = atom<number[]>({
+  key: "Duplicate",
+  default: [0, 0, 0, 0, 0, 0],
 });
 
 export const spinStopState = atom<{ [key: number]: boolean }>({
@@ -58,7 +61,6 @@ export const loadListSelector = selector({
         loadList.push(sortBall);
       }
       prevList = [...loadList];
-
       return loadList;
     } else {
       return prevList;

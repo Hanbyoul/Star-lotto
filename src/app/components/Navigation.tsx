@@ -12,8 +12,6 @@ export default function Navigation() {
   const { data } = useSession();
   const session = data as Session;
 
-  console.log("유저세션", session);
-
   return (
     <div className="flex justify-center relative">
       <Link href={"/"}>

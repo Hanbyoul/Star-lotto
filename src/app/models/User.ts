@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import mongoose, { Schema, models } from "mongoose";
+import mongoose, { Schema, models, Document } from "mongoose";
 
 export interface UserAuth {
   userId: string;
@@ -8,13 +8,14 @@ export interface UserAuth {
 
 export type SignUser = Partial<UserAuth>;
 
-export interface UserSchema {
+export interface UserSchema extends Document {
   _id: mongoose.Schema.Types.ObjectId;
   userId: string;
   password: string;
+  lotto?: mongoose.Schema.Types.ObjectId[];
 }
 
-export const UserSchema = new Schema<UserAuth>({
+export const UserSchema = new Schema<UserSchema>({
   userId: {
     type: String,
     unique: true,
@@ -25,7 +26,12 @@ export const UserSchema = new Schema<UserAuth>({
     type: String,
     required: true,
   },
+  lotto: [{ type: mongoose.Schema.Types.ObjectId, ref: "Lottery" }],
 });
+
+/**
+ * TODO:로또 save 후 업데이트가안됨
+ */
 
 UserSchema.pre("save", async function () {
   if (this.isModified("password")) {

@@ -9,11 +9,8 @@ export async function POST(req: NextRequest) {
 
   const body: UserAuth = await req.json();
 
-  console.log("뭘받았냐", body);
-
   const { userId, password } = body;
   const user = (await User.findOne({ userId })) as UserSchema;
-  console.log(user);
 
   if (!user) {
     return NextResponse.json({ success: false }, { status: 401 });

@@ -1,6 +1,7 @@
-import mongoose, { ObjectId, Schema, models } from "mongoose";
+import mongoose, { ObjectId, Schema, models, Document } from "mongoose";
 
-interface Lottery {
+export interface LotterySchema extends Document {
+  _id: mongoose.Schema.Types.ObjectId;
   createAt: Date;
   owner: ObjectId;
   round: number;
@@ -9,7 +10,7 @@ interface Lottery {
   rank: number | null;
 }
 
-export const LotterySchema = new Schema<Lottery>({
+export const LotterySchema = new Schema<LotterySchema>({
   createAt: {
     type: Date,
     required: true,

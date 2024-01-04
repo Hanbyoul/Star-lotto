@@ -1,28 +1,28 @@
 import {
   currentDrawCountState,
+  isDuplicateState,
   loadListSelector,
   spinCountState,
 } from "@/store/atom";
 import React, { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { css, styled } from "styled-components";
-import { nextDrawing } from "../../utils/nextDrawing";
-import { dateFormat } from "../../utils/dateFormat";
+import { nextRoundDate } from "../../utils/nextRoundDate";
+import { resultDateFormat } from "../../utils/resultDateFormat";
 import { arrChar } from "../../constant/lineCount";
 import { useSession } from "next-auth/react";
 import { Session } from "../Navigation";
 
 const SaveList = () => {
+  const [duplicate, setDuplicate] = useRecoilState(isDuplicateState);
   const loadList = useRecoilValue(loadListSelector);
   const spinCount = useRecoilValue(spinCountState);
   const currentDrawCount = useRecoilValue(currentDrawCountState);
-  const nextDrawDate = nextDrawing(currentDrawCount);
+  const nextDrawDate = nextRoundDate(currentDrawCount);
   const listChar = arrChar.slice(0, loadList ? loadList.length : 0);
   const { data } = useSession();
   const session = data as Session;
-
-  console.log("로또 용지 컴포넌트", session);
-
+  console.log("테스트2");
   /**
 
    *  TODO (3) Lotto DB 구현
@@ -31,37 +31,53 @@ const SaveList = () => {
    *  TODO (6) 기타 DB 통계 구현
    *
    */
-  console.log("저장된 번호", loadList);
 
-  const getLotteryNumber = async (lottNum: any, session: any) => {
-    // 세션에서 유저 아이디 , lottoNum 을 api로 보낸다.
-    // API에서 DB 유저 아이디를 검색하고, 해당 유저의 DB ObjectId를 획득한 다음
-    // 로또 번호를 Create 한다.
-    // 정상적으로 생성완료시 메세지 창.
-    // 비정상적으로 생성될 시 메세지 창.
-    if (spinCount === 6) {
-      const res = await fetch("http://localhost:3000/api/lottery", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ lottNum, session }),
-      });
-      const ok = await res.json();
-      console.log("res", ok);
-      if (ok.success) {
-        alert("로또 번호가 저장되었습니다.");
-      } else {
-        alert("로또 번호 저장에 실패하였습니다.");
+  interface LotteryNumberParams {
+    session: Session;
+    currentDrawCount: number;
+    lottNum: number[];
+  }
+
+  const addLotteryNumber = async ({
+    session,
+    currentDrawCount,
+    lottNum,
+  }: LotteryNumberParams) => {
+    if (spinCount === 6 && session.user) {
+      const [userId, round, numbers] = [
+        session.user.userId,
+        currentDrawCount + 1,
+        lottNum,
+      ];
+
+      const result = duplicate.every((num) =>
+        loadList.slice(-1)[0].includes(num)
+      );
+
+      if (!result) {
+        const res = await fetch("http://localhost:3000/api/lottery", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId, round, numbers }),
+        });
+        const ok = await res.json();
+        // console.log("res", ok);
+        if (ok.success) {
+          alert("로또 번호가 저장되었습니다.");
+        } else {
+          alert("로또 번호 저장에 실패하였습니다.");
+        }
+        setDuplicate(numbers);
       }
     }
   };
 
   useEffect(() => {
     if (session?.user && loadList.length >= 1) {
-      console.log(" 한 세트만 볼꺼야", loadList.slice(-1));
       const lottNum = loadList.slice(-1).flat();
-      getLotteryNumber(lottNum, session);
+      addLotteryNumber({ session, currentDrawCount, lottNum });
     }
   }, [session, loadList]);
 
@@ -69,7 +85,7 @@ const SaveList = () => {
     <Container>
       <Title>
         <h1>제 {currentDrawCount + 1}회</h1>
-        <div>{`추첨일 : ${dateFormat(nextDrawDate)}`}</div>
+        <div>{`추첨일 : ${resultDateFormat(nextDrawDate)}`}</div>
         {listChar.map((char) => (
           <ListChar key={char}>{char}</ListChar>
         ))}

@@ -14,6 +14,6 @@ export default function shuffleArray(array: number[]) {
     array.splice(44, 0, ...mix);
     numbers.push([...array]);
   }
-  console.log(numbers);
+
   return numbers;
 }
