@@ -7,47 +7,32 @@ import LoadingLottery from "./Loading/LoadingLottery";
 import { useSetRecoilState } from "recoil";
 import { currentDrawCountState } from "@/store/atom";
 
-interface IData {
-  drwNo: number;
-  drwNoDate: Date;
-  drwtNo1: number;
-  drwtNo2: number;
-  drwtNo3: number;
-  drwtNo4: number;
-  drwtNo5: number;
-  drwtNo6: number;
-  bnusNo: number;
+export interface lottoParams {
+  count: number;
+  numbers: number[];
+  success: boolean;
+  drawDate: Date;
 }
 
 const WinningNumber = () => {
   const day = new Date();
   const latestCount = getLottoCount(day);
-  const [data, setData] = useState<IData>();
+  const [lotto, setLotto] = useState<lottoParams>();
   const [count, setCount] = useState(latestCount);
   const setCurrentDrawCount = useSetRecoilState(currentDrawCountState);
 
   const getLottery = async (count: number) => {
-    const { data } = await (
-      await fetch(`http://localhost:3000/api/winningNum?id=${count}`)
-    ).json();
+    const res = await fetch(
+      `http://localhost:3000/api/winningNum?round=${count}`
+    );
+    const lottoData: lottoParams = await res.json();
+    console.log(lottoData);
 
-    /**
-     * ?현재 날짜가 추첨일이 되어 count가 증가 했으나 , API가 업데이트 하지 않았을 경우 -1 하여 렌더링이 됨.
-     * if (data?.returnValue === "fail") {
-     * setCount((prev) => prev - 1);
-     * }
-     */
-
-    /**
-     * 프론트단 에서는 DB에있는 최신 회차를  백앤드를 통해 가져오도록 로직을 변경해야함.
-     * TODO: 프론트에선 DB에있는 DATA를 백을 통해서 받아야 한다
-     */
-
-    if (data?.returnValue === "fail") {
+    if (!lottoData.success) {
       setCount((prev) => prev - 1);
+    } else {
+      setLotto(lottoData);
     }
-
-    setData(data);
   };
 
   const inCrease = () => {
@@ -66,13 +51,16 @@ const WinningNumber = () => {
     getLottery(count);
   }, [count]);
 
-  return data ? (
+  return lotto ? (
     <Wrapper>
       <DateBox className="text-center">
         <button onClick={deCrease} disabled={count === 0 ? true : false}>
           {"❮"}
         </button>
-        {`${data.drwNo}회 (${data.drwNoDate})`}
+        <span>{`${lotto.count}회 (${(lotto.drawDate + "").substring(
+          0,
+          10
+        )})`}</span>
         <button
           onClick={inCrease}
           disabled={count === latestCount ? true : false}
@@ -81,13 +69,12 @@ const WinningNumber = () => {
         </button>
       </DateBox>
       <BallBox>
-        <Ball $num={data.drwtNo1}>{data.drwtNo1}</Ball>
-        <Ball $num={data.drwtNo2}>{data.drwtNo2}</Ball>
-        <Ball $num={data.drwtNo3}>{data.drwtNo3}</Ball>
-        <Ball $num={data.drwtNo4}>{data.drwtNo4}</Ball>
-        <Ball $num={data.drwtNo5}>{data.drwtNo5}</Ball>
-        <Ball $num={data.drwtNo6}>{data.drwtNo6}</Ball>+
-        <Ball $num={data.bnusNo}>{data.bnusNo}</Ball>
+        {lotto.numbers?.slice(0, 6).map((num) => (
+          <Ball key={num} $num={num}>
+            {num}
+          </Ball>
+        ))}
+        +<Ball $num={lotto.numbers[6]}>{lotto.numbers[6]}</Ball>
       </BallBox>
     </Wrapper>
   ) : (

@@ -75,7 +75,7 @@ const SaveList = () => {
         if (ok.success) {
           alert("로또 번호가 저장되었습니다.");
         } else {
-          alert("매주 토요일 20시 ~ 일요일 00시 까지는 저장할 수 없습니다.");
+          alert("매주 토요일 20시 ~ 24시 까지는 저장할 수 없습니다.");
         }
         setDuplicate(numbers);
       }

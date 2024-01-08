@@ -12,7 +12,6 @@ interface BodyParams {
 export async function POST(req: NextRequest) {
   await dbConnect();
   const body: BodyParams = await req.json();
-  console.log("받은 데이터", body);
 
   const { userId, round, numbers } = body;
   const user = (await User.findOne({ userId })) as UserSchema;
@@ -32,9 +31,6 @@ export async function POST(req: NextRequest) {
   }
   user.lotto.push(lotto._id);
   await user.save();
-
-  console.log("user 데이터", user);
-  console.log("로또 데이터", lotto);
 
   return NextResponse.json({ success: true }, { status: 200 });
 }

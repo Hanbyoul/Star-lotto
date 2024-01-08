@@ -1,5 +1,6 @@
 import mongoose, { ObjectId, Schema, models, Document } from "mongoose";
 
+type rankType = 1 | 2 | 3 | 4 | 5 | "lose" | null;
 export interface LotterySchema extends Document {
   _id: mongoose.Schema.Types.ObjectId;
   createAt: Date;
@@ -7,7 +8,7 @@ export interface LotterySchema extends Document {
   round: number;
   numbers: number[];
   status: "Pending" | "Succeed";
-  rank: number | null;
+  rank: rankType;
 }
 
 export const LotterySchema = new Schema<LotterySchema>({
@@ -32,7 +33,7 @@ export const LotterySchema = new Schema<LotterySchema>({
     default: "Pending",
   },
   rank: {
-    type: Number,
+    type: mongoose.Schema.Types.Mixed,
     default: null,
   },
 });

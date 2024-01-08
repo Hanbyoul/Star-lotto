@@ -24,8 +24,3 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json(user);
 }
-
-/**
- * TODO: 로그인한 사용자의 홈페이지 내비게이션 링크 수정
- * TODO: 로그인한 사용자 정보 세션에 저장하기
- */
