@@ -25,33 +25,43 @@ interface ResponseParams {
  *  20:35 분 이후로 부터 당첨번호 API 업데이트 시간 파악. (파악 되더라도 널널하게 시간 잡기)
  */
 
-export async function GET() {
-  const now = new Date();
-  const currentCount = getLottoCount(now);
+export async function GET(req: NextRequest) {
+  const reqAuth = req.headers.get("authorization");
 
-  const res = await fetch(
-    `https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=${currentCount}`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
+  if (reqAuth === process.env.UPDATE_AUTH) {
+    const now = new Date();
+    const currentCount = getLottoCount(now);
+
+    const res = await fetch(
+      `https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=${currentCount}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const data: ResponseParams = await res.json();
+    const { drwtNo1, drwtNo2, drwtNo3, drwtNo4, drwtNo5, drwtNo6, bnusNo } =
+      data;
+
+    if (data.returnValue === "fail") {
+      return NextResponse.json({ success: false }, { status: 400 });
+    } else {
+      await dbConnect();
+
+      await WinningRound.create({
+        round: data.drwNo,
+        numbers: [drwtNo1, drwtNo2, drwtNo3, drwtNo4, drwtNo5, drwtNo6, bnusNo],
+        drawDate: data.drwNoDate,
+      });
+
+      return NextResponse.json({ success: true }, { status: 200 });
     }
-  );
-
-  const data: ResponseParams = await res.json();
-  const { drwtNo1, drwtNo2, drwtNo3, drwtNo4, drwtNo5, drwtNo6, bnusNo } = data;
-
-  if (data.returnValue === "fail") {
-    return NextResponse.json({ success: false }, { status: 400 });
   } else {
-    await dbConnect();
-
-    await WinningRound.create({
-      round: data.drwNo,
-      numbers: [drwtNo1, drwtNo2, drwtNo3, drwtNo4, drwtNo5, drwtNo6, bnusNo],
-      drawDate: data.drwNoDate,
-    });
-
-    return NextResponse.json({ success: true }, { status: 200 });
+    return NextResponse.json(
+      { message: "인증에 실패하였습니다." },
+      { status: 401 }
+    );
   }
 }
