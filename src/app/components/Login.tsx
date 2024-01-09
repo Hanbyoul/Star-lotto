@@ -3,17 +3,15 @@ import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
 import React from "react";
 import { useRouter } from "next/navigation";
-import { IForm, UserResponse } from "./SignUp";
+import { IForm } from "./SignUp";
 import { signIn } from "next-auth/react";
 
 export default function Login() {
   const router = useRouter();
-  const { register, handleSubmit, setError, formState } = useForm<IForm>();
+  const { register, handleSubmit, formState } = useForm<IForm>();
   const { errors } = formState;
 
   const LogIn = async (data: IForm) => {
-    console.log(data);
-
     const { userId, password } = data;
 
     const result = await signIn("credentials", {

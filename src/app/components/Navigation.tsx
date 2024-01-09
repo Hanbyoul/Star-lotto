@@ -42,7 +42,9 @@ export default function Navigation() {
               <li className="mx-3 cursor-pointer" onClick={() => signOut()}>
                 로그아웃
               </li>
-              <li className="mx-3 cursor-pointer">{session.user.userId}</li>
+              <Link href={"/info"}>
+                <li className="mx-3 cursor-pointer">{session.user.userId}</li>
+              </Link>
             </>
           ) : (
             <li className="mx-3 cursor-pointer" onClick={() => signIn()}>

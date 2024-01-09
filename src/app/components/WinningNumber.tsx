@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { getLottoCount } from "../utils/latestCount";
-import LoadingLottery from "./Loading/LoadingLottery";
+import LoadingLottery from "./Main/Loading/LoadingLottery";
 import { useSetRecoilState } from "recoil";
 import { currentDrawCountState } from "@/store/atom";
 

@@ -2,18 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
 body {
   background-image: url("/bg.jpg");
   background-position: center;
   background-size: cover;
-  height: 100vh;
+  height: 100%;
 }
 
 .container {
   margin: auto;
-  width: 50vw;
+  width: 50%;
+  min-width: 650px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.info {
+  margin-top: 50px;
+  width: 100%;
+  min-height: 700px;
+  height: 75%;
+  background-color: white;
+  border-radius: 20px;
+}
+
+.info .s-content {
+  min-height: 700px;
 }

@@ -1,3 +1,4 @@
+"use client";
 import {
   currentDrawCountState,
   isDuplicateState,
@@ -7,11 +8,11 @@ import {
 import React, { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { css, styled } from "styled-components";
-import { nextRoundDate } from "../../utils/nextRoundDate";
-import { resultDateFormat } from "../../utils/resultDateFormat";
-import { arrChar } from "../../constant/lineCount";
+import { nextRoundDate } from "../../../utils/nextRoundDate";
+import { resultDateFormat } from "../../../utils/resultDateFormat";
+import { arrChar } from "../../../constant/lineCount";
 import { useSession } from "next-auth/react";
-import { Session } from "../Navigation";
+import { Session } from "../../Navigation";
 import banPeriod from "@/app/utils/banPeriod";
 
 const SaveList = () => {
@@ -23,7 +24,7 @@ const SaveList = () => {
   const listChar = arrChar.slice(0, loadList ? loadList.length : 0);
   const { data } = useSession();
   const session = data as Session;
-  console.log("테스트2");
+
   /**
 
    // *  TODO (3-1) Lotto DB 구현 
@@ -71,7 +72,7 @@ const SaveList = () => {
           body: JSON.stringify({ userId, round, numbers }),
         });
         const ok = await res.json();
-        // console.log("res", ok);
+
         if (ok.success) {
           alert("로또 번호가 저장되었습니다.");
         } else {

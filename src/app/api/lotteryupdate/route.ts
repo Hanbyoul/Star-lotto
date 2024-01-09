@@ -20,7 +20,6 @@ export async function POST(req: NextRequest) {
     const pendingLotto = (await Lottery.find({
       status: "Pending",
     })) as LotterySchema[];
-    console.log(pendingLotto);
 
     if (pendingLotto.length === 0) {
       return NextResponse.json({ success: false }, { status: 400 });

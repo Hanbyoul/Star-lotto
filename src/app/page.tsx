@@ -1,11 +1,6 @@
-"use client";
-
-import styled from "styled-components";
-import SlotList from "./components/LottoSlot/SlotList";
-import SaveList from "./components/LotteryPaper/SaveList";
+import SlotList from "./components/Main/LottoSlot/SlotList";
+import SaveList from "./components/Main/LotteryPaper/SaveList";
 import WinningNumber from "./components/WinningNumber";
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
 
 /**
  * TODO : 로그인 상태
@@ -18,20 +13,10 @@ import { useSession } from "next-auth/react";
 
 export default async function Page() {
   return (
-    <Container>
+    <div className="flex flex-col items-center justify-center w-full h-full">
       <WinningNumber />
       <SlotList />
       <SaveList />
-    </Container>
+    </div>
   );
 }
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  width: 100%;
-  height: 100%;
-`;
