@@ -4,34 +4,50 @@ import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { getLottoCount } from "../utils/latestCount";
 import LoadingLottery from "./Main/Loading/LoadingLottery";
-import { useSetRecoilState } from "recoil";
-import { currentDrawCountState } from "@/store/atom";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  currentDrawCountState,
+  currentWinningState,
+  lottoParams,
+} from "@/GlobalState/atom";
 
-export interface lottoParams {
-  count: number;
-  numbers: number[];
-  success: boolean;
-  drawDate: Date;
-}
+// export interface lottoParams {
+//   count: number;
+//   numbers: number[];
+//   success: boolean;
+//   drawDate: Date;
+// }
 
 const WinningNumber = () => {
   const day = new Date();
   const latestCount = getLottoCount(day);
-  const [lotto, setLotto] = useState<lottoParams>();
+  // const [lotto, setLotto] = useState<lottoParams>();
+  const [lotto, setLotto] = useRecoilState(currentWinningState);
   const [count, setCount] = useState(latestCount);
   const setCurrentDrawCount = useSetRecoilState(currentDrawCountState);
 
   const getLottery = async (count: number) => {
-    const res = await fetch(
-      `http://localhost:3000/api/winningNum?round=${count}`
-    );
-    const lottoData: lottoParams = await res.json();
-    console.log(lottoData);
+    if (lotto?.count === count) return;
 
-    if (!lottoData.success) {
-      setCount((prev) => prev - 1);
-    } else {
-      setLotto(lottoData);
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/winningNum?round=${count}`
+      );
+
+      if (!res.ok) {
+        throw new Error(`HTTP error : ${res.status}`);
+      }
+
+      const lottoData: lottoParams = await res.json();
+      console.log(lottoData);
+
+      if (!lottoData.success) {
+        setCount((prev) => prev - 1);
+      } else {
+        setLotto(lottoData);
+      }
+    } catch (error) {
+      console.error("Fetching Error", error);
     }
   };
 
@@ -52,8 +68,8 @@ const WinningNumber = () => {
   }, [count]);
 
   return lotto ? (
-    <Wrapper>
-      <DateBox className="text-center">
+    <Container>
+      <DateBox>
         <button onClick={deCrease} disabled={count === 0 ? true : false}>
           {"❮"}
         </button>
@@ -76,7 +92,7 @@ const WinningNumber = () => {
         ))}
         +<Ball $num={lotto.numbers[6]}>{lotto.numbers[6]}</Ball>
       </BallBox>
-    </Wrapper>
+    </Container>
   ) : (
     <LoadingLottery />
   );
@@ -84,7 +100,7 @@ const WinningNumber = () => {
 
 export default WinningNumber;
 
-const Wrapper = styled.div`
+const Container = styled.div`
   @media screen and (max-width: 705px) {
     margin: 30px 0;
   }

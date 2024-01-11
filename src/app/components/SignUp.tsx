@@ -27,21 +27,29 @@ const SignUp = () => {
 
   const UserDuplicateChk = async () => {
     const userId = watch("userId");
+    try {
+      const res = await fetch("http://localhost:3000/api/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userId),
+      });
 
-    const res = await fetch("http://localhost:3000/api/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userId),
-    });
-    const ok: UserResponse = await res.json();
+      if (!res.ok) {
+        throw new Error(`HTTP error : ${res.status}`);
+      }
 
-    if (ok.success) {
-      setIdChk(true);
-      alert("사용 가능한 아이디입니다.");
-    } else {
-      alert("이미 사용중인 아이디입니다.");
+      const ok: UserResponse = await res.json();
+
+      if (ok.success) {
+        setIdChk(true);
+        alert("사용 가능한 아이디입니다.");
+      } else {
+        alert("이미 사용중인 아이디입니다.");
+      }
+    } catch (error) {
+      console.error("Fetching Error", error);
     }
   };
 
@@ -66,12 +74,17 @@ const SignUp = () => {
             },
             body: JSON.stringify(data),
           });
+
+          if (!res.ok) {
+            throw new Error(`HTTP error : ${res.status}`);
+          }
+
           const ok: UserResponse = await res.json();
           if (ok.success) {
             router.push("/login");
           }
         } catch (error) {
-          console.error("가입 오류!!!", error);
+          console.error("Fetching Error", error);
         }
       }
     }
@@ -80,7 +93,7 @@ const SignUp = () => {
   const { errors } = formState;
 
   return (
-    <Wrapper>
+    <Container>
       <Title>회원가입</Title>
       <SignUpForm onSubmit={handleSubmit(onSubmit)}>
         <IdArea>
@@ -142,13 +155,13 @@ const SignUp = () => {
           <SubmitBtn type="submit">가입하기</SubmitBtn>
         </BtnArea>
       </SignUpForm>
-    </Wrapper>
+    </Container>
   );
 };
 
 export default SignUp;
 
-const Wrapper = styled.div`
+const Container = styled.div`
   margin-top: 100px;
   border: 1px solid #dcdde1;
   border-radius: 10px;

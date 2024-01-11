@@ -4,9 +4,7 @@ const nextConfig = {
     appDir: true,
     serverComponentsExternalPackages: ["mongoose"],
   },
-  env: {
-    NEXTAUTH_SECRET: "asd!@#ASD!@3123",
-  },
+
   compiler: {
     styledComponents: true,
   },

@@ -2,11 +2,34 @@ import shuffleArray from "@/app/utils/ShuffleArray";
 import sortingArray from "@/app/utils/sortingArray";
 import { atom, selector } from "recoil";
 
+export interface lottoParams {
+  count: number;
+  numbers: number[];
+  success: boolean;
+  drawDate: Date;
+}
+
+export type rankType = 1 | 2 | 3 | 4 | 5 | "lose" | null;
+export type statusType = "Succeed" | "Pending";
+
+export interface lottoProps {
+  round?: number;
+  numbers?: number[];
+  rank?: rankType;
+  status?: statusType;
+  _id?: string;
+}
+
 const numberArray = Array.from({ length: 45 }, (_, idx) => idx + 1);
 
 const numbers = shuffleArray(numberArray);
 
 let prevList: number[][] = [];
+
+export const currentWinningState = atom<lottoParams | undefined>({
+  key: "currentWinningState",
+  default: undefined,
+});
 
 export const numberState = atom<number[][]>({
   key: "numberList",
@@ -71,4 +94,29 @@ export const loadListSelector = selector({
 export const currentDrawCountState = atom({
   key: "drawDate",
   default: 0,
+});
+
+export const userLottoState = atom<lottoProps[]>({
+  key: "userLottoState",
+  default: [],
+});
+
+export const userCurrentPageState = atom({
+  key: "userCurrentPageState",
+  default: 1,
+});
+
+export const userPageDataSelector = selector({
+  key: "userPageDataSelector",
+  get: ({ get }) => {
+    const lottoCount = 8;
+    const totalLotto = get(userLottoState);
+    const currentPage = get(userCurrentPageState);
+
+    const lastLotto = currentPage * lottoCount;
+    const firstLotto = lastLotto - lottoCount;
+    const newLotto = totalLotto.slice(firstLotto, lastLotto);
+
+    return newLotto;
+  },
 });

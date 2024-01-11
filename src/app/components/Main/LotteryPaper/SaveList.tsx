@@ -4,7 +4,7 @@ import {
   isDuplicateState,
   loadListSelector,
   spinCountState,
-} from "@/store/atom";
+} from "@/GlobalState/atom";
 import React, { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { css, styled } from "styled-components";
@@ -64,21 +64,30 @@ const SaveList = () => {
       const pending = banPeriod(now);
 
       if (!result && pending) {
-        const res = await fetch("http://localhost:3000/api/lottery", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ userId, round, numbers }),
-        });
-        const ok = await res.json();
+        try {
+          const res = await fetch("http://localhost:3000/api/lottery", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userId, round, numbers }),
+          });
 
-        if (ok.success) {
-          alert("로또 번호가 저장되었습니다.");
-        } else {
-          alert("매주 토요일 20시 ~ 24시 까지는 저장할 수 없습니다.");
+          if (!res.ok) {
+            throw new Error(`HTTP error : ${res.status}`);
+          }
+
+          const ok = await res.json();
+
+          if (ok.success) {
+            alert("로또 번호가 저장되었습니다.");
+          } else {
+            alert("매주 토요일 20시 ~ 24시 까지는 저장할 수 없습니다.");
+          }
+          setDuplicate(numbers);
+        } catch (error) {
+          console.error("Fetching Error", error);
         }
-        setDuplicate(numbers);
       }
     }
   };

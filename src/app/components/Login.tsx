@@ -32,7 +32,7 @@ export default function Login() {
   };
 
   return (
-    <Wrapper>
+    <Container>
       <Title>로그인</Title>
       <LoginForm onSubmit={handleSubmit(LogIn)}>
         <InputArea>
@@ -66,11 +66,11 @@ export default function Login() {
           </SignBtn>
         </ButtonArea>
       </LoginForm>
-    </Wrapper>
+    </Container>
   );
 }
 
-const Wrapper = styled.div`
+const Container = styled.div`
   margin-top: 100px;
   border: 1px solid #dcdde1;
   border-radius: 10px;

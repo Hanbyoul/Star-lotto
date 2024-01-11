@@ -1,14 +1,15 @@
+"use client";
 import React from "react";
 import { keyframes, styled } from "styled-components";
 
 const LoadingLottery = () => {
   return (
-    <Wrapper>
+    <Container>
       <DateBox>로드중...</DateBox>
       <BallBox>
         <Ball>?</Ball>
       </BallBox>
-    </Wrapper>
+    </Container>
   );
 };
 
@@ -19,7 +20,7 @@ const shareSpin = keyframes`
     100%{transform:translateX(100px) rotateZ(360deg)}
 `;
 
-const Wrapper = styled.div`
+const Container = styled.div`
   @media screen and (max-width: 705px) {
     margin: 30px 0;
   }

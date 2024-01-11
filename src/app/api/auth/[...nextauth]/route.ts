@@ -1,3 +1,4 @@
+import type { NextAuthOptions } from "next-auth";
 import { DefaultUser } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import NextAuth from "next-auth/next";
@@ -7,15 +8,11 @@ interface tokenUser extends JWT {
   userId?: string;
 }
 
-interface userInfo extends DefaultUser {
-  userId?: string;
-}
-
 interface ResUser extends DefaultUser {
   userId?: string;
 }
 
-const handler = NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -58,9 +55,15 @@ const handler = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
+        console.log("변경전 토큰값", token);
+        console.log("변경전 user값", user);
         const tokenUser = token as tokenUser;
-        const userInfo = user as userInfo;
+
+        const userInfo = user as ResUser;
+
         tokenUser.userId = userInfo.userId;
+
+        console.log("변경후 토큰값", token);
       }
 
       return token;
@@ -75,6 +78,8 @@ const handler = NextAuth({
   pages: {
     signIn: "/login",
   },
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

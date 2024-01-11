@@ -1,10 +1,14 @@
 "use client";
 
-import { allSpinState, spinCountState, spinStopState } from "@/store/atom";
 import React, { useState, useEffect } from "react";
 import styled, { keyframes, css } from "styled-components";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import LoadingBall from "../Loading/LoadingBall";
+import {
+  allSpinState,
+  spinCountState,
+  spinStopState,
+} from "@/\bGlobalState/atom";
 
 interface ISlotLineProps {
   line: number[];
@@ -15,7 +19,6 @@ interface ILineProps {
   line_px: number;
   $spin_stop: boolean;
   $spinLock: boolean;
-  $hydrated: boolean;
   $spinStopCount: number;
 }
 interface IBallProps {
@@ -110,7 +113,6 @@ const Slot = ({ line, lineIndex }: ISlotLineProps) => {
             line_px={line_px}
             $spin_stop={spinState[lineIndex]}
             $spinLock={spinLock}
-            $hydrated={hydrated}
             $spinStopCount={spinStopCount}
           >
             {line.map((num) => (

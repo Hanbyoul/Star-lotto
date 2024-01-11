@@ -1,18 +1,51 @@
 "use client";
 import { css, styled } from "styled-components";
-export default function LottoList() {
-  const lottoNum = [1, 11, 21, 22, 33, 44];
+import LottoCard from "../LottoCard";
+import { lottoProps, rankType } from "@/\bGlobalState/atom";
+
+interface ResultProps {
+  $result: "대기" | "낙첨" | "당첨";
+}
+
+export default function LottoList({ numbers, rank, round }: lottoProps) {
+  const resultRank = (rank: rankType) => {
+    if (rank === null) {
+      return "대기";
+    } else if (rank === "lose") {
+      return "낙첨";
+    } else {
+      return "당첨";
+    }
+  };
+
+  const result = resultRank(rank!);
+  const formattedNumbers = numbers
+    ?.map((num) => num.toString().padStart(2, "0"))
+    .join("");
+  const formattedRound = round?.toString().padStart(4, "0");
+
   return (
     <Container>
-      <div>1100회</div>
-      <ListBall>
-        {lottoNum.map((ball) => (
-          <Ball key={ball} num={ball}>
-            {ball}
-          </Ball>
-        ))}
-        <RoundResult>결과ddddd</RoundResult>
-      </ListBall>
+      <Round>{round}회</Round>
+      <Area>
+        {/* 번호만 받음 */}
+        <LottoCard numbers={numbers} />
+
+        {result === "당첨" ? (
+          <a
+            className=" block"
+            target="_blank"
+            href={`https://m.dhlottery.co.kr/qr.do?method=winQr&v=${formattedRound}q${formattedNumbers}`}
+            rel="noopener noreferrer"
+          >
+            <RoundResult $result={result}>{result}</RoundResult>
+          </a>
+        ) : (
+          <span>
+            <RoundResult $result={result}>{result}</RoundResult>
+          </span>
+        )}
+      </Area>
     </Container>
   );
 }
@@ -33,40 +66,33 @@ const Container = styled.div`
   justify-content: center;
   align-items: start;
   flex-direction: column;
-  margin-top: 10px;
-  padding-left: 10px;
+  margin-top: 8px;
+  padding-left: 8px;
   border-bottom: solid 1px #e5e7eb;
 `;
+const Round = styled.div``;
 
-const ListBall = styled.div`
+const Area = styled.div`
   display: flex;
-  width: 100%;
 `;
 
-const Ball = styled.div<{ num: number }>`
-  margin-right: 5px;
-  height: 40px;
-  width: 40px;
-  min-width: 40px;
-  border-radius: 999px;
+const RoundResult = styled.div<ResultProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
-  background-color: ${(props) =>
-    props.num <= 10
-      ? "rgb(246,206,7)"
-      : props.num <= 20
-      ? "rgb(41,96,244)"
-      : props.num <= 30
-      ? "rgb(234,59,61)"
-      : props.num <= 40
-      ? "rgb(191,191,191)"
-      : "rgb(16,196,102)"};
-`;
+  width: 60px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: rgb(246, 206, 7);
+  margin-left: 5px;
+  margin-bottom: 10px;
+  font-weight: 600;
 
-const RoundResult = styled.div`
-  margin-left: 2em;
-  // 백그라운 컬러 , 폰트 , 명칭 : 추첨대기 / 낙첨 / 당첨
-  // 결과에 따른 색상 변경
+  background-color: ${(props) =>
+    props.$result === "낙첨"
+      ? "rgb(191,191,191)"
+      : props.$result === "당첨"
+      ? "rgb(246,206,7)"
+      : "rgb(255,113,67)"};
+  cursor: ${(props) => (props.$result === "당첨" ? "pointer" : "default")};
 `;

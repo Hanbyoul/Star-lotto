@@ -3,15 +3,16 @@
 import React, { useEffect } from "react";
 import styled, { css } from "styled-components";
 import Slot from "./Slot";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import {
-  allSpinState,
-  spinCountState,
-  numberState,
-  saveListState,
-} from "@/store/atom";
+
 import shuffleArray from "../../../utils/ShuffleArray";
 import { LINE_LIMITED_COUNT } from "../../../constant/lineCount";
+import { useRecoilState } from "recoil";
+import {
+  allSpinState,
+  numberState,
+  saveListState,
+  spinCountState,
+} from "@/\bGlobalState/atom";
 
 const SlotList = () => {
   const [numbers, setNumbers] = useRecoilState(numberState);
@@ -70,7 +71,7 @@ const SlotList = () => {
   }, [numbers]);
 
   return (
-    <Wrapper>
+    <Container>
       <DrawArea>
         {numbers.map((line, index) => (
           <Slot key={index} line={line} lineIndex={index} />
@@ -90,13 +91,13 @@ const SlotList = () => {
           ALL STOP
         </AllStopBtn>
       </Footer>
-    </Wrapper>
+    </Container>
   );
 };
 
 export default SlotList;
 
-const Wrapper = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
 `;
