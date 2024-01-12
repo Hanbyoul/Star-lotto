@@ -1,7 +1,6 @@
 "use client";
 import { styled } from "styled-components";
 import { userCurrentPageState, userLottoState } from "@/\bGlobalState/atom";
-import { useState } from "react";
 import { useRecoilState } from "recoil";
 
 interface PageNumberProps {
@@ -14,7 +13,7 @@ export default function PageNation() {
 
   const lottoData = useRecoilState(userLottoState);
 
-  const totalPage = Math.ceil(lottoData[0].length / 8); // 총 페이지
+  const totalPage = Math.ceil(lottoData[0].length / 5); // 총 페이지
 
   const pagesToShow = 5; // 화면에 보여줄 아이템 개 수
 
@@ -40,38 +39,40 @@ export default function PageNation() {
 
   return (
     <Container>
-      <PageNumberArea>
-        <PrevPage
-          className={`mr-2 ${currentPage === 1 ? "disabled" : ""}`}
-          onClick={() => {
-            if (currentPage > 1) changePage(currentPage - 1);
-          }}
-        >
-          &lt;
-        </PrevPage>
-        {getPaginationNumbers().map((number) => (
-          <PageNumber
-            $currentPage={currentPage}
-            $number={number}
-            key={number}
-            onClick={() => changePage(number)}
+      {totalPage ? (
+        <PageNumberArea>
+          <PrevPage
+            className={`mr-2 ${currentPage === 1 ? "disabled" : ""}`}
+            onClick={() => {
+              if (currentPage > 1) changePage(currentPage - 1);
+            }}
           >
-            {number}
-          </PageNumber>
-        ))}
-        <NextPage
-          className={`ml-2 ${currentPage === totalPage ? "disabled" : ""}`}
-          onClick={() => {
-            if (currentPage < totalPage) changePage(currentPage + 1);
-          }}
-        >
-          &gt;
-        </NextPage>
-      </PageNumberArea>
+            &lt;
+          </PrevPage>
+          {getPaginationNumbers().map((number) => (
+            <PageNumber
+              $currentPage={currentPage}
+              $number={number}
+              key={number}
+              onClick={() => changePage(number)}
+            >
+              {number}
+            </PageNumber>
+          ))}
+          <NextPage
+            className={`ml-2 ${currentPage === totalPage ? "disabled" : ""}`}
+            onClick={() => {
+              if (currentPage < totalPage) changePage(currentPage + 1);
+            }}
+          >
+            &gt;
+          </NextPage>
+        </PageNumberArea>
+      ) : null}
     </Container>
   );
 }
-//&gt;
+
 const Container = styled.div`
   width: 100%;
   position: absolute;
@@ -129,8 +130,6 @@ const PageNumberArea = styled.div`
 `;
 
 const PageNumber = styled.div<PageNumberProps>`
-  // 나의 key 값과 currentPage를 비교하여 일치하면
-  // color 변경.
   background-color: ${(props) =>
     props.$number === props.$currentPage ? "#3399FF" : "none"};
   color: ${(props) =>

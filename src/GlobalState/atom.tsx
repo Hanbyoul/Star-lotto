@@ -109,7 +109,7 @@ export const userCurrentPageState = atom({
 export const userPageDataSelector = selector({
   key: "userPageDataSelector",
   get: ({ get }) => {
-    const lottoCount = 8;
+    const lottoCount = 5;
     const totalLotto = get(userLottoState);
     const currentPage = get(userCurrentPageState);
 

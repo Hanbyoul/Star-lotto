@@ -1,10 +1,5 @@
 "use client";
-import {
-  currentDrawCountState,
-  isDuplicateState,
-  loadListSelector,
-  spinCountState,
-} from "@/GlobalState/atom";
+
 import React, { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { css, styled } from "styled-components";
@@ -14,6 +9,12 @@ import { arrChar } from "../../../constant/lineCount";
 import { useSession } from "next-auth/react";
 import { Session } from "../../Navigation";
 import banPeriod from "@/app/utils/banPeriod";
+import {
+  currentDrawCountState,
+  isDuplicateState,
+  loadListSelector,
+  spinCountState,
+} from "@/\bGlobalState/atom";
 
 const SaveList = () => {
   const [duplicate, setDuplicate] = useRecoilState(isDuplicateState);

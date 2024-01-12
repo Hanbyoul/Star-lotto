@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
+import React, { useEffect, useState } from "react";
 import { getLottoCount } from "../utils/latestCount";
 import LoadingLottery from "./Main/Loading/LoadingLottery";
 import { useRecoilState, useSetRecoilState } from "recoil";
@@ -9,19 +9,11 @@ import {
   currentDrawCountState,
   currentWinningState,
   lottoParams,
-} from "@/GlobalState/atom";
-
-// export interface lottoParams {
-//   count: number;
-//   numbers: number[];
-//   success: boolean;
-//   drawDate: Date;
-// }
+} from "@/\bGlobalState/atom";
 
 const WinningNumber = () => {
   const day = new Date();
   const latestCount = getLottoCount(day);
-  // const [lotto, setLotto] = useState<lottoParams>();
   const [lotto, setLotto] = useRecoilState(currentWinningState);
   const [count, setCount] = useState(latestCount);
   const setCurrentDrawCount = useSetRecoilState(currentDrawCountState);
@@ -101,9 +93,9 @@ const WinningNumber = () => {
 export default WinningNumber;
 
 const Container = styled.div`
-  @media screen and (max-width: 705px) {
+  /* @media screen and (max-width: 705px) {
     margin: 30px 0;
-  }
+  } */
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
@@ -117,9 +109,9 @@ const DateBox = styled.div`
 `;
 
 const BallBox = styled.div`
-  @media screen and (max-width: 705px) {
+  /* @media screen and (max-width: 705px) {
     width: 350px;
-  }
+  } */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -130,11 +122,11 @@ const BallBox = styled.div`
 `;
 
 const Ball = styled.div<{ $num: number }>`
-  @media screen and (max-width: 705px) {
+  /* @media screen and (max-width: 705px) {
     width: 40px;
     height: 40px;
     border-radius: 20px;
-  }
+  } */
   display: flex;
   justify-content: center;
   align-items: center;

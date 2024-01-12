@@ -16,7 +16,7 @@ interface SessionProps {
   };
 }
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   const session = (await getServerSession(authOptions)) as SessionProps;
 
   const userId = session.user.userId;

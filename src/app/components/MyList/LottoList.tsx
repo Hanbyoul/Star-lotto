@@ -67,7 +67,7 @@ const Container = styled.div`
   align-items: start;
   flex-direction: column;
   margin-top: 8px;
-  padding-left: 8px;
+  padding-left: 12px;
   border-bottom: solid 1px #e5e7eb;
 `;
 const Round = styled.div``;
