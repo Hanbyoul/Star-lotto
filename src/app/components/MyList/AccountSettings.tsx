@@ -60,7 +60,7 @@ export default function AccountSettings() {
 
   const AccountDelete = async () => {
     if (confirm("정말 탈퇴하시겠습니까?")) {
-      const res = await fetch("http://localhost:3000/api/authdelete", {
+      const res = await fetch("http://localhost:3000/api/auth_delete", {
         method: "DELETE",
       });
       const ok: UserResponse = await res.json();
@@ -95,6 +95,7 @@ export default function AccountSettings() {
               })}
               name="oldPassword"
               type="password"
+              autoComplete="off"
             />
           </InputArea>
           <ErrorMessage>{errors.oldPassword?.message}</ErrorMessage>
@@ -112,6 +113,7 @@ export default function AccountSettings() {
               })}
               name="newPassword"
               type="password"
+              autoComplete="off"
             />
           </InputArea>
           <ErrorMessage>{errors.newPassword?.message}</ErrorMessage>
@@ -123,6 +125,7 @@ export default function AccountSettings() {
               })}
               name="newPasswordConfirm"
               type="password"
+              autoComplete="off"
             />
           </InputArea>
           <ErrorMessage>{errors.newPasswordConfirm?.message}</ErrorMessage>

@@ -2,12 +2,18 @@
 import { css, styled } from "styled-components";
 import LottoCard from "../LottoCard";
 import { lottoProps, rankType } from "@/\bGlobalState/atom";
+import { resultDateFormat } from "@/app/utils/resultDateFormat";
 
 interface ResultProps {
   $result: "대기" | "낙첨" | "당첨";
 }
 
-export default function LottoList({ numbers, rank, round }: lottoProps) {
+export default function LottoList({
+  numbers,
+  rank,
+  round,
+  createAt,
+}: lottoProps) {
   const resultRank = (rank: rankType) => {
     if (rank === null) {
       return "대기";
@@ -26,7 +32,10 @@ export default function LottoList({ numbers, rank, round }: lottoProps) {
 
   return (
     <Container>
-      <Round>{round}회</Round>
+      <Round>
+        <h1>{round}회</h1>
+        <CreateDate>{resultDateFormat(createAt!)}</CreateDate>
+      </Round>
       <Area>
         {/* 번호만 받음 */}
         <LottoCard numbers={numbers} />
@@ -70,7 +79,17 @@ const Container = styled.div`
   padding-left: 12px;
   border-bottom: solid 1px #e5e7eb;
 `;
-const Round = styled.div``;
+const Round = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const CreateDate = styled.div`
+  font-size: small;
+  padding-right: 20px;
+  color: rgb(107 114 128);
+`;
 
 const Area = styled.div`
   display: flex;

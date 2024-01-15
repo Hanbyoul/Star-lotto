@@ -109,6 +109,7 @@ const SignUp = () => {
             name="userId"
             placeholder="아이디"
             type="text"
+            autoComplete="off"
           />
           <ChkBtn type="button" onClick={UserDuplicateChk}>
             중복확인
@@ -130,6 +131,7 @@ const SignUp = () => {
           name="password"
           placeholder="비밀번호"
           type="password"
+          autoComplete="off"
         />
         <ErrorMessage>
           {errors.password ? errors.password?.message : null}
@@ -141,6 +143,7 @@ const SignUp = () => {
           })}
           placeholder="비밀번호 확인"
           type="password"
+          autoComplete="off"
         />
         <ErrorMessage>
           {errors.passwordConfirm ? errors.passwordConfirm?.message : null}
@@ -156,6 +159,7 @@ const SignUp = () => {
           })}
           placeholder="이메일"
           type="text"
+          autoComplete="off"
         />
         <ErrorMessage>
           {errors.email ? errors.email?.message : null}

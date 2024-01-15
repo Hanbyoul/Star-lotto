@@ -18,6 +18,7 @@ export interface lottoProps {
   rank?: rankType;
   status?: statusType;
   _id?: string;
+  createAt?: Date;
 }
 
 const numberArray = Array.from({ length: 45 }, (_, idx) => idx + 1);

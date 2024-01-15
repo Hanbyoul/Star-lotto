@@ -3,8 +3,6 @@
 import React, { useEffect } from "react";
 import styled, { css } from "styled-components";
 import Slot from "./Slot";
-
-import shuffleArray from "../../../utils/ShuffleArray";
 import { LINE_LIMITED_COUNT } from "../../../constant/lineCount";
 import { useRecoilState } from "recoil";
 import {
@@ -13,6 +11,7 @@ import {
   saveListState,
   spinCountState,
 } from "@/\bGlobalState/atom";
+import shuffleArray from "@/app/utils/ShuffleArray";
 
 const SlotList = () => {
   const [numbers, setNumbers] = useRecoilState(numberState);

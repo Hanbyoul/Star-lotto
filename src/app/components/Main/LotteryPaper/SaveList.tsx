@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { css, styled } from "styled-components";
 import { nextRoundDate } from "../../../utils/nextRoundDate";
@@ -26,6 +26,7 @@ const SaveList = () => {
   const { data } = useSession();
   const session = data as Session;
 
+  console.log("베이스 데이트", nextDrawDate);
   /**
 
    // *  TODO (3-1) Lotto DB 구현 

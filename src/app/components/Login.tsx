@@ -47,6 +47,7 @@ export default function Login() {
             name="userId"
             placeholder="아이디"
             type="text"
+            autoComplete="username"
           />
           <ErrorMessage>{errors.userId?.message}</ErrorMessage>
           <InputBox
@@ -56,6 +57,7 @@ export default function Login() {
             name="password"
             placeholder="비밀번호"
             type="password"
+            autoComplete="current-password"
           />
           <ErrorMessage>{errors.password?.message}</ErrorMessage>
         </InputArea>

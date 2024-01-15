@@ -77,6 +77,7 @@ const Page = () => {
                     rank={lott.rank}
                     round={lott.round}
                     key={lott._id}
+                    createAt={lott.createAt}
                   />
                 ))
               ) : (
