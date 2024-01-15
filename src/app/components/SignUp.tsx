@@ -4,10 +4,11 @@ import { styled } from "styled-components";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-export interface IForm {
+export interface SignUser {
   userId: string;
   password: string;
   passwordConfirm: string;
+  email: string;
 }
 
 export interface UserResponse {
@@ -17,7 +18,7 @@ export interface UserResponse {
 
 const SignUp = () => {
   const { register, watch, handleSubmit, formState, setError } =
-    useForm<IForm>();
+    useForm<SignUser>(); //이거 손대고 문제됨.
   const router = useRouter();
   const [idChk, setIdChk] = useState(false);
 
@@ -36,10 +37,6 @@ const SignUp = () => {
         body: JSON.stringify(userId),
       });
 
-      if (!res.ok) {
-        throw new Error(`HTTP error : ${res.status}`);
-      }
-
       const ok: UserResponse = await res.json();
 
       if (ok.success) {
@@ -53,7 +50,7 @@ const SignUp = () => {
     }
   };
 
-  const onSubmit = async (data: IForm) => {
+  const onSubmit = async (data: SignUser) => {
     if (!idChk) {
       alert("아이디 중복확인을 해주세요");
     } else {
@@ -148,6 +145,22 @@ const SignUp = () => {
         <ErrorMessage>
           {errors.passwordConfirm ? errors.passwordConfirm?.message : null}
         </ErrorMessage>
+
+        <InputBox
+          {...register("email", {
+            required: "이메일을 입력해주세요.",
+            pattern: {
+              value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+              message: "올바른 이메일 주소를 입력해주세요.",
+            },
+          })}
+          placeholder="이메일"
+          type="text"
+        />
+        <ErrorMessage>
+          {errors.email ? errors.email?.message : null}
+        </ErrorMessage>
+
         <BtnArea>
           <BackBtn type="button" onClick={PageBack}>
             뒤로가기
@@ -186,7 +199,7 @@ const SignUpForm = styled.form`
   align-items: center;
   justify-content: center;
   width: 400px;
-  height: 300px;
+  height: 450px;
 `;
 
 const IdArea = styled.div`
@@ -265,6 +278,7 @@ const BackBtn = styled.button`
 `;
 
 const BtnArea = styled.div`
+  padding-top: 30px;
   width: 300px;
   height: 100px;
   display: flex;

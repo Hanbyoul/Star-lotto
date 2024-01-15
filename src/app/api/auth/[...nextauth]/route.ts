@@ -6,10 +6,12 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 interface tokenUser extends JWT {
   userId?: string;
+  createAt?: Date;
 }
 
 interface ResUser extends DefaultUser {
   userId?: string;
+  createAt?: Date;
 }
 
 export const authOptions: NextAuthOptions = {
@@ -55,15 +57,11 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        console.log("변경전 토큰값", token);
-        console.log("변경전 user값", user);
         const tokenUser = token as tokenUser;
-
         const userInfo = user as ResUser;
 
         tokenUser.userId = userInfo.userId;
-
-        console.log("변경후 토큰값", token);
+        tokenUser.createAt = userInfo.createAt;
       }
 
       return token;

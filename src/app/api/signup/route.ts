@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/app/lib/mongoose/dbConnect";
-import User, { SignUser, UserSchema } from "@/app/models/User";
+import User, { UserSchema } from "@/app/models/User";
+import { SignUser } from "@/app/components/SignUp";
 
 export async function POST(req: NextRequest) {
   await dbConnect();
@@ -21,13 +22,17 @@ export async function POST(req: NextRequest) {
     }
   }
   // 회원가입 진행
-  if (body.password) {
-    const { userId, password } = body;
+  if (body.userId && body.password && body.email) {
+    console.log("가입진행", body);
+    const { userId, password, email } = body;
     await User.create({
       userId,
       password,
+      email,
     });
 
     return NextResponse.json({ success: true }, { status: 200 });
+  } else {
+    return NextResponse.json({ success: false }, { status: 400 });
   }
 }

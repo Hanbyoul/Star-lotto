@@ -6,13 +6,13 @@ export interface UserAuth {
   password: string;
 }
 
-export type SignUser = Partial<UserAuth>;
-
 export interface UserSchema extends Document {
   _id: mongoose.Schema.Types.ObjectId;
   userId: string;
   password: string;
   lotto?: mongoose.Schema.Types.ObjectId[];
+  createAt: Date;
+  email: string;
 }
 
 export const UserSchema = new Schema<UserSchema>({
@@ -26,14 +26,20 @@ export const UserSchema = new Schema<UserSchema>({
     type: String,
     required: true,
   },
+  createAt: {
+    type: Date,
+    required: true,
+    default: Date.now,
+  },
   lotto: [
     { type: mongoose.Schema.Types.ObjectId, ref: "Lottery", required: true },
   ],
+  email: {
+    type: String,
+    required: true,
+    match: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+  },
 });
-
-/**
- * TODO:로또 save 후 업데이트가안됨
- */
 
 UserSchema.pre("save", async function () {
   if (this.isModified("password")) {

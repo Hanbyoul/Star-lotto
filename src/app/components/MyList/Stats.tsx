@@ -42,8 +42,8 @@ export default function Stats() {
   return (
     <Container>
       <LengthContainer>
-        <LottoLength>저장된 로또 수 : {totalLotto.length}</LottoLength>
-        <WinningLength>당첨된 로또 수 : {totalWinningRank} </WinningLength>
+        <LottoLength>저장된 로또 번호 : {totalLotto.length}</LottoLength>
+        <WinningLength>당첨된 로또 번호 : {totalWinningRank} </WinningLength>
       </LengthContainer>
       <LottoChart rank={rankCount} />
     </Container>

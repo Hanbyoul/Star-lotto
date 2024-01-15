@@ -13,11 +13,15 @@ import {
 import LottoList from "../components/MyList/LottoList";
 import PageNation from "../components/MyList/PageNation";
 import Loadings from "../components/MyList/Loadings";
+import AccountSettings from "../components/MyList/AccountSettings";
+
+type ViewType = "Lotto" | "Auth";
 
 const Page = () => {
   const [totalLotto, setToTalLotto] = useRecoilState(userLottoState);
   const [isLoading, setIsLoading] = useState(false);
   const currentData = useRecoilValue(userPageDataSelector);
+  const [handleView, setHandleView] = useState<ViewType>("Lotto");
 
   const getLotto = async () => {
     setIsLoading(true);
@@ -41,13 +45,26 @@ const Page = () => {
   }, []);
   return (
     <Container>
-      <Title>My List</Title>
+      <TitleArea>
+        <Title
+          className={`${handleView === "Lotto" ? "disabled font-bold" : ""}`}
+          onClick={() => setHandleView("Lotto")}
+        >
+          Lotto
+        </Title>
+        <Title
+          className={`${handleView === "Auth" ? "disabled font-bold" : ""}`}
+          onClick={() => setHandleView("Auth")}
+        >
+          내 정보 변경
+        </Title>
+      </TitleArea>
       <Dashboard>
         {isLoading ? (
           <LoadArea>
             <Loadings />
           </LoadArea>
-        ) : (
+        ) : handleView === "Lotto" ? (
           <>
             <Section className="border-solid border-r">
               <Stats />
@@ -70,6 +87,8 @@ const Page = () => {
               <PageNation />
             </Section>
           </>
+        ) : (
+          <AccountSettings />
         )}
       </Dashboard>
     </Container>
@@ -89,14 +108,25 @@ const Container = styled.div`
   box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
 `;
 
-const Title = styled.div`
+const TitleArea = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   height: 64px;
   border-bottom: solid 2px #e5e7eb;
-  font-size: x-large;
-  font-weight: bold;
+  font-size: large;
+`;
+
+const Title = styled.div`
+  margin-left: 25px;
+
+  &:hover {
+    cursor: pointer; /* 마우스 오버 시 커서 변경 */
+  }
+  &.disabled {
+    cursor: default; /* 비활성화 상태의 커서 */
+    pointer-events: none; /* 클릭 이벤트 비활성화 */
+  }
 `;
 
 const Dashboard = styled.div`

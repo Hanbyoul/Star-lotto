@@ -2,7 +2,7 @@ import dbConnect from "@/app/lib/mongoose/dbConnect";
 import Lottery, { LotterySchema } from "@/app/models/Lottery";
 import User, { UserSchema } from "@/app/models/User";
 import { NextRequest, NextResponse } from "next/server";
-import { Session, getServerSession } from "next-auth";
+import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
 
 interface PostBodyParams {

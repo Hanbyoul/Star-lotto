@@ -26,10 +26,6 @@ const WinningNumber = () => {
         `http://localhost:3000/api/winningNum?round=${count}`
       );
 
-      if (!res.ok) {
-        throw new Error(`HTTP error : ${res.status}`);
-      }
-
       const lottoData: lottoParams = await res.json();
       console.log(lottoData);
 
