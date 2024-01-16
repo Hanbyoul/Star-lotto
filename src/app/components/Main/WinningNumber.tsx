@@ -2,14 +2,19 @@
 
 import { styled } from "styled-components";
 import React, { useEffect, useState } from "react";
-import { getLottoCount } from "../utils/latestCount";
-import LoadingLottery from "./Main/Loading/LoadingLottery";
+import { getLottoCount } from "../../utils/latestCount";
+import LoadingLottery from "./Loading/LoadingLottery";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   currentDrawCountState,
   currentWinningState,
   lottoParams,
 } from "@/\bGlobalState/atom";
+import handleError from "@/app/utils/handleError";
+
+interface ResponseMessage {
+  message: string;
+}
 
 const WinningNumber = () => {
   const day = new Date();
@@ -26,16 +31,17 @@ const WinningNumber = () => {
         `http://localhost:3000/api/winningNum?round=${count}`
       );
 
-      const lottoData: lottoParams = await res.json();
-      console.log(lottoData);
-
-      if (!lottoData.success) {
-        setCount((prev) => prev - 1);
-      } else {
-        setLotto(lottoData);
+      if (!res.ok) {
+        const errMsg: ResponseMessage = await res.json();
+        throw new Error(errMsg.message || "서버 오류가 발생했습니다.");
       }
+
+      const lottoData: lottoParams = await res.json();
+
+      setLotto(lottoData);
     } catch (error) {
-      console.error("Fetching Error", error);
+      setCount((prev) => prev - 1);
+      handleError(error);
     }
   };
 

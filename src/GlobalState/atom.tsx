@@ -1,4 +1,4 @@
-import shuffleArray from "@/app/utils/ShuffleArray";
+import shuffleArray from "@/app/utils/shuffleArray";
 import sortingArray from "@/app/utils/sortingArray";
 import { atom, selector } from "recoil";
 

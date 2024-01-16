@@ -15,8 +15,6 @@ interface rankCountProps {
 }
 
 export default function LottoChart({ rank }: rankCountProps) {
-  console.log(Object.values(rank));
-
   const chartData = {
     series: Object.values(rank),
     options: {

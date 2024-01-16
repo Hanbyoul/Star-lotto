@@ -12,10 +12,22 @@ import {
 } from "@/\bGlobalState/atom";
 import LottoList from "../components/MyList/LottoList";
 import PageNation from "../components/MyList/PageNation";
-import Loadings from "../components/MyList/Loadings";
+import Loadings from "../components/Loadings";
 import AccountSettings from "../components/MyList/AccountSettings";
+import handleError from "../utils/handleError";
 
 type ViewType = "Lotto" | "Auth";
+
+interface ResponseMessage {
+  message: string;
+}
+
+/**
+ *
+ * TODO: route - status 코드 수정하기.
+ * TODO: 당첨결과 페이지 구현하기.
+ *
+ */
 
 const Page = () => {
   const [totalLotto, setToTalLotto] = useRecoilState(userLottoState);
@@ -26,15 +38,18 @@ const Page = () => {
   const getLotto = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch(`http://localhost:3000/api/lottery`);
+      const res = await fetch(`http://localhost:3000/api/auth/lottery`);
+      console.log("res :", res);
       if (!res.ok) {
-        throw new Error(`HTTP error : ${res.status}`);
-      }
-      const data = (await res.json()) as lottoProps[];
+        const errMsg: ResponseMessage = await res.json();
+        throw new Error(errMsg.message || "서버 오류가 발생했습니다.");
+      } else {
+        const data = (await res.json()) as lottoProps[];
 
-      setToTalLotto(data);
+        setToTalLotto(data);
+      }
     } catch (error) {
-      console.error("Fetching Error", error);
+      handleError(error);
     } finally {
       setIsLoading(false);
     }

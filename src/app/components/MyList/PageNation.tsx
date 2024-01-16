@@ -34,9 +34,6 @@ export default function PageNation() {
     setCurrentPage(page);
   };
 
-  console.log("currentPage :", currentPage);
-  console.log("totalPage :", totalPage);
-
   return (
     <Container>
       {totalPage ? (

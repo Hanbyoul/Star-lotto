@@ -11,7 +11,7 @@ import {
   saveListState,
   spinCountState,
 } from "@/\bGlobalState/atom";
-import shuffleArray from "@/app/utils/ShuffleArray";
+import shuffleArray from "@/app/utils/shuffleArray";
 
 const SlotList = () => {
   const [numbers, setNumbers] = useRecoilState(numberState);

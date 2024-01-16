@@ -1,8 +1,10 @@
+import handleError from "@/app/utils/handleError";
 import type { NextAuthOptions } from "next-auth";
 import { DefaultUser } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { NextResponse } from "next/server";
 
 interface tokenUser extends JWT {
   userId?: string;
@@ -12,6 +14,10 @@ interface tokenUser extends JWT {
 interface ResUser extends DefaultUser {
   userId?: string;
   createAt?: Date;
+}
+
+interface ResponseMessage {
+  message: string;
 }
 
 export const authOptions: NextAuthOptions = {
@@ -24,9 +30,9 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials) return null;
-        const { userId, password } = credentials;
 
-        const res = await fetch(`${process.env.NEXTAUTH_URL}/api/login`, {
+        const { userId, password } = credentials;
+        const res = await fetch(`${process.env.NEXTAUTH_URL}/api/auth/login`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -37,11 +43,12 @@ export const authOptions: NextAuthOptions = {
           }),
         });
 
-        const user: ResUser = await res.json();
         if (res.status === 401) {
-          throw new Error("");
+          const errMsg: ResponseMessage = await res.json();
+          throw new Error(errMsg.message);
         }
 
+        const user: ResUser = await res.json();
         if (res.status === 200 && user) {
           return user;
         }

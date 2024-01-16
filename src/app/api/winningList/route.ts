@@ -1,5 +1,6 @@
 import dbConnect from "@/app/lib/mongoose/dbConnect";
-import WinningRound, { WinningNum } from "@/app/models/WinningRound";
+import Lottery from "@/app/models/Lottery";
+import User from "@/app/models/User";
 import handleError from "@/app/utils/handleError";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -8,21 +9,24 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const round = searchParams.get("round");
     await dbConnect();
-    const winningNumber = (await WinningRound.findOne({ round })) as WinningNum;
 
-    if (!winningNumber) {
+    const users = await User.find();
+    const lottoDocs = await Lottery.find({
+      round,
+      status: "Succeed",
+      rank: { $ne: "lose" },
+    }).populate("owner", "userId");
+
+    console.log(lottoDocs);
+
+    if (!lottoDocs.length) {
       return NextResponse.json(
-        { message: "당첨번호 조회에 실패하였습니다." },
+        { message: "조회된 데이터가 없습니다." },
         { status: 400 }
       );
     }
 
-    const { round: count, numbers, drawDate } = winningNumber;
-
-    return NextResponse.json(
-      { count, numbers, drawDate, message: "당첨번호 조회에 성공하였습니다." },
-      { status: 200 }
-    );
+    return NextResponse.json({ lottoDocs }, { status: 200 });
   } catch (error) {
     handleError(error);
     return NextResponse.json(

@@ -1,5 +1,6 @@
 import dbConnect from "@/app/lib/mongoose/dbConnect";
 import WinningRound from "@/app/models/WinningRound";
+import handleError from "@/app/utils/handleError";
 import { getLottoCount } from "@/app/utils/latestCount";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -26,42 +27,64 @@ interface ResponseParams {
  */
 
 export async function GET(req: NextRequest) {
-  const reqAuth = req.headers.get("authorization");
+  try {
+    const reqAuth = req.headers.get("authorization");
 
-  if (reqAuth === process.env.UPDATE_AUTH) {
-    const now = new Date();
-    const currentCount = getLottoCount(now);
+    if (reqAuth === process.env.UPDATE_AUTH) {
+      const now = new Date();
+      const currentCount = getLottoCount(now);
 
-    const res = await fetch(
-      `https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=${currentCount}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const res = await fetch(
+        `https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=${currentCount}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const data: ResponseParams = await res.json();
+      const { drwtNo1, drwtNo2, drwtNo3, drwtNo4, drwtNo5, drwtNo6, bnusNo } =
+        data;
+
+      if (data.returnValue === "fail") {
+        return NextResponse.json(
+          { message: "당첨결과가 없습니다." },
+          { status: 400 }
+        );
+      } else {
+        await dbConnect();
+
+        await WinningRound.create({
+          round: data.drwNo,
+          numbers: [
+            drwtNo1,
+            drwtNo2,
+            drwtNo3,
+            drwtNo4,
+            drwtNo5,
+            drwtNo6,
+            bnusNo,
+          ],
+          drawDate: data.drwNoDate,
+        });
+
+        return NextResponse.json(
+          { message: "당첨번호 업데이트 완료되었습니다." },
+          { status: 200 }
+        );
       }
-    );
-
-    const data: ResponseParams = await res.json();
-    const { drwtNo1, drwtNo2, drwtNo3, drwtNo4, drwtNo5, drwtNo6, bnusNo } =
-      data;
-
-    if (data.returnValue === "fail") {
-      return NextResponse.json({ success: false }, { status: 400 });
     } else {
-      await dbConnect();
-
-      await WinningRound.create({
-        round: data.drwNo,
-        numbers: [drwtNo1, drwtNo2, drwtNo3, drwtNo4, drwtNo5, drwtNo6, bnusNo],
-        drawDate: data.drwNoDate,
-      });
-
-      return NextResponse.json({ success: true }, { status: 200 });
+      return NextResponse.json(
+        { message: "인증에 실패하였습니다." },
+        { status: 401 }
+      );
     }
-  } else {
+  } catch (error) {
+    handleError(error);
     return NextResponse.json(
-      { message: "인증에 실패하였습니다." },
-      { status: 401 }
+      { message: "서버 오류가 발생했습니다." },
+      { status: 500 }
     );
   }
 }

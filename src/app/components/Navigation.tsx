@@ -72,7 +72,7 @@ export default function Navigation() {
       <div className="absolute right-20 top-5 ">
         <ul className="flex">
           <li className="mx-3 cursor-pointer">통계</li>
-          <Link href={"/winner"}>
+          <Link href={"/winnerList"}>
             <li className="mx-3 cursor-pointer">당첨현황</li>
           </Link>
           {session?.user ? (

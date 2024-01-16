@@ -6,7 +6,6 @@ import LottoChart from "./LottoChart";
 
 export default function Stats() {
   const totalLotto = useRecoilValue(userLottoState);
-  console.log("totalLotto :", totalLotto);
 
   const rankCount = {
     rank1: 0,
@@ -36,8 +35,6 @@ export default function Stats() {
   const totalWinningRank = Object.keys(rankCount)
     .filter((key): key is keyof typeof rankCount => key !== "lose")
     .reduce((total, key) => total + Number(rankCount[key]), 0);
-
-  console.log(rankCount);
 
   return (
     <Container>

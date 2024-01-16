@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import handleAlertError from "../utils/handleAlertError";
 
 export interface SignUser {
   userId: string;
@@ -16,9 +17,13 @@ export interface UserResponse {
   status: number;
 }
 
+interface ResponseMessage {
+  message: string;
+}
+
 const SignUp = () => {
   const { register, watch, handleSubmit, formState, setError } =
-    useForm<SignUser>(); //이거 손대고 문제됨.
+    useForm<SignUser>();
   const router = useRouter();
   const [idChk, setIdChk] = useState(false);
 
@@ -29,7 +34,7 @@ const SignUp = () => {
   const UserDuplicateChk = async () => {
     const userId = watch("userId");
     try {
-      const res = await fetch("http://localhost:3000/api/signup", {
+      const res = await fetch("http://localhost:3000/api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -37,16 +42,15 @@ const SignUp = () => {
         body: JSON.stringify(userId),
       });
 
-      const ok: UserResponse = await res.json();
+      const result: ResponseMessage = await res.json();
 
-      if (ok.success) {
-        setIdChk(true);
-        alert("사용 가능한 아이디입니다.");
-      } else {
-        alert("이미 사용중인 아이디입니다.");
+      if (!res.ok) {
+        throw new Error(result.message || "서버 오류가 발생했습니다.");
       }
+      setIdChk(true);
+      alert(result.message);
     } catch (error) {
-      console.error("Fetching Error", error);
+      handleAlertError(error);
     }
   };
 
@@ -64,24 +68,23 @@ const SignUp = () => {
         );
       } else {
         try {
-          const res = await fetch("http://localhost:3000/api/signup", {
+          const res = await fetch("http://localhost:3000/api/auth/signup", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify(data),
           });
+          const result: ResponseMessage = await res.json();
 
           if (!res.ok) {
-            throw new Error(`HTTP error : ${res.status}`);
+            throw new Error(result.message || "서버 오류가 발생했습니다.");
           }
 
-          const ok: UserResponse = await res.json();
-          if (ok.success) {
-            router.push("/login");
-          }
+          alert(result.message);
+          router.push("/login");
         } catch (error) {
-          console.error("Fetching Error", error);
+          handleAlertError(error);
         }
       }
     }

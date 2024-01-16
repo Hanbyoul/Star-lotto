@@ -4,11 +4,16 @@ import { styled } from "styled-components";
 import { signOut, useSession } from "next-auth/react";
 import { Session } from "../Navigation";
 import { UserResponse } from "../SignUp";
+import handleAlertError from "@/app/utils/handleAlertError";
 
 export interface PasswordForm {
   oldPassword: string;
   newPassword: string;
   newPasswordConfirm: string;
+}
+
+interface ResponseMessage {
+  message: string;
 }
 
 export default function AccountSettings() {
@@ -36,7 +41,7 @@ export default function AccountSettings() {
       );
     } else {
       try {
-        const res = await fetch("http://localhost:3000/api/pwchange", {
+        const res = await fetch("http://localhost:3000/api/auth/pw_change", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -44,35 +49,45 @@ export default function AccountSettings() {
           body: JSON.stringify(data),
         });
 
-        const ok: UserResponse = await res.json();
+        const result: ResponseMessage = await res.json();
 
-        if (!ok.success) {
-          alert("현재 비밀번호가 올바르지 않습니다.");
-        } else {
-          alert("비밀번호가 변경되었습니다.");
+        if (!res.ok) {
+          throw new Error(
+            result.message || "비밀번호 변경중 문제가 발생했습니다."
+          );
+        }
+
+        if (res.status === 200) {
+          alert(result.message);
           signOut();
         }
       } catch (error) {
-        console.error("Fetching Error", error);
+        handleAlertError(error);
       }
     }
   };
 
   const AccountDelete = async () => {
-    if (confirm("정말 탈퇴하시겠습니까?")) {
-      const res = await fetch("http://localhost:3000/api/auth_delete", {
-        method: "DELETE",
-      });
-      const ok: UserResponse = await res.json();
+    try {
+      if (confirm("정말 탈퇴하시겠습니까?")) {
+        const res = await fetch("http://localhost:3000/api/auth/delete", {
+          method: "DELETE",
+        });
+        const result: ResponseMessage = await res.json();
 
-      if (!ok.success) {
-        alert("탈퇴에 실패하였습니다.");
-      } else {
-        alert("탈퇴되었습니다.");
-        signOut();
+        if (!res.ok) {
+          throw new Error(
+            result.message || "탈퇴 처리 중 문제가 발생했습니다."
+          );
+        }
+
+        if (res.status === 200) {
+          alert(result.message);
+          signOut();
+        }
       }
-    } else {
-      return;
+    } catch (error) {
+      handleAlertError(error);
     }
   };
 

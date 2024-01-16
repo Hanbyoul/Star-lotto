@@ -2,6 +2,7 @@ import dbConnect from "@/app/lib/mongoose/dbConnect";
 import Lottery, { LotterySchema } from "@/app/models/Lottery";
 import WinningRound, { WinningNum } from "@/app/models/WinningRound";
 import checkLottoRank from "@/app/utils/checkLottoRank";
+import handleError from "@/app/utils/handleError";
 import { NextRequest, NextResponse } from "next/server";
 
 /**
@@ -14,37 +15,54 @@ import { NextRequest, NextResponse } from "next/server";
  */
 
 export async function POST(req: NextRequest) {
-  const reqAuth = req.headers.get("authorization");
-  if (reqAuth === process.env.UPDATE_AUTH) {
-    dbConnect();
-    const pendingLotto = (await Lottery.find({
-      status: "Pending",
-    })) as LotterySchema[];
+  try {
+    const reqAuth = req.headers.get("authorization");
+    if (reqAuth === process.env.UPDATE_AUTH) {
+      dbConnect();
+      const pendingLotto = (await Lottery.find({
+        status: "Pending",
+      })) as LotterySchema[];
 
-    if (pendingLotto.length === 0) {
-      return NextResponse.json({ success: false }, { status: 400 });
-    }
-
-    let winningNumber = (await WinningRound.findOne({
-      round: pendingLotto[0].round,
-    })) as WinningNum | null;
-
-    for (const lotto of pendingLotto) {
-      if (!winningNumber || lotto.round !== winningNumber.round) {
-        winningNumber = await WinningRound.findOne({ round: lotto.round });
+      if (pendingLotto.length === 0) {
+        return NextResponse.json(
+          { message: "조회된 로또가 없습니다." },
+          { status: 400 }
+        );
       }
 
-      const resultRank = checkLottoRank(lotto.numbers, winningNumber?.numbers!);
-      lotto.status = "Succeed";
-      lotto.rank = resultRank;
-      await lotto.save();
-    }
+      let winningNumber = (await WinningRound.findOne({
+        round: pendingLotto[0].round,
+      })) as WinningNum | null;
 
-    return NextResponse.json({ success: true }, { status: 200 });
-  } else {
+      for (const lotto of pendingLotto) {
+        if (!winningNumber || lotto.round !== winningNumber.round) {
+          winningNumber = await WinningRound.findOne({ round: lotto.round });
+        }
+
+        const resultRank = checkLottoRank(
+          lotto.numbers,
+          winningNumber?.numbers!
+        );
+        lotto.status = "Succeed";
+        lotto.rank = resultRank;
+        await lotto.save();
+      }
+
+      return NextResponse.json(
+        { message: "추첨 대기 중인 로또 업데이트가 완료되었습니다." },
+        { status: 200 }
+      );
+    } else {
+      return NextResponse.json(
+        { message: "인증에 실패하였습니다." },
+        { status: 401 }
+      );
+    }
+  } catch (error) {
+    handleError(error);
     return NextResponse.json(
-      { message: "인증에 실패하였습니다." },
-      { status: 401 }
+      { message: "서버 오류가 발생했습니다." },
+      { status: 500 }
     );
   }
 }

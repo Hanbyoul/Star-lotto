@@ -1,7 +1,7 @@
 "use client";
 import SlotList from "./components/Main/LottoSlot/SlotList";
 import SaveList from "./components/Main/LotteryPaper/SaveList";
-import WinningNumber from "./components/WinningNumber";
+import WinningNumber from "./components/Main/WinningNumber";
 
 /**
  * TODO : 로그인 상태

@@ -19,9 +19,9 @@ export default function Login() {
       password,
       redirect: false,
     });
-
-    if (result?.error === "") {
-      alert("아이디 또는 비밀번호가 올바르지 않습니다.");
+    console.log("result :", result);
+    if (result?.error !== null) {
+      alert(result?.error);
     } else {
       router.replace("/");
     }

@@ -15,6 +15,11 @@ import {
   loadListSelector,
   spinCountState,
 } from "@/\bGlobalState/atom";
+import handleAlertError from "@/app/utils/handleAlertError";
+
+interface ResponseMessage {
+  message: string;
+}
 
 const SaveList = () => {
   const [duplicate, setDuplicate] = useRecoilState(isDuplicateState);
@@ -25,20 +30,6 @@ const SaveList = () => {
   const listChar = arrChar.slice(0, loadList ? loadList.length : 0);
   const { data } = useSession();
   const session = data as Session;
-
-  console.log("베이스 데이트", nextDrawDate);
-  /**
-
-   // *  TODO (3-1) Lotto DB 구현 
-   *  TODO (3-2) Lotto 당첨 번호 DB 구현
-   *  TODO (4) API 업데이트 로직 + cron-job-org 스케쥴 셋팅
-   *  4-1 : 스케쥴 시간에 당첨번호 DB를 업데이트
-   *  4-2 : 당첨번호 DB 업데이트 후 pending 된 lotto 번호의 당첨 유,무 업데이트 시킨다
-   *  4-3 : 당첨된 유무를 1~5등,낙첨 구분 업데이트
-   *  TODO (5) MyPage 통계 구현
-   *  TODO (6) 기타 DB 통계 구현
-   *
-   */
 
   interface LotteryNumberParams {
     session: Session;
@@ -63,11 +54,17 @@ const SaveList = () => {
       );
 
       const now = new Date();
+      /**
+       * @description:매주 토요일 20시 ~ 24시 까지는 DB 저장 무시
+       */
       const pending = banPeriod(now);
+      if (!pending) {
+        alert("매주 토요일 20시 ~ 24시 까지는 로또번호를 저장할 수 없습니다.");
+      }
 
       if (!result && pending) {
         try {
-          const res = await fetch("http://localhost:3000/api/lottery", {
+          const res = await fetch("http://localhost:3000/api/auth/lottery", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -75,20 +72,17 @@ const SaveList = () => {
             body: JSON.stringify({ userId, round, numbers }),
           });
 
+          const result: ResponseMessage = await res.json();
+
           if (!res.ok) {
-            throw new Error(`HTTP error : ${res.status}`);
+            throw new Error(result.message || "서버 오류가 발생되었습니다.");
           }
 
-          const ok = await res.json();
+          alert("로또 번호가 저장되었습니다.");
 
-          if (ok.success) {
-            alert("로또 번호가 저장되었습니다.");
-          } else {
-            alert("매주 토요일 20시 ~ 24시 까지는 저장할 수 없습니다.");
-          }
           setDuplicate(numbers);
         } catch (error) {
-          console.error("Fetching Error", error);
+          handleAlertError(error);
         }
       }
     }
