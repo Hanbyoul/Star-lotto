@@ -23,9 +23,16 @@ export default function Page() {
   );
 }
 
+/**
+ * 페이지네이션
+ * 회차별 당첨자 변경
+ *
+ */
+
 const Container = styled.div`
+  position: relative;
   margin-top: 50px;
-  width: 600px;
+  width: 500px;
   height: 700px;
   background-color: white;
   border-radius: 20px;

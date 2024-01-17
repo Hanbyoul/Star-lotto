@@ -19,7 +19,7 @@ export default function Login() {
       password,
       redirect: false,
     });
-    console.log("result :", result);
+
     if (result?.error !== null) {
       alert(result?.error);
     } else {

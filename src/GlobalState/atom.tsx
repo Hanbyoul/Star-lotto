@@ -96,28 +96,3 @@ export const currentDrawCountState = atom({
   key: "drawDate",
   default: 0,
 });
-
-export const userLottoState = atom<lottoProps[]>({
-  key: "userLottoState",
-  default: [],
-});
-
-export const userCurrentPageState = atom({
-  key: "userCurrentPageState",
-  default: 1,
-});
-
-export const userPageDataSelector = selector({
-  key: "userPageDataSelector",
-  get: ({ get }) => {
-    const lottoCount = 5;
-    const totalLotto = get(userLottoState);
-    const currentPage = get(userCurrentPageState);
-
-    const lastLotto = currentPage * lottoCount;
-    const firstLotto = lastLotto - lottoCount;
-    const newLotto = totalLotto.slice(firstLotto, lastLotto);
-
-    return newLotto;
-  },
-});

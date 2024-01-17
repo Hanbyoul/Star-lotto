@@ -17,12 +17,10 @@ export async function GET(req: NextRequest) {
       rank: { $ne: "lose" },
     }).populate("owner", "userId");
 
-    console.log(lottoDocs);
-
     if (!lottoDocs.length) {
       return NextResponse.json(
         { message: "조회된 데이터가 없습니다." },
-        { status: 400 }
+        { status: 404 }
       );
     }
 

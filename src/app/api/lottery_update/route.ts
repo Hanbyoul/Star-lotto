@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
       if (pendingLotto.length === 0) {
         return NextResponse.json(
           { message: "조회된 로또가 없습니다." },
-          { status: 400 }
+          { status: 404 }
         );
       }
 

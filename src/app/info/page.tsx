@@ -4,14 +4,9 @@ import React, { useEffect, useState } from "react";
 import "../styles/globals.css";
 import { styled } from "styled-components";
 import Stats from "../components/MyList/Stats";
-import { useRecoilState, useRecoilValue } from "recoil";
-import {
-  lottoProps,
-  userLottoState,
-  userPageDataSelector,
-} from "@/\bGlobalState/atom";
+import { lottoProps } from "@/\bGlobalState/atom";
 import LottoList from "../components/MyList/LottoList";
-import PageNation from "../components/MyList/PageNation";
+import PageNation from "../components/PageNation";
 import Loadings from "../components/Loadings";
 import AccountSettings from "../components/MyList/AccountSettings";
 import handleError from "../utils/handleError";
@@ -30,23 +25,29 @@ interface ResponseMessage {
  */
 
 const Page = () => {
-  const [totalLotto, setToTalLotto] = useRecoilState(userLottoState);
   const [isLoading, setIsLoading] = useState(false);
-  const currentData = useRecoilValue(userPageDataSelector);
   const [handleView, setHandleView] = useState<ViewType>("Lotto");
+
+  const [lottoData, setLottoData] = useState<lottoProps[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(0);
+  const pagesToShow = 5;
+  const lastLotto = currentPage * pagesToShow;
+  const firstLotto = lastLotto - pagesToShow;
+  const [viewData, setViewData] = useState<lottoProps[]>([]);
 
   const getLotto = async () => {
     setIsLoading(true);
     try {
       const res = await fetch(`http://localhost:3000/api/auth/lottery`);
-      console.log("res :", res);
+
       if (!res.ok) {
         const errMsg: ResponseMessage = await res.json();
         throw new Error(errMsg.message || "서버 오류가 발생했습니다.");
       } else {
         const data = (await res.json()) as lottoProps[];
-
-        setToTalLotto(data);
+        setLottoData(data);
+        setTotalPage(data.length);
       }
     } catch (error) {
       handleError(error);
@@ -58,6 +59,13 @@ const Page = () => {
   useEffect(() => {
     getLotto();
   }, []);
+
+  useEffect(() => {
+    if (lottoData.length > 0) {
+      setViewData(lottoData.slice(firstLotto, lastLotto));
+    }
+  }, [lottoData, currentPage]);
+
   return (
     <Container>
       <TitleArea>
@@ -82,11 +90,11 @@ const Page = () => {
         ) : handleView === "Lotto" ? (
           <>
             <Section className="border-solid border-r">
-              <Stats />
+              <Stats lottoData={lottoData} />
             </Section>
             <Section className="border-solid border-l">
-              {totalLotto.length > 0 ? (
-                currentData.map((lott) => (
+              {lottoData.length > 0 ? (
+                viewData.map((lott) => (
                   <LottoList
                     numbers={lott.numbers}
                     rank={lott.rank}
@@ -100,7 +108,14 @@ const Page = () => {
                   <h1>저장된 로또가 없습니다.</h1>
                 </NoSavedLottos>
               )}
-              <PageNation />
+              <PageArea>
+                <PageNation
+                  totalPage={totalPage}
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                  pagesToShow={pagesToShow}
+                />
+              </PageArea>
             </Section>
           </>
         ) : (
@@ -155,6 +170,15 @@ const Section = styled.div`
   width: 50%;
 `;
 
+const PageArea = styled.div`
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 10px;
+`;
+
 const NoSavedLottos = styled.div`
   height: 100%;
   display: flex;
@@ -169,18 +193,3 @@ const LoadArea = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
-{
-  /* 리스트 map 
-          로또 Documents Length   총 갯수
-          rank === "lose" length 낙첨
-          rank !== "lose" length 당첨
-          rank === 1 length
-          rank === 2 length
-          rank === 3 length
-          rank === 4 length
-          rank === 5 length
-
-          차트 - 범례 가로
-            */
-}

@@ -45,7 +45,8 @@ const SaveList = () => {
     if (spinCount === 6 && session.user) {
       const [userId, round, numbers] = [
         session.user.userId,
-        currentDrawCount + 1,
+        currentDrawCount,
+        // currentDrawCount + 1,
         lottNum,
       ];
 

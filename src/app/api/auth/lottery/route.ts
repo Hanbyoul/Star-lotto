@@ -25,18 +25,15 @@ export async function GET() {
     const owner = (await User.findOne({ userId })) as UserSchema;
 
     if (!owner) {
-      console.log("여기는??????");
       return NextResponse.json(
         { message: "존재하지 않는 사용자입니다." },
-        { status: 400 }
+        { status: 404 }
       );
     }
 
     const lottoData = (await Lottery.find({
       owner: owner._id,
     })) as LotterySchema[];
-
-    console.log("lottoData :", lottoData);
 
     if (!lottoData.length) {
       return NextResponse.json(
@@ -48,7 +45,6 @@ export async function GET() {
     return NextResponse.json(lottoData.reverse(), { status: 200 });
   } catch (error) {
     handleError(error);
-    console.log("지금 여기가 실행됨??");
     return NextResponse.json(
       { message: "서버 오류가 발생했습니다." },
       { status: 500 }
@@ -85,7 +81,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(
       { message: "로또 번호가 생성되었습니다." },
-      { status: 200 }
+      { status: 201 }
     );
   } catch (error) {
     handleError(error);

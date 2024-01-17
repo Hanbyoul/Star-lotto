@@ -50,7 +50,7 @@ export async function GET(req: NextRequest) {
       if (data.returnValue === "fail") {
         return NextResponse.json(
           { message: "당첨결과가 없습니다." },
-          { status: 400 }
+          { status: 404 }
         );
       } else {
         await dbConnect();

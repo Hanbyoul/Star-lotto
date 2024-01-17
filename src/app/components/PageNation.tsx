@@ -1,27 +1,31 @@
 "use client";
 import { styled } from "styled-components";
-import { userCurrentPageState, userLottoState } from "@/\bGlobalState/atom";
-import { useRecoilState } from "recoil";
 
 interface PageNumberProps {
   $number: number;
   $currentPage: number;
 }
 
-export default function PageNation() {
-  const [currentPage, setCurrentPage] = useRecoilState(userCurrentPageState);
+interface PageNationProps {
+  totalPage: number;
+  currentPage: number;
+  pagesToShow: number;
+  setCurrentPage: (value: number) => void;
+}
 
-  const lottoData = useRecoilState(userLottoState);
-
-  const totalPage = Math.ceil(lottoData[0].length / 5); // 총 페이지
-
-  const pagesToShow = 5; // 화면에 보여줄 아이템 개 수
+export default function PageNation({
+  totalPage,
+  currentPage,
+  setCurrentPage,
+  pagesToShow,
+}: PageNationProps) {
+  const totalPageNum = Math.ceil(totalPage / pagesToShow);
 
   const currentGroup = Math.ceil(currentPage / pagesToShow); // 현재 페이지 그룹
 
   const firstPageNum = (currentGroup - 1) * pagesToShow + 1; // 첫번째 페이지
 
-  const lastPageNum = Math.min(totalPage, currentGroup * pagesToShow); // 마지막 페이지
+  const lastPageNum = Math.min(totalPageNum, currentGroup * pagesToShow); // 마지막 페이지
 
   const getPaginationNumbers = () => {
     let paginationNumbers = [];
@@ -36,7 +40,7 @@ export default function PageNation() {
 
   return (
     <Container>
-      {totalPage ? (
+      {totalPageNum ? (
         <PageNumberArea>
           <PrevPage
             className={`mr-2 ${currentPage === 1 ? "disabled" : ""}`}
@@ -57,9 +61,9 @@ export default function PageNation() {
             </PageNumber>
           ))}
           <NextPage
-            className={`ml-2 ${currentPage === totalPage ? "disabled" : ""}`}
+            className={`ml-2 ${currentPage === totalPageNum ? "disabled" : ""}`}
             onClick={() => {
-              if (currentPage < totalPage) changePage(currentPage + 1);
+              if (currentPage < totalPageNum) changePage(currentPage + 1);
             }}
           >
             &gt;
@@ -70,14 +74,7 @@ export default function PageNation() {
   );
 }
 
-const Container = styled.div`
-  width: 100%;
-  position: absolute;
-  bottom: 6px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+const Container = styled.div``;
 const PrevPage = styled.div`
   display: flex;
   justify-content: center;

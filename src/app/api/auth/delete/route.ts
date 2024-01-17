@@ -22,7 +22,7 @@ export async function DELETE() {
     if (!userDelete.deletedCount) {
       return NextResponse.json(
         { message: "탈퇴에 실패하였습니다." },
-        { status: 400 }
+        { status: 404 }
       );
     } else {
       return NextResponse.json({ message: "탈퇴되었습니다." }, { status: 200 });

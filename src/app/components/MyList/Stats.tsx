@@ -1,12 +1,13 @@
 "use client";
 import { styled } from "styled-components";
-import { userLottoState } from "@/\bGlobalState/atom";
-import { useRecoilValue } from "recoil";
+import { lottoProps } from "@/\bGlobalState/atom";
 import LottoChart from "./LottoChart";
 
-export default function Stats() {
-  const totalLotto = useRecoilValue(userLottoState);
+interface StatsProps {
+  lottoData: lottoProps[];
+}
 
+export default function Stats({ lottoData }: StatsProps) {
   const rankCount = {
     rank1: 0,
     rank2: 0,
@@ -16,18 +17,18 @@ export default function Stats() {
     lose: 0,
   };
 
-  for (let i = 0; i < totalLotto.length; i++) {
-    if (totalLotto[i].rank === 1) {
+  for (let i = 0; i < lottoData.length; i++) {
+    if (lottoData[i].rank === 1) {
       rankCount.rank1++;
-    } else if (totalLotto[i].rank === 2) {
+    } else if (lottoData[i].rank === 2) {
       rankCount.rank2++;
-    } else if (totalLotto[i].rank === 3) {
+    } else if (lottoData[i].rank === 3) {
       rankCount.rank3++;
-    } else if (totalLotto[i].rank === 4) {
+    } else if (lottoData[i].rank === 4) {
       rankCount.rank4++;
-    } else if (totalLotto[i].rank === 5) {
+    } else if (lottoData[i].rank === 5) {
       rankCount.rank5++;
-    } else if (totalLotto[i].rank === "lose") {
+    } else if (lottoData[i].rank === "lose") {
       rankCount.lose++;
     }
   }
@@ -39,7 +40,7 @@ export default function Stats() {
   return (
     <Container>
       <LengthContainer>
-        <LottoLength>저장된 로또 번호 : {totalLotto.length}</LottoLength>
+        <LottoLength>저장된 로또 번호 : {lottoData.length}</LottoLength>
         <WinningLength>당첨된 로또 번호 : {totalWinningRank} </WinningLength>
       </LengthContainer>
       <LottoChart rank={rankCount} />
