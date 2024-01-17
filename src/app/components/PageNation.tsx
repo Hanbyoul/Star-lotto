@@ -48,7 +48,7 @@ export default function PageNation({
               if (currentPage > 1) changePage(currentPage - 1);
             }}
           >
-            &lt;
+            ❮
           </PrevPage>
           {getPaginationNumbers().map((number) => (
             <PageNumber
@@ -66,7 +66,7 @@ export default function PageNation({
               if (currentPage < totalPageNum) changePage(currentPage + 1);
             }}
           >
-            &gt;
+            ❯
           </NextPage>
         </PageNumberArea>
       ) : null}
@@ -75,7 +75,7 @@ export default function PageNation({
 }
 
 const Container = styled.div``;
-const PrevPage = styled.div`
+const PrevPage = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -84,20 +84,23 @@ const PrevPage = styled.div`
   width: 25px;
   height: 25px;
   border-radius: 3px;
-  color: #aeaeae;
+  color: #c0c0c0;
+  border: 1px solid #e0e0e0;
   &:hover {
+    border: none;
     background-color: #e0e0e0; /* 자연스러운 회색 빛 */
     cursor: pointer; /* 마우스 오버 시 커서 변경 */
     color: white;
   }
   &.disabled {
-    color: #c0c0c0; /* 비활성화 상태의 색상 */
+    border: 1px solid #e0e0e0;
+    color: #e0e0e0; /* 비활성화 상태의 색상 */
     cursor: default; /* 비활성화 상태의 커서 */
     pointer-events: none; /* 클릭 이벤트 비활성화 */
   }
 `;
 
-const NextPage = styled.div`
+const NextPage = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -106,14 +109,18 @@ const NextPage = styled.div`
   width: 25px;
   height: 25px;
   border-radius: 3px;
-  color: #aeaeae;
+  color: #c0c0c0;
+  border: 1px solid #e0e0e0;
+
   &:hover {
+    border: none;
     background-color: #e0e0e0; /* 자연스러운 회색 빛 */
     cursor: pointer; /* 마우스 오버 시 커서 변경 */
     color: white;
   }
   &.disabled {
-    color: #c0c0c0; /* 비활성화 상태의 색상 */
+    border: 1px solid #e0e0e0;
+    color: #e0e0e0; /* 비활성화 상태의 색상 */
     cursor: default; /* 비활성화 상태의 커서 */
     pointer-events: none; /* 클릭 이벤트 비활성화 */
   }
@@ -123,7 +130,7 @@ const PageNumberArea = styled.div`
   display: flex;
 `;
 
-const PageNumber = styled.div<PageNumberProps>`
+const PageNumber = styled.button<PageNumberProps>`
   background-color: ${(props) =>
     props.$number === props.$currentPage ? "#3399FF" : "none"};
   color: ${(props) =>

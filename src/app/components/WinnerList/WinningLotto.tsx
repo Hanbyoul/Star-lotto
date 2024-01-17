@@ -36,7 +36,6 @@ export default function WinningLotto() {
   const firstLotto = lastLotto - pagesToShow;
   const [viewData, setViewData] = useState<LotteryWinner[]>([]);
 
-  console.log("initCount :", initCount);
   const getWinningLotto = async (count: number) => {
     setIsLoading(true);
     try {
@@ -57,6 +56,7 @@ export default function WinningLotto() {
       setTotalPage(data.length);
     } catch (error) {
       handleError(error);
+      setLottoData([]);
     } finally {
       setIsLoading(false);
     }
@@ -64,6 +64,7 @@ export default function WinningLotto() {
 
   useEffect(() => {
     getWinningLotto(initCount);
+    setCurrentPage(1);
   }, [initCount]);
 
   useEffect(() => {
@@ -81,9 +82,24 @@ export default function WinningLotto() {
       ) : (
         <>
           <RoundArea>
-            <PrevRound>&lt;</PrevRound>
+            <PrevRound
+              className={`${initCount === 1 ? "disabled" : ""}`}
+              onClick={() => {
+                if (initCount > 1) setInitCount((prev) => prev - 1);
+              }}
+            >
+              ❮
+            </PrevRound>
             <Round>제 {initCount}회 당첨자</Round>
-            <NextRound>&gt;</NextRound>
+            <NextRound
+              className={`${initCount === currentDrawCount ? "disabled" : ""}`}
+              onClick={() => {
+                if (initCount < currentDrawCount)
+                  setInitCount((prev) => prev + 1);
+              }}
+            >
+              ❯
+            </NextRound>
           </RoundArea>
           {lottoData.length > 0 ? (
             <WinnerList>
@@ -127,10 +143,33 @@ const Round = styled.div`
 `;
 
 const PrevRound = styled.button`
+  width: 20px;
+  font-weight: 600;
   margin-right: 10px;
+  &:hover {
+    font-size: large;
+  }
+
+  &.disabled {
+    cursor: none;
+    pointer-events: none;
+    color: #e0e0e0;
+  }
 `;
 const NextRound = styled.button`
+  width: 20px;
+  font-weight: 600;
   margin-left: 10px;
+
+  &:hover {
+    font-size: large;
+  }
+
+  &.disabled {
+    cursor: none;
+    pointer-events: none;
+    color: #e0e0e0;
+  }
 `;
 
 const WinnerList = styled.div`
