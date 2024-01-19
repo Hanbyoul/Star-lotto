@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect } from "react";
 import styled, { css } from "styled-components";
+import React, { useEffect } from "react";
 import Slot from "./Slot";
 import { LINE_LIMITED_COUNT } from "../../../constant/lineCount";
 import { useRecoilState } from "recoil";
@@ -73,7 +73,7 @@ const SlotList = () => {
     <Container>
       <DrawArea>
         {numbers.map((line, index) => (
-          <Slot key={index} line={line} lineIndex={index} />
+          <Slot key={`slot-${index}`} line={line} lineIndex={index} />
         ))}
       </DrawArea>
       <Footer>

@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import "../styles/globals.css";
 import { styled } from "styled-components";
-import Stats from "../components/MyList/Stats";
+import React, { useEffect, useState } from "react";
+import Stats from "../components/Stats";
 import { lottoProps } from "@/\bGlobalState/atom";
 import LottoList from "../components/MyList/LottoList";
 import PageNation from "../components/PageNation";
@@ -70,7 +69,7 @@ const Page = () => {
     <Container>
       <TitleArea>
         <Title
-          className={`${handleView === "Lotto" ? "disabled font-bold" : ""}`}
+          className={`${handleView === "Lotto" ? "disabled font-bold" : ""} `}
           onClick={() => setHandleView("Lotto")}
         >
           Lotto
@@ -149,12 +148,13 @@ const TitleArea = styled.div`
 `;
 
 const Title = styled.div`
-  margin-left: 25px;
-
+  margin-left: 24px;
+  color: rgb(107 114 128);
   &:hover {
     cursor: pointer; /* 마우스 오버 시 커서 변경 */
   }
   &.disabled {
+    color: black;
     cursor: default; /* 비활성화 상태의 커서 */
     pointer-events: none; /* 클릭 이벤트 비활성화 */
   }

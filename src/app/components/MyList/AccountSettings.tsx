@@ -1,9 +1,8 @@
 "use client";
-import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
+import { useForm } from "react-hook-form";
 import { signOut, useSession } from "next-auth/react";
 import { Session } from "../Navigation";
-import { UserResponse } from "../SignUp";
 import handleAlertError from "@/app/utils/handleAlertError";
 
 export interface PasswordForm {

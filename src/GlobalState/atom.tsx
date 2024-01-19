@@ -1,3 +1,4 @@
+import { getLottoCount } from "@/app/utils/latestCount";
 import shuffleArray from "@/app/utils/shuffleArray";
 import sortingArray from "@/app/utils/sortingArray";
 import { atom, selector } from "recoil";
@@ -92,7 +93,11 @@ export const loadListSelector = selector({
   },
 });
 
+// export const currentDrawCountState = atom({
+//   key: "drawDate",
+//   default: 0,
+// });
 export const currentDrawCountState = atom({
   key: "drawDate",
-  default: 0,
+  default: getLottoCount(new Date()),
 });

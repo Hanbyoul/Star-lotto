@@ -13,14 +13,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html>
       <body>
-        <NextAuthProviders>
-          <Navigation />
-          <div className="container">
-            <Recoil>
-              <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-            </Recoil>
-          </div>
-        </NextAuthProviders>
+        <StyledComponentsRegistry>
+          <NextAuthProviders>
+            <Navigation />
+            <div className="container">
+              <Recoil>{children}</Recoil>
+            </div>
+          </NextAuthProviders>
+        </StyledComponentsRegistry>
       </body>
     </html>
   );

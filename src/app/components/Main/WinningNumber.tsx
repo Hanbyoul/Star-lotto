@@ -2,9 +2,8 @@
 
 import { styled } from "styled-components";
 import React, { useEffect, useState } from "react";
-import { getLottoCount } from "../../utils/latestCount";
 import LoadingLottery from "./Loading/LoadingLottery";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   currentDrawCountState,
   currentWinningState,
@@ -17,11 +16,9 @@ interface ResponseMessage {
 }
 
 const WinningNumber = () => {
-  const day = new Date();
-  const latestCount = getLottoCount(day);
   const [lotto, setLotto] = useRecoilState(currentWinningState);
-  const [count, setCount] = useState(latestCount);
-  const setCurrentDrawCount = useSetRecoilState(currentDrawCountState);
+  const currentDrawCount = useRecoilValue(currentDrawCountState);
+  const [count, setCount] = useState(currentDrawCount);
 
   const getLottery = async (count: number) => {
     if (lotto?.count === count) return;
@@ -46,16 +43,12 @@ const WinningNumber = () => {
   };
 
   const inCrease = () => {
-    if (count < latestCount) setCount((prev) => prev + 1);
+    if (count < currentDrawCount) setCount((prev) => prev + 1);
   };
 
   const deCrease = () => {
     if (count > 1) setCount((prev) => prev - 1);
   };
-
-  useEffect(() => {
-    setCurrentDrawCount(latestCount);
-  }, []);
 
   useEffect(() => {
     getLottery(count);
@@ -73,7 +66,7 @@ const WinningNumber = () => {
         )})`}</span>
         <button
           onClick={inCrease}
-          disabled={count === latestCount ? true : false}
+          disabled={count === currentDrawCount ? true : false}
         >
           {"❯"}
         </button>

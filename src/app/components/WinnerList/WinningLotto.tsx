@@ -1,12 +1,12 @@
 "use client";
 
+import { styled } from "styled-components";
 import { currentDrawCountState } from "@/\bGlobalState/atom";
-import sortWinnersByRank from "@/app/utils/\bsortWinnersByRank";
+import sortWinnersByRank from "@/app/utils/sortWinnersByRank";
 import handleError from "@/app/utils/handleError";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import Winner from "./Winner";
-import { styled } from "styled-components";
 import Loadings from "../Loadings";
 import PageNation from "../PageNation";
 type LottoData = {

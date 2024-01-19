@@ -1,9 +1,9 @@
 "use client";
-import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
+import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import handleAlertError from "../utils/handleAlertError";
+import handleAlertError from "../../utils/handleAlertError";
 
 export interface SignUser {
   userId: string;

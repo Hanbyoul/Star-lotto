@@ -1,16 +1,6 @@
-// 회차별 당첨자수
-
-/**
- *  해당 회차 당첨 번호 - round
- *  해당 회차 <round> 의 로또 번호들
- *  해당 회차 <round> 의 로또 번호들의 userId
- *
- */
-
 "use client";
-import WinningLotto from "../components/WinnerList/WinningLotto";
-import "../styles/globals.css";
 import { styled } from "styled-components";
+import WinningLotto from "../components/WinnerList/WinningLotto";
 
 // 추첨완료된 round 에 대한 로또 번호받기
 
@@ -22,12 +12,6 @@ export default function Page() {
     </Container>
   );
 }
-
-/**
- * 페이지네이션
- * 회차별 당첨자 변경
- *
- */
 
 const Container = styled.div`
   position: relative;

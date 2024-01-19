@@ -1,6 +1,6 @@
 "use client";
-import React from "react";
 import { keyframes, styled } from "styled-components";
+import React from "react";
 
 const Loadings = () => {
   return (

@@ -1,10 +1,10 @@
 "use client";
-import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
+import { useForm } from "react-hook-form";
 import React from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { UserAuth } from "../models/User";
+import { UserAuth } from "../../models/User";
 
 export default function Login() {
   const router = useRouter();

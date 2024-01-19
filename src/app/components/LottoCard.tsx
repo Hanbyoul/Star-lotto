@@ -1,6 +1,6 @@
 "use client";
-import { lottoProps } from "@/\bGlobalState/atom";
 import { css, styled } from "styled-components";
+import { lottoProps } from "@/\bGlobalState/atom";
 
 export default function LottoCard({ numbers }: lottoProps) {
   return (
