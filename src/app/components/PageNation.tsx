@@ -21,11 +21,11 @@ export default function PageNation({
 }: PageNationProps) {
   const totalPageNum = Math.ceil(totalPage / pagesToShow);
 
-  const currentGroup = Math.ceil(currentPage / pagesToShow); // 현재 페이지 그룹
+  const currentGroup = Math.ceil(currentPage / pagesToShow);
 
-  const firstPageNum = (currentGroup - 1) * pagesToShow + 1; // 첫번째 페이지
+  const firstPageNum = (currentGroup - 1) * pagesToShow + 1;
 
-  const lastPageNum = Math.min(totalPageNum, currentGroup * pagesToShow); // 마지막 페이지
+  const lastPageNum = Math.min(totalPageNum, currentGroup * pagesToShow);
 
   const getPaginationNumbers = () => {
     let paginationNumbers = [];
@@ -88,15 +88,15 @@ const PrevPage = styled.button`
   border: 1px solid #e0e0e0;
   &:hover {
     border: none;
-    background-color: #e0e0e0; /* 자연스러운 회색 빛 */
-    cursor: pointer; /* 마우스 오버 시 커서 변경 */
+    background-color: #e0e0e0;
+    cursor: pointer;
     color: white;
   }
   &.disabled {
     border: 1px solid #e0e0e0;
-    color: #e0e0e0; /* 비활성화 상태의 색상 */
-    cursor: default; /* 비활성화 상태의 커서 */
-    pointer-events: none; /* 클릭 이벤트 비활성화 */
+    color: #e0e0e0;
+    cursor: default;
+    pointer-events: none;
   }
 `;
 
@@ -114,15 +114,15 @@ const NextPage = styled.button`
 
   &:hover {
     border: none;
-    background-color: #e0e0e0; /* 자연스러운 회색 빛 */
-    cursor: pointer; /* 마우스 오버 시 커서 변경 */
+    background-color: #e0e0e0;
+    cursor: pointer;
     color: white;
   }
   &.disabled {
     border: 1px solid #e0e0e0;
-    color: #e0e0e0; /* 비활성화 상태의 색상 */
-    cursor: default; /* 비활성화 상태의 커서 */
-    pointer-events: none; /* 클릭 이벤트 비활성화 */
+    color: #e0e0e0;
+    cursor: default;
+    pointer-events: none;
   }
 `;
 

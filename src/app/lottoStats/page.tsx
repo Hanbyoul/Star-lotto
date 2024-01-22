@@ -25,9 +25,9 @@ export default function Page() {
       setIsLoading(true);
       let fetchURL: string;
       if (handleView === "round") {
-        fetchURL = `http://localhost:3000/api/stats_lottery?round=${count}`;
+        fetchURL = `${process.env.NEXT_PUBLIC_BASE_URL}/stats_lottery?round=${count}`;
       } else {
-        fetchURL = `http://localhost:3000/api/stats_lottery`;
+        fetchURL = `${process.env.NEXT_PUBLIC_BASE_URL}/stats_lottery`;
       }
 
       const res = await fetch(fetchURL);
@@ -120,6 +120,11 @@ const Container = styled.div`
   border-radius: 20px;
   border: solid 1px #e5e7eb;
   box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+
+  @media screen and (max-width: 705px) {
+    border-radius: 0px;
+    width: 100%;
+  }
 `;
 
 const SectionArea = styled.div`
@@ -188,11 +193,7 @@ const NextRound = styled.button`
     color: #e0e0e0;
   }
 `;
-const ChartArea = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+const ChartArea = styled.div``;
 
 const LoadArea = styled.div`
   width: 100%;

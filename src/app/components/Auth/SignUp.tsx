@@ -34,13 +34,16 @@ const SignUp = () => {
   const UserDuplicateChk = async () => {
     const userId = watch("userId");
     try {
-      const res = await fetch("http://localhost:3000/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userId),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/auth/signup`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userId),
+        }
+      );
 
       const result: ResponseMessage = await res.json();
 
@@ -68,13 +71,16 @@ const SignUp = () => {
         );
       } else {
         try {
-          const res = await fetch("http://localhost:3000/api/auth/signup", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-          });
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/auth/signup`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(data),
+            }
+          );
           const result: ResponseMessage = await res.json();
 
           if (!res.ok) {

@@ -93,10 +93,6 @@ export const loadListSelector = selector({
   },
 });
 
-// export const currentDrawCountState = atom({
-//   key: "drawDate",
-//   default: 0,
-// });
 export const currentDrawCountState = atom({
   key: "drawDate",
   default: getLottoCount(new Date()),

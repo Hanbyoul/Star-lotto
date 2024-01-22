@@ -27,13 +27,15 @@ interface IBallProps {
 
 const Slot = ({ line, lineIndex }: ISlotLineProps) => {
   const [hydrated, setHydrated] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(0);
-  const [slotSize, setSlotSize] = useState(94);
   const [spinStopCount, setSpinStopCount] = useRecoilState(spinCountState);
   const [spinState, setSpinState] = useRecoilState(spinStopState);
   const [spinLock, setSpinLock] = useState(false);
   const AllSpin = useRecoilValue(allSpinState);
-  const line_px = line.length * slotSize;
+
+  /**
+   * @description: 애니메이션 시작 지점 Y축 px
+   */
+  const line_px = 2340;
 
   const spinHandler = () => {
     setSpinState((prev) => {
@@ -53,26 +55,6 @@ const Slot = ({ line, lineIndex }: ISlotLineProps) => {
   useEffect(() => {
     setHydrated(true);
   }, []);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (windowWidth <= 705) {
-      setSlotSize(52);
-    } else {
-      setSlotSize(94);
-    }
-  }, [windowWidth]);
 
   useEffect(() => {
     if (spinStopCount === 0) {
@@ -160,7 +142,6 @@ const ViewZone = styled.div`
     height: 52px;
     width: 52px;
     font-size: large;
-    margin: -38px auto;
     border-radius: 5px;
   }
 
@@ -177,7 +158,7 @@ const Line = styled.div<ILineProps>`
         `
       : !props.$spin_stop && !props.$spinLock
       ? css`
-          animation: ${createSpin(props.line_px)} 1s infinite linear;
+          animation: ${createSpin(props.line_px)} 1.5s infinite linear;
         `
       : props.$spin_stop && !props.$spinLock
       ? css`
@@ -198,14 +179,6 @@ const Ball = styled.div<IBallProps>`
   margin: 5px auto;
   border-radius: 42px;
 
-  @media screen and (max-width: 705px) {
-    height: 42px;
-    width: 42px;
-    font-size: large;
-    margin: 5px auto;
-    border-radius: 21px;
-  }
-
   color: white;
   display: flex;
   flex-direction: column;
@@ -221,6 +194,13 @@ const Ball = styled.div<IBallProps>`
       : props.num <= 40
       ? "rgb(191,191,191)"
       : "rgb(16,196,102)"};
+  @media screen and (max-width: 705px) {
+    height: 42px;
+    width: 42px;
+    font-size: large;
+    margin: 5px auto;
+    border-radius: 21px;
+  }
 `;
 
 const StopBtn = styled.button<{ $line: number }>`
@@ -229,16 +209,6 @@ const StopBtn = styled.button<{ $line: number }>`
   border-radius: 25px;
   font-size: x-large;
   top: 13px;
-  ${(props) => (props.disabled ? "dd" : "dd")}
-
-  @media screen and (max-width: 705px) {
-    width: 40px;
-    height: 20px;
-    font-size: 10px;
-    border-radius: 10px;
-    top: 47px;
-  }
-
   background-color: rgb(234, 59, 61);
   color: white;
   position: relative;
@@ -248,4 +218,8 @@ const StopBtn = styled.button<{ $line: number }>`
     css`
       background-color: gray;
     `};
+
+  @media screen and (max-width: 705px) {
+    display: none;
+  }
 `;

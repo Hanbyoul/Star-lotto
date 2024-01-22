@@ -16,13 +16,6 @@ interface ResponseMessage {
   message: string;
 }
 
-/**
- *
- * TODO: route - status 코드 수정하기.
- * TODO: 당첨결과 페이지 구현하기.
- *
- */
-
 const Page = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [handleView, setHandleView] = useState<ViewType>("Lotto");
@@ -38,7 +31,9 @@ const Page = () => {
   const getLotto = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch(`http://localhost:3000/api/auth/lottery`);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/auth/lottery`
+      );
 
       if (!res.ok) {
         const errMsg: ResponseMessage = await res.json();
@@ -136,6 +131,12 @@ const Container = styled.div`
   border-radius: 20px;
   border: solid 1px #e5e7eb;
   box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+
+  @media screen and (max-width: 705px) {
+    border-radius: 0px;
+    width: 100%;
+    margin: auto;
+  }
 `;
 
 const TitleArea = styled.div`
@@ -163,11 +164,20 @@ const Title = styled.div`
 const Dashboard = styled.div`
   display: flex;
   min-height: 500px;
+
+  @media screen and (max-width: 705px) {
+    display: block;
+    width: 100%;
+  }
 `;
 
 const Section = styled.div`
   position: relative;
   width: 50%;
+  @media screen and (max-width: 705px) {
+    width: 100%;
+    border-bottom: solid 2px #e5e7eb;
+  }
 `;
 
 const PageArea = styled.div`
@@ -177,6 +187,11 @@ const PageArea = styled.div`
   justify-content: center;
   align-items: center;
   bottom: 10px;
+
+  @media screen and (max-width: 705px) {
+    margin-top: 5px;
+    position: initial;
+  }
 `;
 
 const NoSavedLottos = styled.div`

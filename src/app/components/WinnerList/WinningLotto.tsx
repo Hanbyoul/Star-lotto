@@ -40,7 +40,7 @@ export default function WinningLotto() {
     setIsLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:3000/api/winningList?round=${count}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/winningList?round=${count}`
       );
 
       if (!res.ok) {

@@ -18,7 +18,6 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL("/", req.url));
     }
   }
-  // 추후 페이지 늘어나면 업데이트하기
 }
 export const config = {
   matcher: ["/login", "/sign", "/info"],

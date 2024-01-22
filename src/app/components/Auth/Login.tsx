@@ -98,6 +98,10 @@ const LoginForm = styled.form`
   justify-content: center;
   width: 400px;
   height: 300px;
+
+  @media screen and (max-width: 705px) {
+    width: 360px;
+  }
 `;
 
 const InputArea = styled.div`

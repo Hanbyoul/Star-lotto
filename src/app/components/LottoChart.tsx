@@ -30,7 +30,7 @@ export default function LottoChart({ rank }: rankCountProps) {
       legend: {
         show: true,
         position: "bottom" as "bottom",
-        horizontalAlign: "center" as "center", // Centers the legend items
+        horizontalAlign: "center" as "center",
         fontWeight: "bold",
         fontSize: "16px",
         fontFamily: "Helvetica, Arial, sans-serif",
@@ -43,9 +43,7 @@ export default function LottoChart({ rank }: rankCountProps) {
         {
           breakpoint: 480,
           options: {
-            chart: {
-              width: 200,
-            },
+            chart: {},
           },
         },
       ],
@@ -58,7 +56,7 @@ export default function LottoChart({ rank }: rankCountProps) {
         options={chartData.options}
         series={chartData.series}
         type="pie"
-        width="360"
+        width="400"
       />
     </Wrapper>
   );
@@ -66,4 +64,7 @@ export default function LottoChart({ rank }: rankCountProps) {
 
 const Wrapper = styled.div`
   margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

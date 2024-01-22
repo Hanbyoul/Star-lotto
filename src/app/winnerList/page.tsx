@@ -22,6 +22,11 @@ const Container = styled.div`
   border-radius: 20px;
   border: solid 1px #e5e7eb;
   box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+
+  @media screen and (max-width: 705px) {
+    width: 100%;
+    border-radius: 0px;
+  }
 `;
 
 const Title = styled.div`

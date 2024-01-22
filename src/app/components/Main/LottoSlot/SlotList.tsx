@@ -99,16 +99,14 @@ export default SlotList;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  @media screen and (max-width: 705px) {
+    background-color: orange;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
 `;
 
 const DrawArea = styled.div`
-  @media screen and (max-width: 705px) {
-    width: 100%;
-    height: 102px;
-    gap: 5px;
-    border-radius: 15px;
-  }
-
   margin: 0px auto;
   width: 700px;
   height: 180px;
@@ -118,6 +116,14 @@ const DrawArea = styled.div`
   grid-template-columns: repeat(6, 1fr);
   border-radius: 30px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+  @media screen and (max-width: 705px) {
+    width: 360px;
+    height: 70px;
+    gap: 5px;
+    border-radius: 15px;
+    box-shadow: none;
+  }
 `;
 
 const Footer = styled.div`
@@ -128,17 +134,26 @@ const Footer = styled.div`
   padding: 10px;
   button {
     margin-right: 1em;
+    width: 100px;
+    height: 50px;
   }
 
   button:not(:disabled):hover {
     transform: scale(1.1);
     transition: 0.2s;
   }
+
+  @media screen and (max-width: 705px) {
+    padding: 5px;
+    button {
+      width: 90px;
+      height: 35px;
+      font-size: medium;
+    }
+  }
 `;
 
 const StartBtn = styled.button`
-  width: 100px;
-  height: 50px;
   border-radius: 12px;
   background-color: rgb(234, 59, 61);
   color: white;
@@ -151,8 +166,6 @@ const StartBtn = styled.button`
 `;
 
 const AllStopBtn = styled.button`
-  width: 100px;
-  height: 50px;
   border-radius: 12px;
   background-color: rgb(234, 59, 61);
   ${(props) =>

@@ -65,13 +65,16 @@ const SaveList = () => {
 
       if (!result && pending) {
         try {
-          const res = await fetch("http://localhost:3000/api/auth/lottery", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ userId, round, numbers }),
-          });
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/auth/lottery`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ userId, round, numbers }),
+            }
+          );
 
           const result: ResponseMessage = await res.json();
 
@@ -126,7 +129,7 @@ export default React.memo(SaveList);
 const Container = styled.div`
   position: relative;
   border-radius: 25px;
-  width: 380px;
+  width: 360px;
   min-height: 500px;
   height: 100%;
   display: flex;

@@ -59,17 +59,6 @@ export default function LottoList({
   );
 }
 
-/**
- * TODO:로또 카드 컴포넌트로 분리하기 (로또 생성현황에서 재사용 예정)
- * TODO: 결과부분 디자인 다시하기
- * TODO: DB 리스트업 하고 페이지네이션 구현하기
- */
-
-// 로또 카드 컴포넌트로 분리하기
-// 페이지 네이션
-
-// 로그인 사용자 로또 data
-
 const Container = styled.div`
   display: flex;
   justify-content: center;

@@ -50,7 +50,6 @@ export default function Stats({ lottoData }: StatsProps) {
 const Container = styled.div``;
 const LengthContainer = styled.div`
   margin-top: 20px;
-
   display: flex;
   flex-direction: column;
   align-items: center;

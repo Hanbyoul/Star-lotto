@@ -25,7 +25,7 @@ const WinningNumber = () => {
 
     try {
       const res = await fetch(
-        `http://localhost:3000/api/winningNum?round=${count}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/winningNum?round=${count}`
       );
 
       if (!res.ok) {
@@ -42,14 +42,6 @@ const WinningNumber = () => {
     }
   };
 
-  const inCrease = () => {
-    if (count < currentDrawCount) setCount((prev) => prev + 1);
-  };
-
-  const deCrease = () => {
-    if (count > 1) setCount((prev) => prev - 1);
-  };
-
   useEffect(() => {
     getLottery(count);
   }, [count]);
@@ -57,19 +49,27 @@ const WinningNumber = () => {
   return lotto ? (
     <Container>
       <DateBox>
-        <button onClick={deCrease} disabled={count === 0 ? true : false}>
-          {"❮"}
-        </button>
+        <PrevRound
+          className={`${count === 1 ? "disabled" : ""}`}
+          onClick={() => {
+            if (count > 1) setCount((prev) => prev - 1);
+          }}
+        >
+          ❮
+        </PrevRound>
+
         <span>{`${lotto.count}회 (${(lotto.drawDate + "").substring(
           0,
           10
         )})`}</span>
-        <button
-          onClick={inCrease}
-          disabled={count === currentDrawCount ? true : false}
+        <NextRound
+          className={`${count === currentDrawCount ? "disabled" : ""}`}
+          onClick={() => {
+            if (count < currentDrawCount) setCount((prev) => prev + 1);
+          }}
         >
-          {"❯"}
-        </button>
+          ❯
+        </NextRound>
       </DateBox>
       <BallBox>
         {lotto.numbers?.slice(0, 6).map((num) => (
@@ -88,40 +88,65 @@ const WinningNumber = () => {
 export default WinningNumber;
 
 const Container = styled.div`
-  /* @media screen and (max-width: 705px) {
-    margin: 30px 0;
-  } */
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
+  justify-content: center;
+  @media screen and (max-width: 705px) {
+    width: 360px;
+  }
 `;
 
 const DateBox = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   background-color: #f5f6fa;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  height: 25px;
+`;
+
+const PrevRound = styled.button`
+  width: 20px;
+  font-weight: 600;
+  &:hover {
+    font-size: large;
+  }
+
+  &.disabled {
+    cursor: none;
+    pointer-events: none;
+    color: #e0e0e0;
+  }
+`;
+const NextRound = styled.button`
+  width: 20px;
+  font-weight: 600;
+
+  &:hover {
+    font-size: large;
+  }
+
+  &.disabled {
+    cursor: none;
+    pointer-events: none;
+    color: #e0e0e0;
+  }
 `;
 
 const BallBox = styled.div`
-  /* @media screen and (max-width: 705px) {
-    width: 350px;
-  } */
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: white;
-  width: 270px;
+
   height: 50px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  @media screen and (max-width: 705px) {
+    width: 100%;
+  }
 `;
 
 const Ball = styled.div<{ $num: number }>`
-  /* @media screen and (max-width: 705px) {
-    width: 40px;
-    height: 40px;
-    border-radius: 20px;
-  } */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -129,7 +154,8 @@ const Ball = styled.div<{ $num: number }>`
   width: 30px;
   height: 30px;
   border-radius: 15px;
-  margin: auto;
+  margin-left: 5px;
+  margin-right: 5px;
   background-color: ${(props) =>
     props.$num <= 10
       ? "rgb(246,206,7)"

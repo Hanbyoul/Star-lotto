@@ -40,13 +40,16 @@ export default function AccountSettings() {
       );
     } else {
       try {
-        const res = await fetch("http://localhost:3000/api/auth/pw_change", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        });
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/auth/pw_change`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          }
+        );
 
         const result: ResponseMessage = await res.json();
 
@@ -69,7 +72,7 @@ export default function AccountSettings() {
   const AccountDelete = async () => {
     try {
       if (confirm("정말 탈퇴하시겠습니까?")) {
-        const res = await fetch("http://localhost:3000/api/auth/delete", {
+        const res = await fetch(`${process.env.BASE_URL}/auth/delete`, {
           method: "DELETE",
         });
         const result: ResponseMessage = await res.json();
