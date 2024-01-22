@@ -50,7 +50,7 @@ export default function Navigation() {
           <LinkArea
             className={` ${pathname === "/lottoStats" ? "active_link" : ""}`}
           >
-            <Link href={"/lottoStats"}>
+            <Link href={"/lottoStats"} onClick={() => setViewMenu(false)}>
               <li>통계</li>
             </Link>
           </LinkArea>
@@ -58,7 +58,7 @@ export default function Navigation() {
           <LinkArea
             className={` ${pathname === "/winnerList" ? "active_link" : ""}`}
           >
-            <Link href={"/winnerList"}>
+            <Link href={"/winnerList"} onClick={() => setViewMenu(false)}>
               <li>당첨현황</li>
             </Link>
           </LinkArea>
@@ -67,8 +67,9 @@ export default function Navigation() {
             <>
               <LinkArea
                 className={` ${pathname === "/info" ? "active_link" : ""}`}
+                onClick={() => setViewMenu(false)}
               >
-                <Link href={"/info"}>
+                <Link href={"/info"} onClick={() => setViewMenu(false)}>
                   <li>내정보</li>
                 </Link>
               </LinkArea>

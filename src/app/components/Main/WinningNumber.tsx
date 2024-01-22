@@ -92,22 +92,33 @@ const Container = styled.div`
   flex-direction: column;
   margin-bottom: 20px;
   justify-content: center;
+
   @media screen and (max-width: 705px) {
     width: 360px;
   }
 `;
 
 const DateBox = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
+  align-items: center;
   background-color: #f5f6fa;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  height: 25px;
+  height: 35px;
 `;
 
 const PrevRound = styled.button`
-  width: 20px;
+  position: absolute;
+  left: 0px;
+  width: 15px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-weight: 600;
+  border: 1px solid #e0e0e0;
+  margin: auto;
   &:hover {
     font-size: large;
   }
@@ -116,11 +127,26 @@ const PrevRound = styled.button`
     cursor: none;
     pointer-events: none;
     color: #e0e0e0;
+  }
+
+  @media screen and (max-width: 705px) {
+    &:hover {
+      font-size: medium;
+    }
   }
 `;
 const NextRound = styled.button`
-  width: 20px;
+  position: absolute;
+  right: 0px;
+  height: 100%;
+  margin: auto;
+  width: 15px;
+
   font-weight: 600;
+  border: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:hover {
     font-size: large;
@@ -130,6 +156,11 @@ const NextRound = styled.button`
     cursor: none;
     pointer-events: none;
     color: #e0e0e0;
+  }
+  @media screen and (max-width: 705px) {
+    &:hover {
+      font-size: medium;
+    }
   }
 `;
 

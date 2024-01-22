@@ -56,7 +56,7 @@ export default function LottoChart({ rank }: rankCountProps) {
         options={chartData.options}
         series={chartData.series}
         type="pie"
-        width="400"
+        width="360"
       />
     </Wrapper>
   );

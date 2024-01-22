@@ -86,17 +86,21 @@ const PrevPage = styled.button`
   border-radius: 3px;
   color: #c0c0c0;
   border: 1px solid #e0e0e0;
-  &:hover {
-    border: none;
-    background-color: #e0e0e0;
-    cursor: pointer;
-    color: white;
-  }
+
   &.disabled {
     border: 1px solid #e0e0e0;
     color: #e0e0e0;
     cursor: default;
     pointer-events: none;
+  }
+
+  @media screen and (min-width: 705px) {
+    &:hover {
+      border: none;
+      background-color: #e0e0e0;
+      cursor: pointer;
+      color: white;
+    }
   }
 `;
 
@@ -112,17 +116,19 @@ const NextPage = styled.button`
   color: #c0c0c0;
   border: 1px solid #e0e0e0;
 
-  &:hover {
-    border: none;
-    background-color: #e0e0e0;
-    cursor: pointer;
-    color: white;
-  }
   &.disabled {
     border: 1px solid #e0e0e0;
     color: #e0e0e0;
     cursor: default;
     pointer-events: none;
+  }
+  @media screen and (min-width: 705px) {
+    &:hover {
+      border: none;
+      background-color: #e0e0e0;
+      cursor: pointer;
+      color: white;
+    }
   }
 `;
 

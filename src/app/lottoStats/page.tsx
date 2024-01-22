@@ -109,8 +109,6 @@ export default function Page() {
   );
 }
 
-/// WinningNum 리팩토리 후 fetch URL BASE 생성
-
 const Container = styled.div`
   position: relative;
   margin-top: 50px;
@@ -165,7 +163,8 @@ const Title = styled.div`
   font-size: x-large;
 `;
 const PrevRound = styled.button`
-  width: 20px;
+  width: 30px;
+
   font-weight: 600;
   margin-right: 10px;
   &:hover {
@@ -177,9 +176,12 @@ const PrevRound = styled.button`
     pointer-events: none;
     color: #e0e0e0;
   }
+  @media screen and (max-width: 705px) {
+    font-size: large;
+  }
 `;
 const NextRound = styled.button`
-  width: 20px;
+  width: 30px;
   font-weight: 600;
   margin-left: 10px;
 
@@ -191,6 +193,10 @@ const NextRound = styled.button`
     cursor: none;
     pointer-events: none;
     color: #e0e0e0;
+  }
+
+  @media screen and (max-width: 705px) {
+    font-size: large;
   }
 `;
 const ChartArea = styled.div``;
