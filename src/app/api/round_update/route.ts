@@ -55,24 +55,37 @@ export async function GET(req: NextRequest) {
       } else {
         await dbConnect();
 
-        await WinningRound.create({
-          round: data.drwNo,
-          numbers: [
-            drwtNo1,
-            drwtNo2,
-            drwtNo3,
-            drwtNo4,
-            drwtNo5,
-            drwtNo6,
-            bnusNo,
-          ],
-          drawDate: data.drwNoDate,
+        const duplicateRound = await WinningRound.findOne({
+          round: currentCount,
         });
 
-        return NextResponse.json(
-          { message: "당첨번호 업데이트 완료되었습니다." },
-          { status: 200 }
-        );
+        if (duplicateRound) {
+          return NextResponse.json(
+            {
+              message: "당첨번호가 이미 존재합니다.",
+            },
+            { status: 400 }
+          );
+        } else {
+          await WinningRound.create({
+            round: data.drwNo,
+            numbers: [
+              drwtNo1,
+              drwtNo2,
+              drwtNo3,
+              drwtNo4,
+              drwtNo5,
+              drwtNo6,
+              bnusNo,
+            ],
+            drawDate: data.drwNoDate,
+          });
+
+          return NextResponse.json(
+            { message: "당첨번호 업데이트 완료되었습니다." },
+            { status: 200 }
+          );
+        }
       }
     } else {
       return NextResponse.json(
