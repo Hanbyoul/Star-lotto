@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import handleAlertError from "../../utils/handleAlertError";
+import validateUserID from "@/app/utils/validateUserID";
 
 export interface SignUser {
   userId: string;
@@ -33,27 +34,32 @@ const SignUp = () => {
 
   const UserDuplicateChk = async () => {
     const userId = watch("userId");
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/auth/signup`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(userId),
+
+    if (!validateUserID(userId)) {
+      alert("영문 또는 영문+숫자를 조합하여 4~16글자로 입력해주세요.");
+    } else {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/auth/signup`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userId),
+          }
+        );
+
+        const result: ResponseMessage = await res.json();
+
+        if (!res.ok) {
+          throw new Error(result.message || "서버 오류가 발생했습니다.");
         }
-      );
-
-      const result: ResponseMessage = await res.json();
-
-      if (!res.ok) {
-        throw new Error(result.message || "서버 오류가 발생했습니다.");
+        setIdChk(true);
+        alert(result.message);
+      } catch (error) {
+        handleAlertError(error);
       }
-      setIdChk(true);
-      alert(result.message);
-    } catch (error) {
-      handleAlertError(error);
     }
   };
 
@@ -106,13 +112,10 @@ const SignUp = () => {
           <InputIDBox
             {...register("userId", {
               required: "아이디를 입력해주세요.",
-              minLength: {
-                value: 4,
-                message: "아이디가 너무 짧습니다. 4글자 이상 입력해주세요",
-              },
-              maxLength: {
-                value: 16,
-                message: "최대 16글자로 입력해 주세요",
+              pattern: {
+                value: /^[A-Za-z0-9]{4,16}$/,
+                message:
+                  "영문 또는 영문+숫자를 조합하여 4~16글자로 입력해주세요.",
               },
             })}
             name="userId"

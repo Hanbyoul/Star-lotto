@@ -37,7 +37,6 @@ export default function LottoList({
         <CreateDate>{resultDateFormat(createAt!)}</CreateDate>
       </Round>
       <Area>
-        {/* 번호만 받음 */}
         <LottoCard numbers={numbers} />
 
         {result === "당첨" ? (

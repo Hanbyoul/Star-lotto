@@ -142,12 +142,12 @@ const Section = styled.div`
 
   color: rgb(107 114 128);
   &:hover {
-    cursor: pointer; /* 마우스 오버 시 커서 변경 */
+    cursor: pointer;
   }
   &.disabled {
     color: black;
-    cursor: default; /* 비활성화 상태의 커서 */
-    pointer-events: none; /* 클릭 이벤트 비활성화 */
+    cursor: default;
+    pointer-events: none;
   }
 `;
 

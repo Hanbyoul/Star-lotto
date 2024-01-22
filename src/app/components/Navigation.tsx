@@ -171,8 +171,8 @@ const LinkArea = styled.div`
   &.active_link {
     font-weight: 600;
     color: black;
-    cursor: default; /* 비활성화 상태의 커서 */
-    pointer-events: none; /* 클릭 이벤트 비활성화 */
+    cursor: default;
+    pointer-events: none;
   }
 
   @media screen and (max-width: 705px) {
