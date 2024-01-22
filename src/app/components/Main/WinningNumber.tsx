@@ -111,7 +111,7 @@ const DateBox = styled.div`
 const PrevRound = styled.button`
   position: absolute;
   left: 0px;
-  width: 15px;
+  width: 30px;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -140,7 +140,7 @@ const NextRound = styled.button`
   right: 0px;
   height: 100%;
   margin: auto;
-  width: 15px;
+  width: 30px;
 
   font-weight: 600;
   border: 1px solid #e0e0e0;
