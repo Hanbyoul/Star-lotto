@@ -170,6 +170,23 @@ const Line = styled.div<ILineProps>`
 
   flex-direction: column;
   background-color: white;
+
+  @media screen and (max-width: 705px) {
+    ${(props) =>
+      props.$spin_stop && props.$spinLock
+        ? css`
+            animation: ${endingSpin(props.line_px)} 1.5s 1 ease-out;
+          `
+        : !props.$spin_stop && !props.$spinLock
+        ? css`
+            animation: ${createSpin(props.line_px)} 3.5s infinite linear;
+          `
+        : props.$spin_stop && !props.$spinLock
+        ? css`
+            animation: none;
+          `
+        : ""}
+  }
 `;
 
 const Ball = styled.div<IBallProps>`
