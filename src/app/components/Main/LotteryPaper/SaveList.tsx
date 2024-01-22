@@ -105,15 +105,15 @@ const SaveList = () => {
         <h1>제 {currentDrawCount + 1}회</h1>
         <div>{`추첨일 : ${resultDateFormat(nextDrawDate)}`}</div>
         {listChar.map((char) => (
-          <ListChar key={char}>{char}</ListChar>
+          <ListChar key={`char-${char}`}>{char}</ListChar>
         ))}
       </Title>
 
       <Area>
         {loadList?.map((list, index) => (
-          <ListBall key={index}>
+          <ListBall key={`listIndex-${index}`}>
             {list.map((ball) => (
-              <Ball key={ball} num={ball}>
+              <Ball key={`listPaper-${ball}`} num={ball}>
                 {ball}
               </Ball>
             ))}

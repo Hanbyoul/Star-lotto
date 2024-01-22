@@ -73,7 +73,7 @@ const WinningNumber = () => {
       </DateBox>
       <BallBox>
         {lotto.numbers?.slice(0, 6).map((num) => (
-          <Ball key={num} $num={num}>
+          <Ball key={`lotto-${num}`} $num={num}>
             {num}
           </Ball>
         ))}

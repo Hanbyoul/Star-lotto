@@ -54,7 +54,7 @@ export default function PageNation({
             <PageNumber
               $currentPage={currentPage}
               $number={number}
-              key={number}
+              key={`pageNum-${number}`}
               onClick={() => changePage(number)}
             >
               {number}

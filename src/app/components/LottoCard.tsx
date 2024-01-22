@@ -6,7 +6,7 @@ export default function LottoCard({ numbers }: lottoProps) {
   return (
     <Container>
       {numbers?.map((ball) => (
-        <Ball key={ball} num={ball}>
+        <Ball key={`ball-${ball}`} num={ball}>
           {ball}
         </Ball>
       ))}
