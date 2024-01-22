@@ -8,14 +8,14 @@ import { resultDateFormat } from "../../../utils/resultDateFormat";
 import { arrChar } from "../../../constant/lineCount";
 import { useSession } from "next-auth/react";
 import { Session } from "../../Navigation";
-import banPeriod from "@/app/utils/banPeriod";
+import banPeriod from "../../../utils/banPeriod";
 import {
   currentDrawCountState,
   isDuplicateState,
   loadListSelector,
   spinCountState,
-} from "@/\bGlobalState/atom";
-import handleAlertError from "@/app/utils/handleAlertError";
+} from "../../../../GlobalState/atom";
+import handleAlertError from "../../../utils/handleAlertError";
 
 interface ResponseMessage {
   message: string;

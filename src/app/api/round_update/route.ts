@@ -1,7 +1,7 @@
-import dbConnect from "@/app/lib/mongoose/dbConnect";
-import WinningRound from "@/app/models/WinningRound";
-import handleError from "@/app/utils/handleError";
-import { getLottoCount } from "@/app/utils/latestCount";
+import dbConnect from "../../lib/mongoose/dbConnect";
+import WinningRound from "../../models/WinningRound";
+import handleError from "../../utils/handleError";
+import { getLottoCount } from "../../utils/latestCount";
 import { NextRequest, NextResponse } from "next/server";
 
 interface ResponseParams {

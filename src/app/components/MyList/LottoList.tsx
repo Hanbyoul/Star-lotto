@@ -1,8 +1,8 @@
 "use client";
-import { css, styled } from "styled-components";
+import { styled } from "styled-components";
 import LottoCard from "../LottoCard";
-import { lottoProps, rankType } from "@/\bGlobalState/atom";
-import { resultDateFormat } from "@/app/utils/resultDateFormat";
+import { lottoProps, rankType } from "../../../GlobalState/atom";
+import { resultDateFormat } from "../../utils/resultDateFormat";
 
 interface ResultProps {
   $result: "대기" | "낙첨" | "당첨";

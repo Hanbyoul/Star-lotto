@@ -1,6 +1,6 @@
-import dbConnect from "@/app/lib/mongoose/dbConnect";
-import Lottery, { LotterySchema } from "@/app/models/Lottery";
-import handleError from "@/app/utils/handleError";
+import dbConnect from "../../lib/mongoose/dbConnect";
+import Lottery, { LotterySchema } from "../../models/Lottery";
+import handleError from "../../utils/handleError";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {

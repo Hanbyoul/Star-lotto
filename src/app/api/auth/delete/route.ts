@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import dbConnect from "@/app/lib/mongoose/dbConnect";
+import dbConnect from "../../../lib/mongoose/dbConnect";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../[...nextauth]/route";
-import User from "@/app/models/User";
-import handleError from "@/app/utils/handleError";
+import User from "../../../models/User";
+import handleError from "../../../utils/handleError";
 
 interface SessionProps {
   user: {

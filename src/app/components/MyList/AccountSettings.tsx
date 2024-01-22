@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 import { useForm } from "react-hook-form";
 import { signOut, useSession } from "next-auth/react";
 import { Session } from "../Navigation";
-import handleAlertError from "@/app/utils/handleAlertError";
+import handleAlertError from "../../utils/handleAlertError";
 
 export interface PasswordForm {
   oldPassword: string;

@@ -1,7 +1,7 @@
 "use client";
 import { styled } from "styled-components";
 import { useEffect, useState } from "react";
-import { currentDrawCountState, lottoProps } from "@/\bGlobalState/atom";
+import { currentDrawCountState, lottoProps } from "../../GlobalState/atom";
 import { useRecoilValue } from "recoil";
 import handleError from "../utils/handleError";
 import Stats from "../components/Stats";

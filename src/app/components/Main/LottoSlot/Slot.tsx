@@ -8,7 +8,7 @@ import {
   allSpinState,
   spinCountState,
   spinStopState,
-} from "@/\bGlobalState/atom";
+} from "../../../../GlobalState/atom";
 
 interface ISlotLineProps {
   line: number[];

@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import dbConnect from "@/app/lib/mongoose/dbConnect";
+import dbConnect from "../../../lib/mongoose/dbConnect";
 import bcrypt from "bcrypt";
 import { getServerSession } from "next-auth";
-import { PasswordForm } from "@/app/components/MyList/AccountSettings";
+import { PasswordForm } from "../../../components/MyList/AccountSettings";
 import { authOptions } from "../[...nextauth]/route";
-import User, { UserSchema } from "@/app/models/User";
-import handleError from "@/app/utils/handleError";
+import User, { UserSchema } from "../../../models/User";
+import handleError from "../../../utils/handleError";
 
 interface SessionProps {
   user: {

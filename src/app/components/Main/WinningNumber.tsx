@@ -3,13 +3,13 @@
 import { styled } from "styled-components";
 import React, { useEffect, useState } from "react";
 import LoadingLottery from "./Loading/LoadingLottery";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
   currentDrawCountState,
   currentWinningState,
   lottoParams,
-} from "@/\bGlobalState/atom";
-import handleError from "@/app/utils/handleError";
+} from "../../../GlobalState/atom";
+import handleError from "../../utils/handleError";
 
 interface ResponseMessage {
   message: string;

@@ -1,10 +1,10 @@
-import dbConnect from "@/app/lib/mongoose/dbConnect";
-import Lottery, { LotterySchema } from "@/app/models/Lottery";
-import User, { UserSchema } from "@/app/models/User";
+import dbConnect from "../../../lib/mongoose/dbConnect";
+import Lottery, { LotterySchema } from "../../../models/Lottery";
+import User, { UserSchema } from "../../../models/User";
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../[...nextauth]/route";
-import handleError from "@/app/utils/handleError";
+import handleError from "../../../utils/handleError";
 
 interface PostBodyParams {
   userId: string;

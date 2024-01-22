@@ -3,7 +3,7 @@
 import styled from "styled-components";
 import { LotteryWinner } from "./WinningLotto";
 import LottoCard from "../LottoCard";
-import { resultDateFormat } from "@/app/utils/resultDateFormat";
+import { resultDateFormat } from "../../utils/resultDateFormat";
 
 export default function Winner({
   createAt,

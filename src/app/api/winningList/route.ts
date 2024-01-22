@@ -1,7 +1,7 @@
-import dbConnect from "@/app/lib/mongoose/dbConnect";
-import Lottery from "@/app/models/Lottery";
-import User from "@/app/models/User";
-import handleError from "@/app/utils/handleError";
+import dbConnect from "../../lib/mongoose/dbConnect";
+import Lottery from "../../models/Lottery";
+import User from "../../models/User";
+import handleError from "../../utils/handleError";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {

@@ -1,8 +1,8 @@
-import dbConnect from "@/app/lib/mongoose/dbConnect";
-import Lottery, { LotterySchema } from "@/app/models/Lottery";
-import WinningRound, { WinningNum } from "@/app/models/WinningRound";
-import checkLottoRank from "@/app/utils/checkLottoRank";
-import handleError from "@/app/utils/handleError";
+import dbConnect from "../../lib/mongoose/dbConnect";
+import Lottery, { LotterySchema } from "../../models/Lottery";
+import WinningRound, { WinningNum } from "../../models/WinningRound";
+import checkLottoRank from "../../utils/checkLottoRank";
+import handleError from "../../utils/handleError";
 import { NextRequest, NextResponse } from "next/server";
 
 /**

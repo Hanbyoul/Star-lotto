@@ -5,13 +5,14 @@ import React, { useEffect } from "react";
 import Slot from "./Slot";
 import { LINE_LIMITED_COUNT } from "../../../constant/lineCount";
 import { useRecoilState } from "recoil";
+
 import {
   allSpinState,
   numberState,
   saveListState,
   spinCountState,
-} from "@/\bGlobalState/atom";
-import shuffleArray from "@/app/utils/shuffleArray";
+} from "../../../../GlobalState/atom";
+import shuffleArray from "../../../utils/shuffleArray";
 
 const SlotList = () => {
   const [numbers, setNumbers] = useRecoilState(numberState);

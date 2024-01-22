@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import dbConnect from "@/app/lib/mongoose/dbConnect";
-import User, { UserSchema } from "@/app/models/User";
-import { SignUser } from "@/app/components/Auth/SignUp";
-import handleError from "@/app/utils/handleError";
+import dbConnect from "../../../lib/mongoose/dbConnect";
+import User, { UserSchema } from "../../../models/User";
+import { SignUser } from "../../../components/Auth/SignUp";
+import handleError from "../../../utils/handleError";
 
 export async function POST(req: NextRequest) {
   try {

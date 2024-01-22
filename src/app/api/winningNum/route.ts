@@ -1,6 +1,6 @@
-import dbConnect from "@/app/lib/mongoose/dbConnect";
-import WinningRound, { WinningNum } from "@/app/models/WinningRound";
-import handleError from "@/app/utils/handleError";
+import dbConnect from "../../lib/mongoose/dbConnect";
+import WinningRound, { WinningNum } from "../../models/WinningRound";
+import handleError from "../../utils/handleError";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
