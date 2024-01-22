@@ -211,8 +211,11 @@ const SignUpForm = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 400px;
+  width: 450px;
   height: 450px;
+  @media screen and (max-width: 705px) {
+    width: 360px;
+  }
 `;
 
 const IdArea = styled.div`
