@@ -1,6 +1,6 @@
 "use client";
 
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import useOutSideClick from "../hook/useOutSideClick";
 
 interface ModalProp {
@@ -17,7 +17,10 @@ export default function Modal({ open, close }: ModalProp) {
     <Overlay>
       <ModalStyle ref={modalRef}>
         <Content className="text-zinc-600">
-          <Title>사이트 이용 안내</Title>
+          <BtnArea>
+            <ExitBtn onClick={() => close()}>x</ExitBtn>
+          </BtnArea>
+          <Title>이용 안내</Title>
           <Script>
             메인 화면 상단 당첨번호 ❮ ❯ 버튼으로 <br />
             회차별 로또 당첨번호 조회가 가능합니다.
@@ -27,11 +30,11 @@ export default function Modal({ open, close }: ModalProp) {
             <br />
             모든 슬롯이 정지되면 아래 로또 용지에 번호가 반영됩니다.
           </Script>
-          <Title>회원가입 이용</Title>
+          <Title>-회원가입 이용시-</Title>
           <Script>
             슬롯이 정지되면 로또번호가 자동 저장되며 통계에 반영됩니다.
             <br />
-            <span className="text-red-400">토요일 20시 ~ 자정까지 </span>{" "}
+            <span className="text-red-400">토요일 20시 ~ 자정까지 </span>
             로또번호가 저장되지 않습니다.
             <br />
             <span className="text-red-400"> 토요일 22시 이후 </span> 저장된
@@ -39,7 +42,10 @@ export default function Modal({ open, close }: ModalProp) {
           </Script>
           <Script>
             <strong>[내정보]</strong>에서 저장된 로또번호 및 당첨현황을 확인할
-            수 있습니다.
+            수 있습니다. <br />
+            당첨된 번호의 <ResultRank>당첨</ResultRank>을 클릭하면 QR페이지로
+            이동되며 당첨 결과를 <br />
+            확인할 수 있습니다.
             <br />
           </Script>
           <Script>
@@ -47,7 +53,7 @@ export default function Modal({ open, close }: ModalProp) {
             있습니다.
           </Script>
           <Script>
-            <strong>[통계]</strong>에서 전체 및 회차별 통계확인을 할 수
+            <strong>[통계]</strong>에서 전체 및 회차별 통계를 확인할 수
             있습니다.
           </Script>
         </Content>
@@ -68,6 +74,25 @@ const Overlay = styled.div`
   height: 100vh;
 `;
 
+const BtnArea = styled.div`
+  position: fixed;
+  top: 6px;
+  left: 6px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #52525b;
+  border-radius: 99px;
+`;
+const ExitBtn = styled.button`
+  color: white;
+  font-size: small;
+  margin-left: 1px;
+  margin-bottom: 2px;
+`;
+
 const ModalStyle = styled.div`
   position: fixed;
   top: 50%;
@@ -75,7 +100,6 @@ const ModalStyle = styled.div`
   transform: translate(-50%, -50%);
   background-color: #ffffff;
   z-index: 5;
-
   border-radius: 8px;
 `;
 
@@ -95,4 +119,10 @@ const Title = styled.h1`
 const Script = styled.p`
   font-size: 14px;
   margin-top: 20px;
+`;
+
+const ResultRank = styled.span`
+  background-color: rgb(246, 206, 7);
+  padding: 3px;
+  border-radius: 5px;
 `;
