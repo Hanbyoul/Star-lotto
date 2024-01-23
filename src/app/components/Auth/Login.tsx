@@ -5,6 +5,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { UserAuth } from "../../models/User";
+import Link from "next/link";
 
 export default function Login() {
   const router = useRouter();
@@ -41,7 +42,7 @@ export default function Login() {
               required: "아이디를 입력해주세요.",
               minLength: {
                 value: 4,
-                message: "아디가 너무 짧습니다. 4글자 이상 입력해주세요",
+                message: "아이디가 너무 짧습니다. 4글자 이상 입력해주세요",
               },
             })}
             name="userId"
@@ -67,6 +68,9 @@ export default function Login() {
             회원가입
           </SignBtn>
         </ButtonArea>
+        <PasswordInquiry>
+          <Link href={"/pwInquiry"}>비밀번호 찾기</Link>
+        </PasswordInquiry>
       </LoginForm>
     </Container>
   );
@@ -158,4 +162,9 @@ const SignBtn = styled.button`
     transition: 0.2s;
     background-color: #57606f;
   }
+`;
+
+const PasswordInquiry = styled.div`
+  color: gray;
+  text-decoration-line: underline;
 `;

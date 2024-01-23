@@ -13,11 +13,6 @@ export interface SignUser {
   email: string;
 }
 
-export interface UserResponse {
-  success: boolean;
-  status: number;
-}
-
 interface ResponseMessage {
   message: string;
 }
