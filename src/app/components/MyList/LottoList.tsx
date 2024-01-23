@@ -66,11 +66,20 @@ const Container = styled.div`
   margin-top: 8px;
   padding-left: 12px;
   border-bottom: solid 1px #e5e7eb;
+  @media screen and (max-width: 705px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
 `;
 const Round = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+  @media screen and (max-width: 705px) {
+    max-width: 350px;
+  }
 `;
 
 const CreateDate = styled.div`

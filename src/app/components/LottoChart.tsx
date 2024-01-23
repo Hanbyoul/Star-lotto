@@ -11,6 +11,7 @@ interface rankCountProps {
     rank4: number;
     rank5: number;
     lose: number;
+    empty: number;
   };
 }
 
@@ -18,14 +19,15 @@ export default function LottoChart({ rank }: rankCountProps) {
   const chartData = {
     series: Object.values(rank),
     options: {
-      labels: ["1등", "2등", "3등", "4등", "5등", "낙첨"],
+      labels: ["1등", "2등", "3등", "4등", "5등", "낙첨", "대기"],
       colors: [
         "#FFBB28",
         "#FF4560",
         "#008FFB",
         "#00E396",
-        "#775DD0",
+        "#782CF6",
         "#BFBFBF",
+        "#EF8C00",
       ],
       legend: {
         show: true,
