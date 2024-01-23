@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import useOutSideClick from "../hook/useOutsideClick";
+import Modal from "./Modal";
 
 export interface Session {
   user?: {
@@ -20,26 +22,34 @@ interface LinkAreaPops {
 export default function Navigation() {
   const { data } = useSession();
   const session = data as Session;
-  const [viewMenu, setViewMenu] = useState(false);
   const pathname = usePathname();
+  const [viewMenu, setViewMenu] = useState(false);
+  const [menuBarRef] = useOutSideClick<HTMLLIElement>(() => setViewMenu(false));
+  const [isModal, setIsModal] = useState(false);
 
   return (
     <Container>
       <MenuArea>
         <LogoArea>
-          <MenuBar onClick={() => setViewMenu((prev) => !prev)}>
+          <MenuBar
+            ref={menuBarRef}
+            onClick={() => setViewMenu((prev) => !prev)}
+          >
             <img src="/menu.svg" />
           </MenuBar>
           <Link href={"/"}>
             <img src="/logo.png" alt="logo" width={"180px"} />
           </Link>
         </LogoArea>
-
+        <Modal open={isModal} close={() => setIsModal(false)} />
         <ListLink $viewMenu={viewMenu}>
+          <LinkArea>
+            <li onClick={() => setIsModal(true)}>도움말</li>
+          </LinkArea>
           <LinkArea
             className={` ${pathname === "/lottoStats" ? "active_link" : ""}`}
           >
-            <Link href={"/lottoStats"} onClick={() => setViewMenu(false)}>
+            <Link href={"/lottoStats"}>
               <li>통계</li>
             </Link>
           </LinkArea>
@@ -47,8 +57,8 @@ export default function Navigation() {
           <LinkArea
             className={` ${pathname === "/winnerList" ? "active_link" : ""}`}
           >
-            <Link href={"/winnerList"} onClick={() => setViewMenu(false)}>
-              <li>당첨현황</li>
+            <Link href={"/winnerList"}>
+              <li>당첨자</li>
             </Link>
           </LinkArea>
 
@@ -56,9 +66,8 @@ export default function Navigation() {
             <>
               <LinkArea
                 className={` ${pathname === "/info" ? "active_link" : ""}`}
-                onClick={() => setViewMenu(false)}
               >
-                <Link href={"/info"} onClick={() => setViewMenu(false)}>
+                <Link href={"/info"}>
                   <li>내정보</li>
                 </Link>
               </LinkArea>
