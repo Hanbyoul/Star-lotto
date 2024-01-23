@@ -25,7 +25,7 @@ export default function Modal({ open, close }: ModalProp) {
           <Script>
             STOP 버튼을 클릭하면 슬롯이 정지되며
             <br />
-            모든 슬롯이 정지되면 아래 로또 용지에 번호가 반영이됩니다.
+            모든 슬롯이 정지되면 아래 로또 용지에 번호가 반영됩니다.
           </Script>
           <Title>회원가입 이용</Title>
           <Script>
@@ -35,7 +35,7 @@ export default function Modal({ open, close }: ModalProp) {
             로또번호가 저장되지 않습니다.
             <br />
             <span className="text-red-400"> 토요일 22시 이후 </span> 저장된
-            로또번호의 당첨결과가 반영이됩니다.
+            로또번호의 당첨결과가 반영됩니다.
           </Script>
           <Script>
             <strong>[내정보]</strong>에서 저장된 로또번호 및 당첨현황을 확인할
