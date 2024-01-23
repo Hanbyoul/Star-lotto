@@ -1,7 +1,7 @@
 "use client";
 
 import styled, { css } from "styled-components";
-import useOutSideClick from "../hook/useOutsideClick";
+import useOutSideClick from "../hook/useOutSideClick";
 
 interface ModalProp {
   open: boolean;

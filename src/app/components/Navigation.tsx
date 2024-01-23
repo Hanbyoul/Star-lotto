@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import useOutSideClick from "../hook/useOutsideClick";
+import useOutSideClick from "../hook/useOutSideClick";
 import Modal from "./Modal";
 
 export interface Session {
