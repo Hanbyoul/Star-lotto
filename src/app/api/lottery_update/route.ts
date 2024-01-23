@@ -5,15 +5,6 @@ import checkLottoRank from "../../utils/checkLottoRank";
 import handleError from "../../utils/handleError";
 import { NextRequest, NextResponse } from "next/server";
 
-/**
- * TODO: 서버 배포후 cron-job-org 스케쥴 등록
- * ? lotteryupdate , roundupdate
- * 최신회차 로또 API 업데이트 시간 파악하기.
- *  매주 토요일 20시에 해당회차 판매 마감됨.
- *  매주 토요일 20:35분에 당첨 결과가 나옴
- *  20:35 분 이후로 부터 당첨번호 API 업데이트 시간 파악. (파악 되더라도 널널하게 시간 잡기)
- */
-
 export async function POST(req: NextRequest) {
   try {
     const reqAuth = req.headers.get("authorization");

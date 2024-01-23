@@ -17,17 +17,6 @@ interface LinkAreaPops {
   $viewMenu: boolean;
 }
 
-/** 
-
- * TODO: Gmail SMTP 설정.
- * 
- * TODO: 계정 변경 기능.
- * P/W 변경
- * 비밀번호 찾기?
- *  - 이메일 인증
- *  - 가입이 입력한 TEXT로 체크
- */
-
 export default function Navigation() {
   const { data } = useSession();
   const session = data as Session;

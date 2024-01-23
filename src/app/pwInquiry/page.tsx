@@ -14,19 +14,6 @@ interface ResponseMessage {
 }
 
 export default function Page() {
-  /**
-   *  찾고자하는 아이디와 이메일을 입력받는다. POST
-   *  DB에서 해당 아이디와 이메일을 체크한다.
-   *
-   * 사용자가 입력한 아이디와 이메일이 맞을 경우
-   *  1) 임시 비밀번호 생성 ( 8자리 문자 + 숫자 + 특수문자 조합)
-   *  2) DB 해당 아이디에 비밀번호 업데이트
-   *  3) 사용자 이메일로 비밀번호 변경 완료 메일 발송
-   *
-   *
-   * 사용자가 입력한 아이디와 이메일이 틀릴 경우
-   *   alert 메세지 : 가입시 입력한 아이디 또는 이메일과 일치하지 않습니다.
-   */
   const router = useRouter();
   const { register, handleSubmit, formState } = useForm<UserInput>();
 

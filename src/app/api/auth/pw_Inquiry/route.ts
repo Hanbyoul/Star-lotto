@@ -10,7 +10,6 @@ export async function POST(req: NextRequest) {
   try {
     const body: UserInput = await req.json();
     const { userId, email } = body;
-    console.log(userId, email);
     await dbConnect();
     const user = (await User.findOne({ userId, email })) as UserSchema;
 
@@ -32,8 +31,6 @@ export async function POST(req: NextRequest) {
         pass: process.env.GMAIL_SMTP_PASSWORD,
       },
     });
-    console.log("ID", process.env.GMAIL_SMTP_ID);
-    console.log("PW", process.env.GMAIL_SMTP_PASSWORD);
 
     const mailOptions = {
       from: process.env.GMAIL_SMTP_ID,
