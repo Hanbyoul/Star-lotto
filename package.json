@@ -9,30 +9,30 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@types/bcrypt": "^5.0.0",
-    "@types/node": "20.1.5",
-    "@types/react": "18.2.6",
-    "@types/react-dom": "18.2.4",
     "apexcharts": "^3.45.1",
-    "autoprefixer": "10.4.14",
     "bcrypt": "^5.1.0",
-    "eslint": "8.40.0",
-    "eslint-config-next": "13.4.2",
     "mongoose": "^7.2.1",
     "next": "13.4.2",
     "next-auth": "^4.22.1",
     "nodemailer": "^6.9.8",
-    "postcss": "8.4.23",
     "react": "18.2.0",
     "react-apexcharts": "^1.4.1",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.44.2",
     "recoil": "^0.7.7",
-    "styled-components": "^6.0.0-rc.1",
-    "tailwindcss": "3.3.2",
-    "typescript": "5.0.4"
+    "styled-components": "^6.0.0-rc.1"
   },
   "devDependencies": {
-    "@types/nodemailer": "^6.4.14"
+    "@types/nodemailer": "^6.4.14",
+    "@types/bcrypt": "^5.0.0",
+    "@types/node": "20.1.5",
+    "@types/react": "18.2.6",
+    "@types/react-dom": "18.2.4",
+    "autoprefixer": "10.4.14",
+    "eslint": "8.40.0",
+    "eslint-config-next": "13.4.2",
+    "postcss": "8.4.23",
+    "tailwindcss": "3.3.2",
+    "typescript": "5.0.4"
   }
 }
