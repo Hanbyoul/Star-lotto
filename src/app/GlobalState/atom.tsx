@@ -1,6 +1,6 @@
-import { getLottoCount } from "../app/utils/latestCount";
-import shuffleArray from "../app/utils/shuffleArray";
-import sortingArray from "../app/utils/sortingArray";
+import { getLottoCount } from "../utils/latestCount";
+import shuffleArray from "../utils/shuffleArray";
+import sortingArray from "../utils/sortingArray";
 import { atom, selector } from "recoil";
 
 export interface lottoParams {

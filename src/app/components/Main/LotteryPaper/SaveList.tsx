@@ -14,7 +14,7 @@ import {
   isDuplicateState,
   loadListSelector,
   spinCountState,
-} from "../../../../GlobalState/atom";
+} from "../../../GlobalState/atom";
 import handleAlertError from "../../../utils/handleAlertError";
 
 interface ResponseMessage {

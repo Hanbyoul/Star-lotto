@@ -11,7 +11,7 @@ import {
   numberState,
   saveListState,
   spinCountState,
-} from "../../../../GlobalState/atom";
+} from "../../../GlobalState/atom";
 import shuffleArray from "../../../utils/shuffleArray";
 
 const SlotList = () => {

@@ -8,7 +8,7 @@ import {
   currentDrawCountState,
   currentWinningState,
   lottoParams,
-} from "../../../GlobalState/atom";
+} from "../../GlobalState/atom";
 import handleError from "../../utils/handleError";
 
 interface ResponseMessage {

@@ -1,7 +1,7 @@
 "use client";
 
 import { styled } from "styled-components";
-import { currentDrawCountState } from "../../../GlobalState/atom";
+import { currentDrawCountState } from "../../GlobalState/atom";
 import sortWinnersByRank from "../../utils/sortWinnersByRank";
 import handleError from "../../utils/handleError";
 import { useEffect, useState } from "react";

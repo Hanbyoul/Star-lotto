@@ -1,6 +1,6 @@
 "use client";
 import { styled } from "styled-components";
-import { lottoProps } from "../../GlobalState/atom";
+import { lottoProps } from "../GlobalState/atom";
 import LottoChart from "./LottoChart";
 
 interface StatsProps {
