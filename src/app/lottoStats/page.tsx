@@ -17,9 +17,9 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(false);
   const [handleView, setHandleView] = useState<ViewType>("all");
   const currentDrawCount = useRecoilValue(currentDrawCountState);
-  const [initCount, setInitCount] = useState(currentDrawCount);
+  const latestCount = currentDrawCount + 1;
+  const [initCount, setInitCount] = useState(latestCount);
   const [lottoData, setLottoData] = useState<lottoProps[]>([]);
-
   const getLottery = async (count: number) => {
     try {
       setIsLoading(true);
@@ -87,11 +87,9 @@ export default function Page() {
 
                 <Title>{initCount} 회</Title>
                 <NextRound
-                  className={`${
-                    initCount === currentDrawCount ? "disabled" : ""
-                  }`}
+                  className={`${initCount === latestCount ? "disabled" : ""}`}
                   onClick={() => {
-                    if (initCount < currentDrawCount)
+                    if (initCount < latestCount)
                       setInitCount((prev) => prev + 1);
                   }}
                 >
