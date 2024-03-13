@@ -15,8 +15,8 @@ import shuffleArray from "../../../utils/shuffleArray";
 
 const SlotList = () => {
   const initialNumber = Array.from({ length: 45 }, (_, idx) => idx + 1);
-  const swapNumber = shuffleArray(initialNumber);
-  const [numbers, setNumbers] = useState(swapNumber);
+  const initialShuffleNumber = shuffleArray(initialNumber);
+  const [numbers, setNumbers] = useState(initialShuffleNumber);
   const [spinStopCount, setSpinStopCount] = useRecoilState(spinCountState);
   const [AllSpin, setAllSpin] = useRecoilState(allSpinState);
   const [saveList, setSaveList] = useRecoilState(saveListState);
@@ -32,10 +32,9 @@ const SlotList = () => {
     if (spinStopCount === LINE_LIMITED_COUNT) {
       setSpinStopCount(0);
       setAllSpin(false);
-      const numberArray = Array.from({ length: 45 }, (_, idx) => idx + 1);
 
       setNumbers(() => {
-        const shuffleNum = shuffleArray(numberArray);
+        const shuffleNum = shuffleArray([...initialNumber]);
         return shuffleNum;
       });
     }
@@ -49,23 +48,23 @@ const SlotList = () => {
 
   useEffect(() => {
     setSaveList((prev) => {
-      const CopyNum = [...numbers];
-      const AddNum: number[] = [];
+      const copyNum = [...numbers];
+      const addNum: number[] = [];
       let isEqual = false;
 
       for (let i = 0; i < numbers.length; i++) {
-        AddNum.push(CopyNum[i][0]);
+        addNum.push(copyNum[i][0]);
       }
 
       if (prev.length >= 6) {
         let prevNum = prev.slice(-6);
-        isEqual = prevNum.every((value, index) => value === AddNum[index]);
+        isEqual = prevNum.every((value, index) => value === addNum[index]);
       }
       if (isEqual) {
         return prev;
       }
 
-      const newList = [...prev, ...AddNum];
+      const newList = [...prev, ...addNum];
 
       return newList;
     });

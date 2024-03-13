@@ -3,13 +3,6 @@ import shuffleArray from "../utils/shuffleArray";
 import sortingArray from "../utils/sortingArray";
 import { atom, selector } from "recoil";
 
-export interface lottoParams {
-  count: number;
-  numbers: number[];
-  success: boolean;
-  drawDate: Date;
-}
-
 export type rankType = 1 | 2 | 3 | 4 | 5 | "lose" | null;
 export type statusType = "Succeed" | "Pending";
 
@@ -24,11 +17,6 @@ export interface lottoProps {
 
 let prevList: number[][] = [];
 
-export const currentWinningState = atom<lottoParams | undefined>({
-  key: "currentWinningState",
-  default: undefined,
-});
-
 export const allSpinState = atom({
   key: "AllSpin",
   default: false,
@@ -37,16 +25,6 @@ export const allSpinState = atom({
 export const spinCountState = atom<number>({
   key: "stopCount",
   default: 0,
-});
-
-export const saveListState = atom<number[]>({
-  key: "BallList",
-  default: [],
-});
-
-export const isDuplicateState = atom<number[]>({
-  key: "Duplicate",
-  default: [0, 0, 0, 0, 0, 0],
 });
 
 export const spinStopState = atom<{ [key: number]: boolean }>({
@@ -59,6 +37,16 @@ export const spinStopState = atom<{ [key: number]: boolean }>({
     4: false,
     5: false,
   },
+});
+
+export const saveListState = atom<number[]>({
+  key: "BallList",
+  default: [],
+});
+
+export const isDuplicateState = atom<number[]>({
+  key: "Duplicate",
+  default: [0, 0, 0, 0, 0, 0],
 });
 
 export const loadListSelector = selector({
