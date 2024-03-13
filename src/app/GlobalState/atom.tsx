@@ -22,20 +22,11 @@ export interface lottoProps {
   createAt?: Date;
 }
 
-const numberArray = Array.from({ length: 45 }, (_, idx) => idx + 1);
-
-const numbers = shuffleArray(numberArray);
-
 let prevList: number[][] = [];
 
 export const currentWinningState = atom<lottoParams | undefined>({
   key: "currentWinningState",
   default: undefined,
-});
-
-export const numberState = atom<number[][]>({
-  key: "numberList",
-  default: numbers,
 });
 
 export const allSpinState = atom({

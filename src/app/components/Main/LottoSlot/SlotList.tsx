@@ -1,21 +1,22 @@
 "use client";
 
 import styled, { css } from "styled-components";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Slot from "./Slot";
 import { LINE_LIMITED_COUNT } from "../../../constant/lineCount";
 import { useRecoilState } from "recoil";
 
 import {
   allSpinState,
-  numberState,
   saveListState,
   spinCountState,
 } from "../../../GlobalState/atom";
 import shuffleArray from "../../../utils/shuffleArray";
 
 const SlotList = () => {
-  const [numbers, setNumbers] = useRecoilState(numberState);
+  const initialNumber = Array.from({ length: 45 }, (_, idx) => idx + 1);
+  const swapNumber = shuffleArray(initialNumber);
+  const [numbers, setNumbers] = useState(swapNumber);
   const [spinStopCount, setSpinStopCount] = useRecoilState(spinCountState);
   const [AllSpin, setAllSpin] = useRecoilState(allSpinState);
   const [saveList, setSaveList] = useRecoilState(saveListState);
