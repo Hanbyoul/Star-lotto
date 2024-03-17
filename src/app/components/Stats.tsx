@@ -42,8 +42,6 @@ export default function Stats({ lottoData }: StatsProps) {
     )
     .reduce((total, key) => total + Number(rankCount[key]), 0);
 
-  console.log(lottoData);
-
   return (
     <Container>
       {lottoData.length >= 1 ? (
