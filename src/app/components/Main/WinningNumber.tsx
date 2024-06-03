@@ -3,20 +3,23 @@
 import { styled } from "styled-components";
 import React, { useEffect, useState } from "react";
 import LoadingLottery from "./Loading/LoadingLottery";
-import { useRecoilState, useRecoilValue } from "recoil";
-import {
-  currentDrawCountState,
-  currentWinningState,
-  lottoParams,
-} from "../../GlobalState/atom";
+import { useRecoilValue } from "recoil";
+import { currentDrawCountState } from "../../GlobalState/atom";
 import handleError from "../../utils/handleError";
 
 interface ResponseMessage {
   message: string;
 }
 
+interface lottoParams {
+  count: number;
+  numbers: number[];
+  success: boolean;
+  drawDate: Date;
+}
+
 const WinningNumber = () => {
-  const [lotto, setLotto] = useRecoilState(currentWinningState);
+  const [lotto, setLotto] = useState<lottoParams | undefined>(undefined);
   const currentDrawCount = useRecoilValue(currentDrawCountState);
   const [count, setCount] = useState(currentDrawCount);
 
