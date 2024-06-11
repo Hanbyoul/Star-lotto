@@ -7,11 +7,11 @@ interface ILoadingBallProps {
   $lineIndex: number;
 }
 
-const LoadingBall = ({ $lineIndex }: ILoadingBallProps) => {
+const LoadingSlot = ({ $lineIndex }: ILoadingBallProps) => {
   return <Loading $lineIndex={$lineIndex}>?</Loading>;
 };
 
-export default LoadingBall;
+export default LoadingSlot;
 
 const rotate = keyframes`
       0% { transform:rotateY(0deg) }

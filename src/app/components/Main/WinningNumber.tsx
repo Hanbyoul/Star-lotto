@@ -2,7 +2,7 @@
 
 import { styled } from "styled-components";
 import React, { useEffect, useState } from "react";
-import LoadingLottery from "./Loading/LoadingLottery";
+import LoadingLottery from "../Loading/LoadingLottery";
 import { useRecoilValue } from "recoil";
 import { currentDrawCountState } from "../../GlobalState/atom";
 import handleError from "../../utils/handleError";
@@ -17,6 +17,9 @@ interface lottoParams {
   success: boolean;
   drawDate: Date;
 }
+
+
+// TODO: eslint 설정하기.
 
 const WinningNumber = () => {
   const [lotto, setLotto] = useState<lottoParams | undefined>(undefined);
@@ -49,43 +52,54 @@ const WinningNumber = () => {
     getLottery(count);
   }, [count]);
 
-  return lotto ? (
+  return  (
     <Container>
+      {lotto ?
+      <>
       <DateBox>
         <PrevRound
           className={`${count === 1 ? "disabled" : ""}`}
           onClick={() => {
             if (count > 1) setCount((prev) => prev - 1);
-          }}
-        >
+            }}
+            >
           ❮
         </PrevRound>
 
         <span>{`${lotto.count}회 (${(lotto.drawDate + "").substring(
           0,
           10
-        )})`}</span>
+          )})`}</span>
         <NextRound
           className={`${count === currentDrawCount ? "disabled" : ""}`}
           onClick={() => {
             if (count < currentDrawCount) setCount((prev) => prev + 1);
-          }}
-        >
+            }}
+            >
           ❯
         </NextRound>
       </DateBox>
+
+
       <BallBox>
-        {lotto.numbers?.slice(0, 6).map((num) => (
+        {lotto.numbers.slice(0, 6).map((num) => (
           <Ball key={`lotto-${num}`} $num={num}>
             {num}
           </Ball>
         ))}
         +<Ball $num={lotto.numbers[6]}>{lotto.numbers[6]}</Ball>
       </BallBox>
+      </>
+      :  
+      <>
+          <DateBox>로드중...</DateBox>
+      <LoadingLottery />
+      </>
+
+      }
+
     </Container>
-  ) : (
-    <LoadingLottery />
-  );
+  ) 
 };
 
 export default WinningNumber;

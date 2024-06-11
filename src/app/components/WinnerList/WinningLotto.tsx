@@ -7,8 +7,8 @@ import handleError from "../../utils/handleError";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import Winner from "./Winner";
-import Loadings from "../Loadings";
-import PageNation from "../PageNation";
+import PageNation from "../common/PageNation";
+import LoadingLottery from "../Loading/LoadingLottery";
 type LottoData = {
   lottoDocs: LotteryWinner[];
 };
@@ -77,7 +77,7 @@ export default function WinningLotto() {
     <Container>
       {isLoading ? (
         <div className="mt-48">
-          <Loadings />
+          <LoadingLottery/>
         </div>
       ) : (
         <>

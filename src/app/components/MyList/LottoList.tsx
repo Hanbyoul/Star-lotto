@@ -1,6 +1,6 @@
 "use client";
 import { styled } from "styled-components";
-import LottoCard from "../LottoCard";
+import LottoCard from "../common/LottoCard";
 import { lottoProps, rankType } from "../../GlobalState/atom";
 import { resultDateFormat } from "../../utils/resultDateFormat";
 

@@ -3,7 +3,7 @@
 import styled, { keyframes, css } from "styled-components";
 import React, { useState, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import LoadingBall from "../Loading/LoadingBall";
+import LoadingSlot from "../../Loading/LoadingSlot";
 import {
   allSpinState,
   spinCountState,
@@ -104,7 +104,7 @@ const Slot = ({ line, lineIndex }: ISlotLineProps) => {
             ))}
           </Line>
         ) : (
-          <LoadingBall $lineIndex={lineIndex} />
+          <LoadingSlot $lineIndex={lineIndex} />
         )}
       </ViewZone>
 

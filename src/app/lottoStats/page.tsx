@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { currentDrawCountState, lottoProps } from "../GlobalState/atom";
 import { useRecoilValue } from "recoil";
 import handleError from "../utils/handleError";
-import Stats from "../components/Stats";
-import Loadings from "../components/Loadings";
+import Stats from "../components/common/Stats";
+import LoadingLottery from "../components/Loading/LoadingLottery";
 
 type ViewType = "all" | "round";
 
@@ -69,7 +69,7 @@ export default function Page() {
       </SectionArea>
       {isLoading ? (
         <LoadArea>
-          <Loadings />
+          <LoadingLottery/>
         </LoadArea>
       ) : (
         <>

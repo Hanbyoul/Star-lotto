@@ -2,13 +2,13 @@
 
 import { styled } from "styled-components";
 import React, { useEffect, useState } from "react";
-import Stats from "../components/Stats";
+import Stats from "../components/common/Stats";
 import { lottoProps } from "../GlobalState/atom";
 import LottoList from "../components/MyList/LottoList";
-import PageNation from "../components/PageNation";
-import Loadings from "../components/Loadings";
+import PageNation from "../components/common/PageNation";
 import AccountSettings from "../components/MyList/AccountSettings";
 import handleError from "../utils/handleError";
+import LoadingLottery from "../components/Loading/LoadingLottery";
 
 type ViewType = "Lotto" | "Auth";
 
@@ -80,7 +80,7 @@ const Page = () => {
       <Dashboard>
         {isLoading ? (
           <LoadArea>
-            <Loadings />
+            <LoadingLottery/>
           </LoadArea>
         ) : handleView === "Lotto" ? (
           <>

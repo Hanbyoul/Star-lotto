@@ -2,7 +2,7 @@
 import { keyframes, styled } from "styled-components";
 import React from "react";
 
-const Loadings = () => {
+const LoadingLottery = () => {
   return (
     <Container>
       <BallBox>
@@ -12,7 +12,7 @@ const Loadings = () => {
   );
 };
 
-export default Loadings;
+export default LoadingLottery;
 
 const shareSpin = keyframes`
     0%{transform:translateX(-100px) rotateZ(0deg)}

@@ -2,7 +2,7 @@
 
 import styled from "styled-components";
 import { LotteryWinner } from "./WinningLotto";
-import LottoCard from "../LottoCard";
+import LottoCard from "../common/LottoCard";
 import { resultDateFormat } from "../../utils/resultDateFormat";
 
 export default function Winner({
