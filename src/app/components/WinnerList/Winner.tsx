@@ -20,6 +20,7 @@ export default function Winner({
   };
 
   const maskedUserId = maskLastThreeChars(owner.userId);
+// console.log("타입 체크해보기", typeof createAt) // string
 
   return (
     <Container>

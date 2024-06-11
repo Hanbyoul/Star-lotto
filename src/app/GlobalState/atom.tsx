@@ -22,6 +22,16 @@ export const allSpinState = atom({
   default: false,
 });
 
+const numberArray = Array.from({ length: 45 }, (_, idx) => idx + 1);
+
+const numbers = shuffleArray(numberArray);
+
+export const numberState = atom<number[][]>({
+  key: "numberList",
+  default: numbers,
+});
+
+
 export const spinCountState = atom<number>({
   key: "stopCount",
   default: 0,

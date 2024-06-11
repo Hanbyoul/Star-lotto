@@ -29,7 +29,7 @@ export const UserSchema = new Schema<UserSchema>({
   createAt: {
     type: Date,
     required: true,
-    default: Date.now,
+    default: Date.now, // 반환값은 number
   },
   lotto: [
     { type: mongoose.Schema.Types.ObjectId, ref: "Lottery", required: true },

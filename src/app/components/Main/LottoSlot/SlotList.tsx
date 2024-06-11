@@ -8,15 +8,14 @@ import { useRecoilState } from "recoil";
 
 import {
   allSpinState,
+  numberState,
   saveListState,
   spinCountState,
 } from "../../../GlobalState/atom";
 import shuffleArray from "../../../utils/shuffleArray";
 
 const SlotList = () => {
-  const initialNumber = Array.from({ length: 45 }, (_, idx) => idx + 1);
-  const initialShuffleNumber = shuffleArray(initialNumber);
-  const [numbers, setNumbers] = useState(initialShuffleNumber);
+  const [numbers, setNumbers] = useRecoilState(numberState)
   const [spinStopCount, setSpinStopCount] = useRecoilState(spinCountState);
   const [AllSpin, setAllSpin] = useRecoilState(allSpinState);
   const [saveList, setSaveList] = useRecoilState(saveListState);
@@ -32,9 +31,9 @@ const SlotList = () => {
     if (spinStopCount === LINE_LIMITED_COUNT) {
       setSpinStopCount(0);
       setAllSpin(false);
-
+      const numberArray = Array.from({ length: 45 }, (_, idx) => idx + 1);
       setNumbers(() => {
-        const shuffleNum = shuffleArray([...initialNumber]);
+        const shuffleNum = shuffleArray(numberArray);
         return shuffleNum;
       });
     }

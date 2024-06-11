@@ -15,7 +15,7 @@ export const LotterySchema = new Schema<LotterySchema>({
   createAt: {
     type: Date,
     required: true,
-    default: Date.now,
+    default: Date.now, // 반환값은 number
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
