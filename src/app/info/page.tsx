@@ -40,6 +40,7 @@ const Page = () => {
         throw new Error(errMsg.message || "서버 오류가 발생했습니다.");
       } else {
         const data = (await res.json()) as lottoProps[];
+        console.log("로또 데이터 체크",data)
         setLottoData(data);
         setTotalPage(data.length);
       }

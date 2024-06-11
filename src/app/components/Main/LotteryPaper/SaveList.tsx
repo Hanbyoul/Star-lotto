@@ -31,6 +31,9 @@ const SaveList = () => {
   const { data } = useSession();
   const session = data as Session;
 
+
+  // console.log("타입 체크해보기",typeof nextDrawDate)
+  // console.log("타입 체크해보기",nextDrawDate instanceof Date)
   interface LotteryNumberParams {
     session: Session;
     currentDrawCount: number;

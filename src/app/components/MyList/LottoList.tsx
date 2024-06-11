@@ -30,6 +30,9 @@ export default function LottoList({
     .join("");
   const formattedRound = round?.toString().padStart(4, "0");
 
+
+  // console.log("타입 체크해보기", typeof createAt) // string
+
   return (
     <Container>
       <Round>

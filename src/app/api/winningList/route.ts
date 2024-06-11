@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
     const round = searchParams.get("round");
     await dbConnect();
 
-    const users = await User.find();
+    const users = await User.find(); // User.find 호출하는 이유 해결하기
     const lottoDocs = await Lottery.find({
       round,
       status: "Succeed",
