@@ -1,8 +1,9 @@
-import { Mongoose } from "mongoose";
+import { Mongoose } from 'mongoose';
 
 declare global {
-  var mongoose: {
-    promise: Promise<Mongoose> | null;
-    conn: Mongoose | null;
-  };
+	// eslint-disable-next-line no-var
+	var mongoose: {
+		promise: Promise<Mongoose> | null;
+		conn: Mongoose | null;
+	};
 }

@@ -1,20 +1,20 @@
-import dbConnect from "../../lib/mongoose/dbConnect";
-import WinningRound from "../../models/WinningRound";
-import handleError from "../../utils/handleError";
-import { getLottoCount } from "../../utils/latestCount";
-import { NextRequest, NextResponse } from "next/server";
+import dbConnect from '../../lib/mongoose/dbConnect';
+import WinningRound from '../../models/WinningRound';
+import handleError from '../../utils/handleError';
+import { getLottoCount } from '../../utils/latestCount';
+import { NextRequest, NextResponse } from 'next/server';
 
 interface ResponseParams {
-  drwNo: number;
-  drwtNo1: number;
-  drwtNo2: number;
-  drwtNo3: number;
-  drwtNo4: number;
-  drwtNo5: number;
-  drwtNo6: number;
-  bnusNo: number;
-  drwNoDate: Date;
-  returnValue: string;
+	drwNo: number;
+	drwtNo1: number;
+	drwtNo2: number;
+	drwtNo3: number;
+	drwtNo4: number;
+	drwtNo5: number;
+	drwtNo6: number;
+	bnusNo: number;
+	drwNoDate: Date;
+	returnValue: string;
 }
 
 /**
@@ -27,77 +27,77 @@ interface ResponseParams {
  */
 
 export async function GET(req: NextRequest) {
-  try {
-    const reqAuth = req.headers.get("authorization");
+	try {
+		const reqAuth = req.headers.get('authorization');
 
-    if (reqAuth === process.env.UPDATE_AUTH) {
-      const now = new Date();
-      const currentCount = getLottoCount(now);
+		if (reqAuth === process.env.UPDATE_AUTH) {
+			const now = new Date();
+			const currentCount = getLottoCount(now);
 
-      const res = await fetch(
-        `https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=${currentCount}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+			const res = await fetch(
+				`https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=${currentCount}`,
+				{
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				},
+			);
 
-      const data: ResponseParams = await res.json();
-      const { drwtNo1, drwtNo2, drwtNo3, drwtNo4, drwtNo5, drwtNo6, bnusNo } =
-        data;
+			const data: ResponseParams = await res.json();
+			const { drwtNo1, drwtNo2, drwtNo3, drwtNo4, drwtNo5, drwtNo6, bnusNo } =
+				data;
 
-      if (data.returnValue === "fail") {
-        return NextResponse.json(
-          { message: "당첨결과가 없습니다." },
-          { status: 404 }
-        );
-      } else {
-        await dbConnect();
+			if (data.returnValue === 'fail') {
+				return NextResponse.json(
+					{ message: '당첨결과가 없습니다.' },
+					{ status: 404 },
+				);
+			} else {
+				await dbConnect();
 
-        const duplicateRound = await WinningRound.findOne({
-          round: currentCount,
-        });
+				const duplicateRound = await WinningRound.findOne({
+					round: currentCount,
+				});
 
-        if (duplicateRound) {
-          return NextResponse.json(
-            {
-              message: "당첨번호가 이미 존재합니다.",
-            },
-            { status: 400 }
-          );
-        } else {
-          await WinningRound.create({
-            round: data.drwNo,
-            numbers: [
-              drwtNo1,
-              drwtNo2,
-              drwtNo3,
-              drwtNo4,
-              drwtNo5,
-              drwtNo6,
-              bnusNo,
-            ],
-            drawDate: data.drwNoDate,
-          });
+				if (duplicateRound) {
+					return NextResponse.json(
+						{
+							message: '당첨번호가 이미 존재합니다.',
+						},
+						{ status: 400 },
+					);
+				} else {
+					await WinningRound.create({
+						round: data.drwNo,
+						numbers: [
+							drwtNo1,
+							drwtNo2,
+							drwtNo3,
+							drwtNo4,
+							drwtNo5,
+							drwtNo6,
+							bnusNo,
+						],
+						drawDate: data.drwNoDate,
+					});
 
-          return NextResponse.json(
-            { message: "당첨번호 업데이트 완료되었습니다." },
-            { status: 200 }
-          );
-        }
-      }
-    } else {
-      return NextResponse.json(
-        { message: "인증에 실패하였습니다." },
-        { status: 401 }
-      );
-    }
-  } catch (error) {
-    handleError(error);
-    return NextResponse.json(
-      { message: "서버 오류가 발생했습니다." },
-      { status: 500 }
-    );
-  }
+					return NextResponse.json(
+						{ message: '당첨번호 업데이트 완료되었습니다.' },
+						{ status: 200 },
+					);
+				}
+			}
+		} else {
+			return NextResponse.json(
+				{ message: '인증에 실패하였습니다.' },
+				{ status: 401 },
+			);
+		}
+	} catch (error) {
+		handleError(error);
+		return NextResponse.json(
+			{ message: '서버 오류가 발생했습니다.' },
+			{ status: 500 },
+		);
+	}
 }
